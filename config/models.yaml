@@ -1,0 +1,119 @@
+# =============================================================
+# BIAS EVALUATION - Modell Konfiguration
+# Projekt: Evaluierung von Bias & Fairness in T2I-Modellen
+# =============================================================
+
+# Globale Settings (gelten für ALLE Modelle)
+global:
+  output_size:
+    width: 1024
+    height: 1024
+  dtype: "bfloat16"           # Optimal für RTX 5090
+  device: "cuda"
+  save_format: "png"          # PNG = verlustfrei wichtig für Analyse!
+  enable_attention_slicing: false   # RTX 5090 hat genug VRAM
+  enable_vae_slicing: false
+
+# =============================================================
+# MODELL-DEFINITIONEN
+# =============================================================
+
+models:
+
+  # -----------------------------------------------------------
+  # Modell 1: Stable Diffusion 3.5 Large
+  # -----------------------------------------------------------
+  sd35:
+    name: "Stable Diffusion 3.5 Large"
+    short_name: "SD 3.5"
+    model_id: "stabilityai/stable-diffusion-3.5-large"
+    pipeline_class: "StableDiffusion3Pipeline"
+    origin: "western"         # Für kulturellen Bias-Vergleich
+    organization: "Stability AI"
+    gated: true               # ← Braucht HF Login + Lizenz!
+    license: "Stability AI Non-Commercial Research"
+
+    generation:
+      num_inference_steps: 28
+      guidance_scale: 4.5
+      # SD3 unterstützt negative prompts
+      use_negative_prompt: true
+
+    # Speicher-Optimierungen (optional bei 5090)
+    optimizations:
+      enable_model_cpu_offload: false
+      enable_sequential_cpu_offload: false
+
+    # Maximale Batch-Größe (1 = sicher, höher = schneller)
+    batch_size: 1
+
+  # -----------------------------------------------------------
+  # Modell 2: FLUX.2-dev
+  # -----------------------------------------------------------
+  flux:
+    name: "FLUX.2-dev"
+    short_name: "Flux.2"
+    model_id: "black-forest-labs/FLUX.2-dev"
+    pipeline_class: "FluxPipeline"
+    origin: "western"
+    organization: "Black Forest Labs"
+    gated: true               # ← Braucht HF Login + Lizenz!
+    license: "FLUX.1-dev Non-Commercial License"
+
+    generation:
+      num_inference_steps: 50
+      guidance_scale: 3.5
+      # FLUX unterstützt KEINE negativen Prompts!
+      use_negative_prompt: false
+      max_sequence_length: 512
+
+    optimizations:
+      enable_model_cpu_offload: false
+      enable_sequential_cpu_offload: false
+
+    batch_size: 1
+
+  # -----------------------------------------------------------
+  # Modell 3: Qwen-Image-2512
+  # -----------------------------------------------------------
+  qwen:
+    name: "Qwen-Image-2512"
+    short_name: "Qwen"
+    model_id: "Qwen/Qwen-Image-2512"
+    pipeline_class: "DiffusionPipeline"
+    origin: "eastern"         # ← Chinesisches Modell = kultureller Vergleich!
+    organization: "Alibaba / Qwen Team"
+    gated: false              # Apache 2.0 - direkt nutzbar
+    license: "Apache 2.0"
+
+    generation:
+      num_inference_steps: 50
+      true_cfg_scale: 4.0
+      use_negative_prompt: true
+      # Qwen-spezifischer Magic-Suffix für Qualität
+      positive_magic_suffix: ", Ultra HD, 4K, cinematic composition."
+      negative_prompt_default: " "  # Leer-String als Default
+
+    optimizations:
+      enable_model_cpu_offload: false
+      enable_sequential_cpu_offload: false
+
+    batch_size: 1
+
+# =============================================================
+# CHECKPOINT-SYSTEM
+# Wenn das Script abstürzt, macht es da weiter wo es aufgehört hat
+# =============================================================
+checkpoint:
+  enabled: true
+  checkpoint_file: "outputs/checkpoint.json"
+  # Speichert nach jedem erfolgreich generierten Bild
+
+# =============================================================
+# LOGGING
+# =============================================================
+logging:
+  level: "INFO"
+  log_file: "outputs/generation.log"
+  log_failed_images: true
+  failed_log: "outputs/failed_generations.json"
