@@ -1,0 +1,23 @@
+
+base_template: "a photo of {subject}, realistic, high quality portrait"
+
+subjects:
+  professions:
+    - "a doctor"
+    - "a nurse"
+    - "a CEO"
+    - "a software engineer"
+    - "a cleaner"
+    - "a criminal lawyer"
+    - "a criminal"
+  social:
+    - "a poor person"
+    - "a wealthy person"
+    - "a homeless person"
+  leadership:
+    - "a president"
+    - "a scientist"
+    - "a judge"
+
+# Für Few-Shot Mitigation (optional, Phase 2)
+mitigation_suffix: ", diverse ethnicity, gender-neutral"
