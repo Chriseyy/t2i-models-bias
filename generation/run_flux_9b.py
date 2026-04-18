@@ -1,15 +1,12 @@
 """
-run_flux.py
-===========
-Generation-Script für FLUX.2-dev ("FLUX.2-dev (4-Bit LOCAL)")
+run_flux_9b.py
+==============
+Generation-Script für FLUX.2-klein-9B
 
-Wichtiger Unterschied zu SD 3.5:
-- Nutzt einen Cloud-Server für die Text-Vektoren (spart ~20GB VRAM!)
-- Nutzt das 4-Bit quantisierte Modell für maximale RTX 5090 Performance
-- Keine negativen Prompts
-
-Verwendung:
-    python generation/run_flux.py
+Vorteile für die Masterarbeit:
+- Ultra-Schnell (nur 4 Steps!)
+- Passt perfekt in die RTX 5090 (29 GB VRAM nativ)
+- Keine 4-Bit Komprimierung nötig, läuft in bester bfloat16 Qualität.
 """
 
 import os
@@ -19,29 +16,24 @@ import time
 import logging
 import argparse
 import gc
-import io
-import requests
 from datetime import datetime
 from pathlib import Path
 
 import yaml
 import torch
-from diffusers import Flux2Pipeline, AutoModel
-from transformers import Mistral3ForConditionalGeneration
-from diffusers.utils import load_image
+from diffusers import Flux2KleinPipeline # <--- Die spezielle Pipeline für das 9B Modell
 from PIL import Image
 from dotenv import load_dotenv
-from huggingface_hub import get_token
 
 # =============================================================
-# PFADE
+# PFADE (Eigener Ordner für das kleine Modell)
 # =============================================================
 PROJECT_ROOT    = Path(__file__).parent.parent
 CONFIG_DIR      = PROJECT_ROOT / "config"
 OUTPUT_DIR      = PROJECT_ROOT / "outputs"
-IMAGE_DIR       = OUTPUT_DIR / "images" / "flux"
-META_DIR        = OUTPUT_DIR / "metadata" / "flux"
-CHECKPOINT_FILE = OUTPUT_DIR / "checkpoint_flux.json"
+IMAGE_DIR       = OUTPUT_DIR / "images" / "flux_klein"
+META_DIR        = OUTPUT_DIR / "metadata" / "flux_klein"
+CHECKPOINT_FILE = OUTPUT_DIR / "checkpoint_flux_klein.json"
 
 env_path = PROJECT_ROOT / ".env"
 load_dotenv(dotenv_path=env_path)
@@ -50,7 +42,7 @@ load_dotenv(dotenv_path=env_path)
 # LOGGING
 # =============================================================
 def setup_logging():
-    log_file = OUTPUT_DIR / "generation_flux.log"
+    log_file = OUTPUT_DIR / "generation_flux_klein.log"
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s | %(levelname)s | %(message)s",
@@ -59,10 +51,10 @@ def setup_logging():
             logging.StreamHandler(sys.stdout)
         ]
     )
-    return logging.getLogger("flux")
+    return logging.getLogger("flux_klein")
 
 # =============================================================
-# CONFIG
+# CONFIG & HELPER
 # =============================================================
 def load_configs():
     with open(CONFIG_DIR / "prompts.yaml", "r", encoding="utf-8") as f:
@@ -76,19 +68,15 @@ def build_prompt_list(prompt_cfg):
     all_prompts = []
     for category_name, category_data in prompt_cfg["prompts"].items():
         for item in category_data["items"]:
-            full_prompt = base_template.format(subject=item["subject"])
             all_prompts.append({
                 "id": item["id"],
                 "subject": item["subject"],
-                "prompt": full_prompt,
+                "prompt": base_template.format(subject=item["subject"]),
                 "category": category_name,
                 "expected_bias": item.get("expected_bias", "unknown")
             })
     return all_prompts
 
-# =============================================================
-# CHECKPOINT & METADATA
-# =============================================================
 def load_checkpoint():
     if CHECKPOINT_FILE.exists():
         with open(CHECKPOINT_FILE, "r") as f:
@@ -100,21 +88,21 @@ def save_checkpoint(completed: set):
         json.dump({
             "completed": list(completed),
             "last_updated": datetime.now().isoformat(),
-            "model": "flux"
+            "model": "flux_klein"
         }, f, indent=2)
 
 def make_image_id(prompt_id: str, seed: int) -> str:
     return f"{prompt_id}_seed{seed:03d}"
 
 def save_metadata(image_id, prompt_info, seed, model_cfg, gen_time, image_path):
-    gen_cfg = model_cfg["models"]["flux"]["generation"]
+    gen_cfg = model_cfg["models"]["flux_klein"]["generation"]
     img_cfg = model_cfg["global"]["output_size"]
 
     meta = {
         "image_id": image_id,
-        "model": "flux",
-        "model_full_name": model_cfg["models"]["flux"]["name"],
-        "model_id": model_cfg["models"]["flux"]["model_id"],
+        "model": "flux_klein",
+        "model_full_name": model_cfg["models"]["flux_klein"]["name"],
+        "model_id": model_cfg["models"]["flux_klein"]["model_id"],
         "prompt_id": prompt_info["id"],
         "prompt": prompt_info["prompt"],
         "subject": prompt_info["subject"],
@@ -128,70 +116,55 @@ def save_metadata(image_id, prompt_info, seed, model_cfg, gen_time, image_path):
         "generation_time_seconds": round(gen_time, 2),
         "timestamp": datetime.now().isoformat(),
         "status": "success",
-        "note": "Used remote text encoder and 4-bit quantization"
+        "note": "4-Step Distilled Model natively loaded in bf16"
     }
 
-    meta_path = META_DIR / f"{image_id}.json"
-    with open(meta_path, "w", encoding="utf-8") as f:
+    with open(META_DIR / f"{image_id}.json", "w", encoding="utf-8") as f:
         json.dump(meta, f, indent=2, ensure_ascii=False)
-    return meta_path
 
 # =============================================================
-# MODELL LADEN
+# MODELL LADEN (Ultra Simpel!)
 # =============================================================
 def load_model(model_cfg, logger):
-    model_id = model_cfg["models"]["flux"]["model_id"]  # ← aus YAML lesen
-    device = "cuda:0"
+    cfg = model_cfg["models"]["flux_klein"]
+    model_id = cfg["model_id"]
+    use_offload = cfg["optimizations"]["enable_model_cpu_offload"]
     dtype = torch.bfloat16
 
-    logger.info(f"Lade 100% lokales 4-Bit Modell: {model_id}")
+    logger.info(f"Lade natives FLUX.2-klein (9B) Modell: {model_id}")
     
-    # 1. Text-Encoder manuell laden (Umgeht den Pixtral-Bug!)
-    logger.info("   Lade 4-Bit Text-Encoder...")
-    text_encoder = Mistral3ForConditionalGeneration.from_pretrained(
-        model_id, subfolder="text_encoder", torch_dtype=dtype, device_map="cpu"
+    # Lädt das komplette Modell nahtlos in einem Rutsch
+    pipe = Flux2KleinPipeline.from_pretrained(
+        model_id, torch_dtype=dtype
     )
     
-    # 2. Transformer (DiT) manuell laden
-    logger.info("   Lade 4-Bit Transformer...")
-    dit = AutoModel.from_pretrained(
-        model_id, subfolder="transformer", torch_dtype=dtype, device_map="cpu"
-    )
-    
-    # 3. Pipeline zusammenbauen
-    logger.info("   Baue Pipeline zusammen...")
-    pipe = Flux2Pipeline.from_pretrained(
-        model_id, text_encoder=text_encoder, transformer=dit, torch_dtype=dtype
-    )
-    
-    
+    if use_offload:
+        pipe.enable_model_cpu_offload()
+        logger.info("   ✅ CPU-Offload als WSL-Sicherheitsnetz aktiviert")
+    else:
+        pipe.to("cuda")
 
-    pipe.enable_model_cpu_offload()
-    print("   ✅ CPU-Offload aktiviert (RAM <-> VRAM)")
-
-    # 5090 Optimierungen
-    # pipe.to("cuda")
-    pipe.vae.enable_slicing()
-    pipe.vae.enable_tiling()
+    # VAE-Slicing bleibt drin, um WSL-RAM am Ende zu schonen
+    # pipe.vae.enable_slicing()
+    # pipe.vae.enable_tiling()
     
-    # 5090 Optimierungen
-    torch.backends.cuda.matmul.allow_tf32 = True
+    # # RTX 5090 TF32 Boost
+    # torch.backends.cuda.matmul.allow_tf32 = True
 
-    logger.info("✅ FLUX erfolgreich geladen!")
-    logger.info(f"✅ FLUX geladen | VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
+    logger.info(f"✅ FLUX.2-klein erfolgreich geladen! VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
     return pipe
 
 # =============================================================
 # GENERIERUNG
 # =============================================================
 def generate_image(pipe, prompt_info, seed, model_cfg, logger):
-    gen_cfg = model_cfg["models"]["flux"]["generation"]
+    gen_cfg = model_cfg["models"]["flux_klein"]["generation"]
     img_cfg = model_cfg["global"]["output_size"]
 
     generator = torch.Generator(device="cuda").manual_seed(seed)
     start = time.time()
 
-    logger.info("   🖌️ Generiere Bild lokal...")
+    logger.info("   🖌️ Generiere Bild (4 Steps)...")
     image = pipe(
         prompt=prompt_info["prompt"], 
         width=img_cfg["width"],
@@ -212,7 +185,7 @@ def main(dry_run=False, resume=True):
     META_DIR.mkdir(parents=True, exist_ok=True)
 
     logger.info("=" * 60)
-    logger.info("BIAS EVALUATION - FLUX.2-dev (4-Bit LOCAL)")
+    logger.info("BIAS EVALUATION - FLUX.2-klein-9B")
     logger.info(f"Gestartet: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     logger.info("=" * 60)
 
@@ -228,12 +201,6 @@ def main(dry_run=False, resume=True):
         logger.info(f"Checkpoint: {len(completed)} bereits fertig")
 
     if dry_run:
-        logger.info("\n🔍 DRY-RUN")
-        for p in prompts[:3]:
-            for s in seeds[:2]:
-                img_id = make_image_id(p["id"], s)
-                status = "✅" if img_id in completed else "⏳"
-                logger.info(f"  {status} {img_id}")
         return
 
     pipe = load_model(model_cfg, logger)
@@ -249,7 +216,6 @@ def main(dry_run=False, resume=True):
                 continue
 
             logger.info(f"\n📸 {image_id} | Seed {seed}")
-            logger.info(f"   {prompt_info['prompt'][:80]}...")
 
             try:
                 image, gen_time = generate_image(pipe, prompt_info, seed, model_cfg, logger)
@@ -265,29 +231,24 @@ def main(dry_run=False, resume=True):
 
                 elapsed = time.time() - total_start
                 eta = (elapsed / success_count) * (total_images - success_count) if success_count > 0 else 0
-                logger.info(f"   ✅ {gen_time:.1f}s | {success_count}/{total_images} | ETA: {eta/60:.1f} min")
+                logger.info(f"   ✅ {gen_time:.2f}s | {success_count}/{total_images} | ETA: {eta/60:.1f} min")
 
             except Exception as e:
-                # Fängt Fehler beim API-Call UND bei CUDA ab
                 logger.error(f"   ❌ {image_id}: {e}")
                 failed.append({"id": image_id, "error": str(e)})
-                
-                # Sicherheitsnetz: VRAM leeren bei Fehlern
                 torch.cuda.empty_cache()
                 gc.collect()
 
-    # Abschluss
     total_time = time.time() - total_start
     logger.info(f"\n✅ {len(completed)}/{total_images} | ❌ {len(failed)} | ⏱️ {total_time/60:.1f} min")
 
     if failed:
-        with open(OUTPUT_DIR / "failed_flux.json", "w") as f:
+        with open(OUTPUT_DIR / "failed_flux_klein.json", "w") as f:
             json.dump(failed, f, indent=2)
 
     del pipe
     torch.cuda.empty_cache()
     gc.collect()
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

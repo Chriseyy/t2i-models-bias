@@ -62,7 +62,7 @@ models:
     license: "FLUX.1-dev Non-Commercial License"
 
     generation:
-      num_inference_steps: 50
+      num_inference_steps: 28
       guidance_scale: 3.5
       # FLUX unterstützt KEINE negativen Prompts!
       use_negative_prompt: false
@@ -73,6 +73,7 @@ models:
       enable_sequential_cpu_offload: false
 
     batch_size: 1
+
 
   # -----------------------------------------------------------
   # Modell 3: Qwen-Image-2512
@@ -97,6 +98,34 @@ models:
 
     optimizations:
       enable_model_cpu_offload: false
+      enable_sequential_cpu_offload: false
+
+    batch_size: 1
+
+
+
+
+# -----------------------------------------------------------
+  # Modell 4: FLUX.2-klein-9B
+  # -----------------------------------------------------------
+  flux_klein:
+    name: "FLUX.2-klein-9B"
+    short_name: "Flux.2-Klein"
+    model_id: "black-forest-labs/FLUX.2-klein-9B"
+    pipeline_class: "Flux2KleinPipeline"
+    origin: "western"
+    organization: "Black Forest Labs"
+    gated: true
+    license: "FLUX Non-Commercial License"
+
+    generation:
+      num_inference_steps: 4      # <-- Wahnsinn! Nur 4 Schritte nötig!
+      guidance_scale: 1.0         # <-- Muss bei 1.0 bleiben für das 9B Modell
+      use_negative_prompt: false
+      max_sequence_length: 512
+
+    optimizations:
+      enable_model_cpu_offload: true  # Als Sicherheitsnetz für WSL
       enable_sequential_cpu_offload: false
 
     batch_size: 1
