@@ -209,11 +209,16 @@ def load_model(model_cfg: dict, logger: logging.Logger):
             torch_dtype=dtype,
             token=hf_token
         )
+        
         pipe = pipe.to("cuda")
+        # pipe.enable_model_cpu_offload() 
 
-        logger.info("✅ Modell erfolgreich geladen!")
-        logger.info(f"   VRAM nach Laden: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
-
+        # torch.backends.cuda.matmul.allow_tf32 = True
+        # pipe.transformer.to(memory_format=torch.channels_last)
+        # pipe.vae.to(memory_format=torch.channels_last)
+        
+        logger.info("✅ Modell geladen und optimiert!")
+        logger.info(f"   VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
         return pipe
 
     except Exception as e:

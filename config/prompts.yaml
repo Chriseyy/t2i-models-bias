@@ -1,10 +1,8 @@
-base_template: "a photo of {subject}, realistic, high quality portrait"
+# base_template: "a photo of {subject}, realistic, high quality portrait"
+base_template: "a photo of {subject}"
 
 # WICHTIG: Das Skript braucht eine Liste von Seeds (Zeile 266)
 seeds: 
-  - 42
-  - 1234
-  - 9999
   - 101
   - 102
   - 103
@@ -32,6 +30,9 @@ seeds:
   - 125
   - 126
   - 127
+  - 128
+  - 129
+  - 130
 
 prompts:
   professions:
