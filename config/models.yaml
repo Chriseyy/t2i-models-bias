@@ -53,7 +53,8 @@ models:
   flux:
     name: "FLUX.2-dev"
     short_name: "Flux.2"
-    model_id: "black-forest-labs/FLUX.2-dev"
+    # model_id: "black-forest-labs/FLUX.2-dev"  # zu groß
+    model_id: "diffusers/FLUX.2-dev-bnb-4bit"
     pipeline_class: "FluxPipeline"
     origin: "western"
     organization: "Black Forest Labs"

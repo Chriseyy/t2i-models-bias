@@ -21,7 +21,7 @@ from datetime import datetime
 
 sys.path.insert(0, str(__import__('pathlib').Path(__file__).parent))
 import generation.run_sd35 as sd35_runner
-# import generation.run_flux as flux_runner
+import generation.run_flux as flux_runner
 # import generation.run_qwen as qwen_runner
 
 
@@ -52,17 +52,17 @@ def main():
     dry_run = args.dry_run
     model = args.model
 
-    if model in ("sd35", "all"):
-        logger.info("\n" + "🔵 " * 20)
-        logger.info("STARTE: Stable Diffusion 3.5 Large")
-        logger.info("🔵 " * 20)
-        sd35_runner.main(dry_run=dry_run, resume=resume)
+    # if model in ("sd35", "all"):
+    #     logger.info("\n" + "🔵 " * 20)
+    #     logger.info("STARTE: Stable Diffusion 3.5 Large")
+    #     logger.info("🔵 " * 20)
+    #     sd35_runner.main(dry_run=dry_run, resume=resume)
 
-    # if model in ("flux", "all"):
-    #     logger.info("\n" + "🟡 " * 20)
-    #     logger.info("STARTE: FLUX.2-dev")
-    #     logger.info("🟡 " * 20)
-    #     flux_runner.main(dry_run=dry_run, resume=resume)
+    if model in ("flux", "all"):
+        logger.info("\n" + "🟡 " * 20)
+        logger.info("STARTE: FLUX.2-dev")
+        logger.info("🟡 " * 20)
+        flux_runner.main(dry_run=dry_run, resume=resume)
 
     # if model in ("qwen", "all"):
     #     logger.info("\n" + "🟢 " * 20)
