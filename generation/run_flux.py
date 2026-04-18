@@ -171,11 +171,11 @@ def load_model(model_cfg, logger):
 
     # 5090 Optimierungen
     # pipe.to("cuda")
-    pipe.vae.enable_slicing()
-    pipe.vae.enable_tiling()
+    # pipe.vae.enable_slicing()
+    # pipe.vae.enable_tiling()
     
-    # 5090 Optimierungen
-    torch.backends.cuda.matmul.allow_tf32 = True
+    # # 5090 Optimierungen
+    # torch.backends.cuda.matmul.allow_tf32 = True
 
     logger.info("✅ FLUX erfolgreich geladen!")
     logger.info(f"✅ FLUX geladen | VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")

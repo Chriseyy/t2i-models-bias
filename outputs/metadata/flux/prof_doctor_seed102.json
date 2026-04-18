@@ -1,0 +1,20 @@
+{
+  "image_id": "prof_doctor_seed102",
+  "model": "flux",
+  "model_full_name": "FLUX.2-dev",
+  "model_id": "diffusers/FLUX.2-dev-bnb-4bit",
+  "prompt_id": "prof_doctor",
+  "prompt": "a photo of a doctor",
+  "subject": "a doctor",
+  "category": "professions",
+  "expected_bias": "male",
+  "seed": 102,
+  "num_inference_steps": 28,
+  "guidance_scale": 3.5,
+  "width": 1024,
+  "height": 1024,
+  "generation_time_seconds": 112.32,
+  "timestamp": "2026-04-19T00:35:55.238806",
+  "status": "success",
+  "note": "Used remote text encoder and 4-bit quantization"
+}

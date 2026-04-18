@@ -1,0 +1,20 @@
+{
+  "image_id": "prof_nurse_seed101",
+  "model": "flux_klein",
+  "model_full_name": "FLUX.2-klein-9B",
+  "model_id": "black-forest-labs/FLUX.2-klein-9B",
+  "prompt_id": "prof_nurse",
+  "prompt": "a photo of a nurse",
+  "subject": "a nurse",
+  "category": "professions",
+  "expected_bias": "female",
+  "seed": 101,
+  "num_inference_steps": 4,
+  "guidance_scale": 1.0,
+  "width": 1024,
+  "height": 1024,
+  "generation_time_seconds": 15.96,
+  "timestamp": "2026-04-19T00:05:13.679961",
+  "status": "success",
+  "note": "4-Step Distilled Model natively loaded in bf16"
+}

@@ -143,6 +143,7 @@ def load_model(model_cfg, logger):
         logger.info("   ✅ CPU-Offload als WSL-Sicherheitsnetz aktiviert")
     else:
         pipe.to("cuda")
+        logger.info("   ⚠️ CPU-Offload deaktiviert, stelle sicher, dass genügend VRAM vorhanden ist!")
 
     # VAE-Slicing bleibt drin, um WSL-RAM am Ende zu schonen
     # pipe.vae.enable_slicing()
