@@ -26,7 +26,9 @@ from pathlib import Path
 
 import yaml
 import torch
-from diffusers import Flux2Pipeline
+from diffusers import Flux2Pipeline, AutoModel
+from transformers import Mistral3ForConditionalGeneration
+from diffusers.utils import load_image
 from PIL import Image
 from dotenv import load_dotenv
 from huggingface_hub import get_token
@@ -141,33 +143,22 @@ def get_remote_prompt_embeds(prompt: str, logger: logging.Logger):
     """Holt die Text-Vektoren vom HuggingFace Server, statt sie lokal zu berechnen."""
     token = os.environ.get("HUGGINGFACE_HUB_TOKEN") or get_token()
     if not token:
-        print("❌ FEHLER: Token wurde nicht aus dem .env File geladen!")
-    else:
-        print(f"✅ Token gefunden (endet auf ...{token[-4:]})")
+        raise ValueError("Kein HuggingFace Token gefunden!")
 
-    url = "https://remote-text-encoder-flux-2.huggingface.co/predict"
-    
     try:
         response = requests.post(
-            url,
+            "https://remote-text-encoder-flux-2.huggingface.co/predict",
             json={"prompt": prompt},
             headers={
                 "Authorization": f"Bearer {token}",
                 "Content-Type": "application/json"
             },
-            timeout=45
+            timeout=45 # Timeout, falls der Server hängt
         )
-        response.raise_for_status() 
-        
-        # NEU: Prüfen, ob die Antwort mit '<' (HTML/XML) beginnt
-        if response.content.strip().startswith(b"<"):
-            error_preview = response.text[:500] # Die ersten 500 Zeichen der HTML-Seite
-            logger.error(f"❌ Server hat HTML statt eines Tensors geantwortet! Vorschau:\n{error_preview}")
-            raise ValueError("Unerwartete HTML-Antwort (Schläft der HF Space oder stimmt die URL nicht?)")
-
+        response.raise_for_status() # Löst Fehler aus, wenn Statuscode != 200
+        # prompt_embeds = torch.load(io.BytesIO(response.content))
         prompt_embeds = torch.load(io.BytesIO(response.content), weights_only=False)
         return prompt_embeds.to("cuda")
-        
     except Exception as e:
         logger.error(f"❌ Fehler bei der Server-Kommunikation für den Text-Encoder: {e}")
         raise
@@ -179,21 +170,33 @@ def load_model(model_cfg, logger):
     model_id = model_cfg["models"]["flux"]["model_id"]
     dtype = torch.bfloat16
 
-    logger.info(f"Lade 4-Bit Modell: {model_id}")
-    logger.info("Text-Encoder ist auf 'None' gesetzt (Remote API wird genutzt).")
-
-    pipe = Flux2Pipeline.from_pretrained(
-        model_id,
-        text_encoder=None, # Verhindert das lokale Laden des Text-Modells!
-        torch_dtype=dtype,
-    ).to("cuda")
+    logger.info(f"Lade 100% lokales 4-Bit Modell: {model_id}")
     
+    # 1. Text-Encoder manuell laden (Umgeht den Pixtral-Bug!)
+    logger.info("   Lade 4-Bit Text-Encoder...")
+    text_encoder = Mistral3ForConditionalGeneration.from_pretrained(
+        model_id, subfolder="text_encoder", torch_dtype=dtype, device_map="cpu"
+    )
+    
+    # 2. Transformer (DiT) manuell laden
+    logger.info("   Lade 4-Bit Transformer...")
+    dit = AutoModel.from_pretrained(
+        model_id, subfolder="transformer", torch_dtype=dtype, device_map="cpu"
+    )
+    
+    # 3. Pipeline zusammenbauen
+    logger.info("   Baue Pipeline zusammen...")
+    pipe = Flux2Pipeline.from_pretrained(
+        model_id, text_encoder=text_encoder, transformer=dit, torch_dtype=dtype
+    )
+    
+    # Der magische Offload (Staffellauf zwischen RAM und VRAM)
+    pipe.enable_model_cpu_offload()
+
     # 5090 Optimierungen
     torch.backends.cuda.matmul.allow_tf32 = True
-    pipe.transformer.to(memory_format=torch.channels_last)
-    pipe.vae.to(memory_format=torch.channels_last)
 
-    logger.info(f"✅ FLUX geladen | VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
+    logger.info("✅ FLUX erfolgreich geladen!")
     return pipe
 
 # =============================================================
@@ -206,15 +209,9 @@ def generate_image(pipe, prompt_info, seed, model_cfg, logger):
     generator = torch.Generator(device="cuda").manual_seed(seed)
     start = time.time()
 
-    # 1. API Call: Embeddings vom Server holen
-    logger.info("   📡 Hole Text-Vektoren vom Server...")
-    prompt_embeds = get_remote_prompt_embeds(prompt_info["prompt"], logger)
-    
-
-    # 2. Bild lokal auf der RTX 5090 generieren
     logger.info("   🖌️ Generiere Bild lokal...")
     image = pipe(
-        prompt_embeds=prompt_embeds,
+        prompt=prompt_info["prompt"], 
         width=img_cfg["width"],
         height=img_cfg["height"],
         num_inference_steps=gen_cfg["num_inference_steps"],
