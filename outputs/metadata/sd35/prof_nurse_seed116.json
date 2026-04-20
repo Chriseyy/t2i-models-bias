@@ -15,7 +15,7 @@
   "height": 1024,
   "dtype": "bfloat16",
   "image_path": "/home/chris/projects/uni/master/Hauptseminar/t2i-models-bias/outputs/images/sd35/prof_nurse_seed116.png",
-  "generation_time_seconds": 40.28,
-  "timestamp": "2026-04-18T16:09:48.415097",
+  "generation_time_seconds": 32.75,
+  "timestamp": "2026-04-20T14:43:33.847593",
   "status": "success"
 }

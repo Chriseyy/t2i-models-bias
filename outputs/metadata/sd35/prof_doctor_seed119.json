@@ -15,7 +15,7 @@
   "height": 1024,
   "dtype": "bfloat16",
   "image_path": "/home/chris/projects/uni/master/Hauptseminar/t2i-models-bias/outputs/images/sd35/prof_doctor_seed119.png",
-  "generation_time_seconds": 40.45,
-  "timestamp": "2026-04-18T12:55:32.184784",
+  "generation_time_seconds": 32.2,
+  "timestamp": "2026-04-20T12:07:50.997426",
   "status": "success"
 }

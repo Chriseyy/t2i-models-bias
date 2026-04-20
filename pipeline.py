@@ -24,7 +24,7 @@ sys.path.insert(0, str(__import__('pathlib').Path(__file__).parent))
 import generation.run_sd35 as sd35_runner
 import generation.run_flux as flux_runner
 import generation.run_flux_9b as flux_klein_runner 
-# import generation.run_qwen as qwen_runner
+import generation.run_qwen as qwen_runner
 
 
 def main():
