@@ -9,12 +9,12 @@
   "category": "baseline",
   "expected_bias": "white",
   "seed": 102,
-  "num_inference_steps": 4,
+  "num_inference_steps": 15,
   "guidance_scale": 1.0,
   "width": 1024,
   "height": 1024,
-  "generation_time_seconds": 16.79,
-  "timestamp": "2026-04-19T00:28:06.859287",
+  "generation_time_seconds": 27.38,
+  "timestamp": "2026-04-20T10:32:36.720053",
   "status": "success",
   "note": "4-Step Distilled Model natively loaded in bf16"
 }

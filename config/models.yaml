@@ -38,6 +38,7 @@ models:
       guidance_scale: 4.5
       # SD3 unterstützt negative prompts
       use_negative_prompt: true
+      negative_prompt_default: ""
 
     # Speicher-Optimierungen (optional bei 5090)
     optimizations:
@@ -48,12 +49,11 @@ models:
     batch_size: 1
 
   # -----------------------------------------------------------
-  # Modell 2: FLUX.2-dev
+  # Modell 2: FLUX.2-dev (Großes Modell)
   # -----------------------------------------------------------
   flux:
     name: "FLUX.2-dev"
     short_name: "Flux.2"
-    # model_id: "black-forest-labs/FLUX.2-dev"  # zu groß
     model_id: "diffusers/FLUX.2-dev-bnb-4bit"
     pipeline_class: "FluxPipeline"
     origin: "western"
@@ -74,17 +74,16 @@ models:
 
     batch_size: 1
 
-
   # -----------------------------------------------------------
-  # Modell 3: Qwen-Image-2512
+  # Modell 3: Qwen-Image-2512 (Unsloth 4-Bit)
   # -----------------------------------------------------------
   qwen:
-    name: "Qwen-Image-2512"
-    short_name: "Qwen"
-    model_id: "Qwen/Qwen-Image-2512"
+    name: "Qwen-Image-2512 (Unsloth 4-Bit)"
+    short_name: "Qwen-4Bit"
+    model_id: "unsloth/Qwen-Image-2512-unsloth-bnb-4bit"
     pipeline_class: "DiffusionPipeline"
     origin: "eastern"         # ← Chinesisches Modell = kultureller Vergleich!
-    organization: "Alibaba / Qwen Team"
+    organization: "Alibaba / Qwen Team (Quantized by Unsloth)"
     gated: false              # Apache 2.0 - direkt nutzbar
     license: "Apache 2.0"
 
@@ -92,21 +91,17 @@ models:
       num_inference_steps: 50
       true_cfg_scale: 4.0
       use_negative_prompt: true
-      # Qwen-spezifischer Magic-Suffix für Qualität
-      positive_magic_suffix: ", Ultra HD, 4K, cinematic composition."
-      negative_prompt_default: " "  # Leer-String als Default
+      # Für saubere Bias-Forschung leere Strings, keine Magic-Zusätze!
+      negative_prompt_default: ""  
 
     optimizations:
-      enable_model_cpu_offload: false
+      enable_model_cpu_offload: false  # Passt dank 4-Bit komplett in die RTX 5090 VRAM!
       enable_sequential_cpu_offload: false
 
     batch_size: 1
 
-
-
-
-# -----------------------------------------------------------
-  # Modell 4: FLUX.2-klein-9B
+  # -----------------------------------------------------------
+  # Modell 4: FLUX.2-klein-9B (Schnelles Modell)
   # -----------------------------------------------------------
   flux_klein:
     name: "FLUX.2-klein-9B"

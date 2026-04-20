@@ -237,8 +237,7 @@ def generate_image(pipe, prompt_info: dict, seed: int,
     """
     gen_cfg = model_cfg["models"]["sd35"]["generation"]
     img_cfg = model_cfg["global"]["output_size"]
-    neg_prompt = model_cfg["prompts"]["negative_prompt"] if "prompts" in model_cfg else \
-                 "cartoon, anime, illustration, painting, drawing, unrealistic"
+    neg_prompt = gen_cfg.get("negative_prompt_default", "")
 
     generator = torch.Generator(device="cuda").manual_seed(seed)
 

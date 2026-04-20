@@ -15,7 +15,7 @@
   "height": 1024,
   "dtype": "bfloat16",
   "image_path": "/home/chris/projects/uni/master/Hauptseminar/t2i-models-bias/outputs/images/sd35/base_beautiful_seed102.png",
-  "generation_time_seconds": 93.42,
-  "timestamp": "2026-04-18T18:03:41.618562",
+  "generation_time_seconds": 21.4,
+  "timestamp": "2026-04-20T11:50:30.573539",
   "status": "success"
 }
