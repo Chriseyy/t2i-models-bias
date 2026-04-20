@@ -150,7 +150,7 @@ def load_model(model_cfg, logger):
     # pipe.vae.enable_tiling()
     
     # # RTX 5090 TF32 Boost
-    # torch.backends.cuda.matmul.allow_tf32 = True
+    torch.backends.cuda.matmul.allow_tf32 = True
 
     logger.info(f"✅ FLUX.2-klein erfolgreich geladen! VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
     return pipe

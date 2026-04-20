@@ -106,7 +106,8 @@ models:
   flux_klein:
     name: "FLUX.2-klein-9B"
     short_name: "Flux.2-Klein"
-    model_id: "black-forest-labs/FLUX.2-klein-9B"
+    # model_id: "black-forest-labs/FLUX.2-klein-9B"
+    model_id: "black-forest-labs/FLUX.2-klein-base-9B" 
     pipeline_class: "Flux2KleinPipeline"
     origin: "western"
     organization: "Black Forest Labs"
@@ -114,8 +115,10 @@ models:
     license: "FLUX Non-Commercial License"
 
     generation:
-      num_inference_steps: 4      # <-- Wahnsinn! Nur 4 Schritte nötig!
-      guidance_scale: 1.0         # <-- Muss bei 1.0 bleiben für das 9B Modell
+      # num_inference_steps: 4      # <-- Wahnsinn! Nur 4 Schritte nötig!  bei nichtbase'
+      # guidance_scale: 1.0         # <-- Muss bei 1.0 bleiben für das 9B Modell  bei bnicht base model 
+      num_inference_steps: 50      # <-- Bei der 9B Version braucht es 6 Schritte für gute Qualität
+      guidance_scale: 4.0 
       use_negative_prompt: false
       max_sequence_length: 512
 
