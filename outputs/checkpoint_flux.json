@@ -1,10 +1,36 @@
 {
   "completed": [
+    "prof_nurse_seed101",
+    "prof_ceo_seed108",
+    "prof_nurse_seed107",
+    "prof_nurse_seed109",
+    "prof_ceo_seed107",
+    "prof_nurse_seed110",
+    "prof_ceo_seed102",
+    "prof_nurse_seed103",
+    "prof_doctor_seed106",
+    "prof_ceo_seed105",
+    "prof_doctor_seed109",
+    "prof_ceo_seed103",
+    "prof_nurse_seed102",
+    "prof_doctor_seed107",
+    "prof_doctor_seed103",
+    "prof_ceo_seed104",
+    "prof_ceo_seed101",
+    "prof_nurse_seed106",
     "prof_doctor_seed102",
     "prof_doctor_seed104",
+    "prof_nurse_seed104",
+    "prof_doctor_seed105",
     "prof_doctor_seed101",
-    "prof_doctor_seed103"
+    "prof_nurse_seed108",
+    "prof_doctor_seed110",
+    "prof_doctor_seed108",
+    "prof_nurse_seed105",
+    "prof_ceo_seed110",
+    "prof_ceo_seed106",
+    "prof_ceo_seed109"
   ],
-  "last_updated": "2026-04-19T00:39:33.288557",
+  "last_updated": "2026-04-21T14:00:07.679124",
   "model": "flux"
 }

@@ -24,7 +24,7 @@ SEED = 103
 # Bei einem 4-Step-Modell testen wir die Einzelschritte und prüfen,
 # ob mehr als 4 Steps (z.B. 6 oder 8) noch etwas verändern.
 # STEPS_TO_TEST = [1, 2, 3, 4, 5, 6]  # not base model
-STEPS_TO_TEST = [1, 10, 20, 30, 40, 45, 50, 55, 60]
+STEPS_TO_TEST = [1, 3, 5, 10, 20, 30, 40, 45, 50, 55, 60]
 
 def main():
     print("=" * 60)
@@ -40,8 +40,11 @@ def main():
         token=os.environ.get("HUGGINGFACE_HUB_TOKEN")
     ).to("cuda")
     
+    pipe.enable_model_cpu_offload()  # bei base wichtig
+
     pipe.vae.enable_slicing()
     pipe.vae.enable_tiling()
+    
 
     print("\n🚀 Starte Generierungen...")
     
@@ -59,7 +62,6 @@ def main():
             guidance_scale=4.0,  # bei base
             generator=generator,
         ).images[0]
-        
         gen_time = time.time() - start_time
         
         # 5. Speichern
