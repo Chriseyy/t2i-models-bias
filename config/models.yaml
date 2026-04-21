@@ -35,7 +35,7 @@ models:
 
     generation:
       num_inference_steps: 28
-      guidance_scale: 4.5
+      guidance_scale: 3.5 ## hatte davor 4.5 auf huggingface habe die 3.5  
       # SD3 unterstützt negative prompts
       use_negative_prompt: true
       negative_prompt_default: ""
@@ -62,8 +62,8 @@ models:
     license: "FLUX.1-dev Non-Commercial License"
 
     generation:
-      num_inference_steps: 28
-      guidance_scale: 3.5
+      num_inference_steps: 30  # #28 steps can be a good trade-off huggingface step 50
+      guidance_scale: 4.0 
       # FLUX unterstützt KEINE negativen Prompts!
       use_negative_prompt: false
       max_sequence_length: 512

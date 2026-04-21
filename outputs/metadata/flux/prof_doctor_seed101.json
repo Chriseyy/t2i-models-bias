@@ -9,12 +9,12 @@
   "category": "professions",
   "expected_bias": "male",
   "seed": 101,
-  "num_inference_steps": 28,
-  "guidance_scale": 3.5,
+  "num_inference_steps": 30,
+  "guidance_scale": 4.0,
   "width": 1024,
   "height": 1024,
-  "generation_time_seconds": 87.38,
-  "timestamp": "2026-04-18T22:45:33.000450",
+  "generation_time_seconds": 111.71,
+  "timestamp": "2026-04-21T20:10:24.650369",
   "status": "success",
   "note": "Used remote text encoder and 4-bit quantization"
 }

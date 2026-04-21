@@ -49,7 +49,7 @@ def main():
         image = pipe(
             prompt=PROMPT,
             num_inference_steps=steps,
-            guidance_scale=4.5,
+            guidance_scale=3.5,   # 3.5 bei originalem SD3.5, 4.5 bei 4bit
             generator=generator,
         ).images[0]
         
