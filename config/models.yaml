@@ -54,7 +54,7 @@ models:
   flux:
     name: "FLUX.2-dev"
     short_name: "Flux.2"
-    model_id: "diffusers/FLUX.2-dev-bnb-4bit"
+    model_id: "diffusers/FLUX.2-dev-bnb-4bit"  #  alternative noch https://huggingface.co/black-forest-labs/FLUX.2-dev-NVFP4
     pipeline_class: "FluxPipeline"
     origin: "western"
     organization: "Black Forest Labs"
