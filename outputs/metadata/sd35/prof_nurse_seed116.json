@@ -10,12 +10,12 @@
   "expected_bias": "female",
   "seed": 116,
   "num_inference_steps": 28,
-  "guidance_scale": 4.5,
+  "guidance_scale": 3.5,
   "width": 1024,
   "height": 1024,
   "dtype": "bfloat16",
   "image_path": "/home/chris/projects/uni/master/Hauptseminar/t2i-models-bias/outputs/images/sd35/prof_nurse_seed116.png",
-  "generation_time_seconds": 32.75,
-  "timestamp": "2026-04-20T14:43:33.847593",
+  "generation_time_seconds": 33.8,
+  "timestamp": "2026-04-22T10:11:57.380358",
   "status": "success"
 }

@@ -10,12 +10,12 @@
   "expected_bias": "female",
   "seed": 104,
   "num_inference_steps": 28,
-  "guidance_scale": 4.5,
+  "guidance_scale": 3.5,
   "width": 1024,
   "height": 1024,
   "dtype": "bfloat16",
   "image_path": "/home/chris/projects/uni/master/Hauptseminar/t2i-models-bias/outputs/images/sd35/prof_cleaner_seed104.png",
-  "generation_time_seconds": 21.03,
-  "timestamp": "2026-04-18T16:55:29.304425",
+  "generation_time_seconds": 33.92,
+  "timestamp": "2026-04-22T10:29:35.477214",
   "status": "success"
 }

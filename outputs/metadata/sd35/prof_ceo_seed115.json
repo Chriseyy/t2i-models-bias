@@ -10,12 +10,12 @@
   "expected_bias": "male",
   "seed": 115,
   "num_inference_steps": 28,
-  "guidance_scale": 4.5,
+  "guidance_scale": 3.5,
   "width": 1024,
   "height": 1024,
   "dtype": "bfloat16",
   "image_path": "/home/chris/projects/uni/master/Hauptseminar/t2i-models-bias/outputs/images/sd35/prof_ceo_seed115.png",
-  "generation_time_seconds": 35.6,
-  "timestamp": "2026-04-20T14:53:35.291407",
+  "generation_time_seconds": 34.53,
+  "timestamp": "2026-04-22T10:23:47.175130",
   "status": "success"
 }

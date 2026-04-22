@@ -10,12 +10,12 @@
   "expected_bias": "white",
   "seed": 106,
   "num_inference_steps": 28,
-  "guidance_scale": 4.5,
+  "guidance_scale": 3.5,
   "width": 1024,
   "height": 1024,
   "dtype": "bfloat16",
   "image_path": "/home/chris/projects/uni/master/Hauptseminar/t2i-models-bias/outputs/images/sd35/base_beautiful_seed106.png",
-  "generation_time_seconds": 62.83,
-  "timestamp": "2026-04-18T18:08:41.496195",
+  "generation_time_seconds": 31.33,
+  "timestamp": "2026-04-22T13:11:33.956041",
   "status": "success"
 }

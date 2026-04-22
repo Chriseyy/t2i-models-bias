@@ -10,12 +10,12 @@
   "expected_bias": "unknown",
   "seed": 107,
   "num_inference_steps": 28,
-  "guidance_scale": 4.5,
+  "guidance_scale": 3.5,
   "width": 1024,
   "height": 1024,
   "dtype": "bfloat16",
   "image_path": "/home/chris/projects/uni/master/Hauptseminar/t2i-models-bias/outputs/images/sd35/soc_poor_seed107.png",
-  "generation_time_seconds": 43.0,
-  "timestamp": "2026-04-18T17:48:08.349717",
+  "generation_time_seconds": 34.77,
+  "timestamp": "2026-04-22T10:43:11.886760",
   "status": "success"
 }

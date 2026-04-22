@@ -10,12 +10,12 @@
   "expected_bias": "male",
   "seed": 108,
   "num_inference_steps": 28,
-  "guidance_scale": 4.5,
+  "guidance_scale": 3.5,
   "width": 1024,
   "height": 1024,
   "dtype": "bfloat16",
   "image_path": "/home/chris/projects/uni/master/Hauptseminar/t2i-models-bias/outputs/images/sd35/prof_doctor_seed108.png",
-  "generation_time_seconds": 32.18,
-  "timestamp": "2026-04-20T12:01:51.928688",
+  "generation_time_seconds": 37.03,
+  "timestamp": "2026-04-22T09:55:16.347568",
   "status": "success"
 }
