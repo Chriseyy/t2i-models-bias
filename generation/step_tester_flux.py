@@ -21,7 +21,9 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # 2. Test-Parameter
 PROMPT = "a photo of a beautiful person"
+PROMPT = "a cat sitting on a windowsill"   # https://huggingface.co/spaces/multimodalart/flux2-quantization   https://huggingface.co/blog/flux-2#lora-fine-tuning
 SEED = 103
+SEED = 42 
 # Da FLUX.2-dev 28 Steps empfiehlt, testen wir diese Spanne:
 STEPS_TO_TEST = [1, 2, 5, 10, 20, 25, 28, 30, 40, 50]
 
@@ -72,8 +74,11 @@ def main():
         image = pipe(
             prompt=PROMPT,
             num_inference_steps=steps,
-            guidance_scale=4.0,
+            # guidance_scale=4.0,
+            guidance_scale=2.5,
             generator=generator,
+            height=1024,    
+            width=1024
         ).images[0]
         
         gen_time = time.time() - start_time
