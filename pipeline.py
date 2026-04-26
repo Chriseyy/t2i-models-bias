@@ -25,6 +25,7 @@ import generation.run_sd35 as sd35_runner
 import generation.run_flux as flux_runner
 import generation.run_flux_9b as flux_klein_runner 
 import generation.run_qwen as qwen_runner
+# import generation.step_tester_z_image as zimage_runner
 
 
 def main():
@@ -79,6 +80,11 @@ def main():
         logger.info("🟢 " * 20)
         qwen_runner.main(dry_run=dry_run, resume=resume)
 
+    # if model in ("zimage", "all"):
+    #     logger.info("\n" + "� " * 20)
+    #     logger.info("STARTE: Z-Image")
+    #     logger.info("� " * 20)
+    #     zimage_runner.main(dry_run=dry_run, resume=resume)
 
     logger.info("\n" + "=" * 60)
     logger.info("✅ PIPELINE KOMPLETT ABGESCHLOSSEN")
