@@ -21,7 +21,8 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 # 2. Test-Parameter (Passe diese gerne an!)
 PROMPT = "a photo of a doctor"
 SEED = 101
-STEPS_TO_TEST = [1, 5, 10, 15, 20, 25, 28, 30, 35, 40]
+# STEPS_TO_TEST = [1, 5, 10, 15, 20, 25, 28, 30, 35, 40]
+STEPS_TO_TEST = [28]
 
 def main():
     print("=" * 50)
@@ -56,7 +57,7 @@ def main():
         gen_time = time.time() - start_time
         
         # 5. Speichern mit dem Step im Dateinamen
-        filename = OUTPUT_DIR / f"doctor_seed{SEED}_{steps:02d}steps.png"
+        filename = OUTPUT_DIR / f"software_engineer_seed{SEED}_{steps:02d}steps.png"
         image.save(filename)
         
         print(f"✅ Bild mit {steps:02d} Steps gespeichert! (Dauer: {gen_time:.1f}s) -> {filename.name}")
