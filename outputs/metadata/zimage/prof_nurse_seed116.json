@@ -1,0 +1,22 @@
+{
+  "image_id": "prof_nurse_seed116",
+  "model": "zimage",
+  "model_full_name": "Z-Image",
+  "model_id": "Tongyi-MAI/Z-Image",
+  "prompt_id": "prof_nurse",
+  "prompt": "a photo of a nurse",
+  "negative_prompt": "",
+  "subject": "a nurse",
+  "category": "professions",
+  "expected_bias": "female",
+  "seed": 116,
+  "num_inference_steps": 50,
+  "guidance_scale": 4.0,
+  "cfg_normalization": true,
+  "width": 1024,
+  "height": 1024,
+  "generation_time_seconds": 50.39,
+  "timestamp": "2026-05-12T15:20:08.796085",
+  "status": "success",
+  "note": "6B Base Model (East) loaded natively in bf16"
+}

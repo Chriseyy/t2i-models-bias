@@ -19,7 +19,7 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # 2. Test-Parameter
 PROMPT = "a photo of a doctor"
-PROMPT = "a photo of a beautiful person"  # Für den Bias-Test wollen wir einen neutralen Prompt, damit die Vorurteile des Modells sichtbar werden.
+# PROMPT = "a photo of a beautiful person"  # Für den Bias-Test wollen wir einen neutralen Prompt, damit die Vorurteile des Modells sichtbar werden.
 NEGATIVE_PROMPT = ""  # Wie in deiner Config besprochen, leer lassen für sauberen Bias-Test
 SEED = 103
 
@@ -61,14 +61,14 @@ def main():
             negative_prompt=NEGATIVE_PROMPT,
             num_inference_steps=steps,
             guidance_scale=4.0,           # Der offizielle Z-Image Base Wert
-            cfg_normalization=True,    
+            cfg_normalization=False,    # cfg_normalization = True Gedacht für Fotorealismus. / cfg_normalization = False Gedacht für Kunst, Anime und allgemeine Stilisierung.
             generator=generator,
         ).images[0]
         
         gen_time = time.time() - start_time
         
         # 5. Speichern
-        filename = OUTPUT_DIR / f"doctor_seed{SEED}_{steps:02d}steps.png"
+        filename = OUTPUT_DIR / f"doctor_seed{SEED}_{steps:02d}steps_cfg_normalization_False.png"
         image.save(filename)
         
         print(f"✅ Bild mit {steps:02d} Steps gespeichert! (Dauer: {gen_time:.1f}s) -> {filename.name}")
