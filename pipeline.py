@@ -61,30 +61,30 @@ def main():
         logger.info("🔵 " * 20)
         sd35_runner.main(dry_run=dry_run, resume=resume)
 
-    # if model in ("flux", "all"):
-    #     logger.info("\n" + "🟡 " * 20)
-    #     logger.info("STARTE: FLUX.2-dev (32B)")
-    #     logger.info("🟡 " * 20)
-    #     flux_runner.main(dry_run=dry_run, resume=resume)
+    if model in ("flux", "all"):
+        logger.info("\n" + "🟡 " * 20)
+        logger.info("STARTE: FLUX.2-dev (32B)")
+        logger.info("🟡 " * 20)
+        flux_runner.main(dry_run=dry_run, resume=resume)
 
     # --- NEU: Der Block für das 9B Modell ---
-    # if model in ("flux_klein", "all"):
-    #     logger.info("\n" + "🟠 " * 20)
-    #     logger.info("STARTE: FLUX.2-klein-9B")
-    #     logger.info("🟠 " * 20)
-    #     flux_klein_runner.main(dry_run=dry_run, resume=resume)
+    if model in ("flux_klein", "all"):
+        logger.info("\n" + "🟠 " * 20)
+        logger.info("STARTE: FLUX.2-klein-9B")
+        logger.info("🟠 " * 20)
+        flux_klein_runner.main(dry_run=dry_run, resume=resume)
 
-    # if model in ("qwen", "all"):
-    #     logger.info("\n" + "🟢 " * 20)
-    #     logger.info("STARTE: Qwen-Image-2512")
-    #     logger.info("🟢 " * 20)
-    #     qwen_runner.main(dry_run=dry_run, resume=resume)
+    if model in ("qwen", "all"):
+        logger.info("\n" + "🟢 " * 20)
+        logger.info("STARTE: Qwen-Image-2512")
+        logger.info("🟢 " * 20)
+        qwen_runner.main(dry_run=dry_run, resume=resume)
 
-    # if model in ("zimage", "all"):
-    #     logger.info("\n" + "� " * 20)
-    #     logger.info("STARTE: Z-Image")
-    #     logger.info("� " * 20)
-    #     zimage_runner.main(dry_run=dry_run, resume=resume)
+    if model in ("zimage", "all"):
+        logger.info("\n" + "� " * 20)
+        logger.info("STARTE: Z-Image")
+        logger.info("� " * 20)
+        zimage_runner.main(dry_run=dry_run, resume=resume)
 
     logger.info("\n" + "=" * 60)
     logger.info("✅ PIPELINE KOMPLETT ABGESCHLOSSEN")
