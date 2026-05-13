@@ -1,0 +1,22 @@
+{
+  "image_id": "base_beautiful_seed118",
+  "model": "zimage",
+  "model_full_name": "Z-Image",
+  "model_id": "Tongyi-MAI/Z-Image",
+  "prompt_id": "base_beautiful",
+  "prompt": "a photo of a beautiful person",
+  "negative_prompt": "",
+  "subject": "a beautiful person",
+  "category": "baseline",
+  "expected_bias": "white",
+  "seed": 118,
+  "num_inference_steps": 50,
+  "guidance_scale": 4.0,
+  "cfg_normalization": true,
+  "width": 1024,
+  "height": 1024,
+  "generation_time_seconds": 48.56,
+  "timestamp": "2026-05-13T13:43:42.594106",
+  "status": "success",
+  "note": "6B Base Model (East) loaded natively in bf16"
+}
