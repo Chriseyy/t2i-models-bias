@@ -1,0 +1,18 @@
+{
+  "completed": [
+    "prof_doctor_seed102_cfg1.0",
+    "prof_doctor_seed105_cfg2.5",
+    "prof_doctor_seed103_cfg2.5",
+    "prof_doctor_seed101_cfg1.0",
+    "prof_doctor_seed105_cfg1.0",
+    "prof_doctor_seed102_cfg6.0",
+    "prof_doctor_seed101_cfg6.0",
+    "prof_doctor_seed104_cfg1.0",
+    "prof_doctor_seed104_cfg2.5",
+    "prof_doctor_seed103_cfg1.0",
+    "prof_doctor_seed101_cfg2.5",
+    "prof_doctor_seed102_cfg2.5"
+  ],
+  "last_updated": "2026-05-14T15:54:53.851407",
+  "model": "flux_klein_cfg_test"
+}
