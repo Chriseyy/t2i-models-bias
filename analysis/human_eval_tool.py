@@ -4,6 +4,7 @@ human_eval_tool.py
 Professionelles GUI-Dashboard für die manuelle Evaluierung (Human-in-the-loop).
 Erfasst Gender, Race und die Monk Skin Tone (MST) Skala.
 Features: Live-Farb-Pipette (Hover) UND automatisches 3x3 Durchschnittsfarben-Raster!
+NEU: Stratified Sampling (Stellt sicher, dass pro Modell exakt N Bilder bewertet werden).
 """
 
 import os
@@ -22,7 +23,8 @@ PROJECT_ROOT = Path(__file__).parent.parent
 INPUT_DIR = PROJECT_ROOT / "outputs" / "cropped_persons"
 OUTPUT_CSV = PROJECT_ROOT / "outputs" / "human_evaluation.csv"
 
-SAMPLE_SIZE = 50
+# NEU: Ziel-Anzahl der bewerteten Bilder PRO MODELL
+TARGET_PER_MODEL = 30
 
 # Die offiziellen HEX-Farben der Monk Skin Tone Skala (von Google)
 MONK_HEX_COLORS = {
@@ -67,7 +69,7 @@ class AnnotatorApp:
         self.image_label.bind("<Motion>", self.on_image_hover)
         self.image_label.bind("<Leave>", self.on_image_leave)
 
-        # --- NEU: Das 3x3 Farb-Raster kommt direkt unter das Bild ---
+        # Das 3x3 Farb-Raster kommt direkt unter das Bild
         self.palette_frame = tk.Frame(self.left_frame, bg="#2d2d2d")
         self.palette_frame.pack(pady=10)
 
@@ -204,7 +206,6 @@ class AnnotatorApp:
         rb_unclear.grid(row=2, column=4, sticky="w", padx=5, pady=2)
 
     def extract_image_palette(self, img):
-        """Teilt das Bild in ein 3x3 Raster und extrahiert die Durchschnittsfarbe (HEX)."""
         for widget in self.palette_frame.winfo_children():
             widget.destroy()
             
@@ -231,10 +232,10 @@ class AnnotatorApp:
 
     def show_image(self):
         if self.current_index >= self.total_images:
-            self.counter_label.config(text="🎉 Fertig! Stichprobe erfolgreich evaluiert.")
+            self.counter_label.config(text="🎉 Fertig! Die Zielmenge wurde für alle Modelle erreicht.")
             self.image_label.config(image='')
             self.on_image_leave(None)
-            messagebox.showinfo("Erfolg", "Super! Du hast deine 50 Stichproben-Bilder bewertet. Die Daten liegen sicher in der CSV.")
+            messagebox.showinfo("Erfolg", f"Super! Du hast deine restlichen Bilder bewertet. Die Daten liegen sicher in der CSV.")
             self.root.after(500, self.root.quit)
             return
 
@@ -243,7 +244,6 @@ class AnnotatorApp:
 
         img = Image.open(img_path)
         
-        # --- NEU: 3x3 Raster extrahieren, BEVOR skaliert wird ---
         self.extract_image_palette(img)
         
         img.thumbnail((400, 450)) 
@@ -294,35 +294,54 @@ def main():
         print(f"❌ Fehler: Ordner {INPUT_DIR} existiert nicht.")
         return
 
-    all_images = []
-    for model_folder in INPUT_DIR.iterdir():
-        if model_folder.is_dir():
-            all_images.extend(list(model_folder.rglob("*.png")) + list(model_folder.rglob("*.jpg")))
-
-    if not all_images:
-        print("❌ Keine zugeschnittenen Bilder gefunden!")
-        return
-
+    # 1. Bisherige Evaluierungen pro Modell zählen
     processed_images = set()
+    processed_counts_per_model = {}
+    
     if OUTPUT_CSV.exists():
         with open(OUTPUT_CSV, mode='r', encoding='utf-8') as f:
             reader = csv.reader(f)
-            next(reader, None) 
+            next(reader, None) # Header überspringen
             for row in reader:
-                if row: processed_images.add(row[0])
+                if row and len(row) >= 2:
+                    img_name = row[0]
+                    model_name = row[1]
+                    processed_images.add(img_name)
+                    # Zähle, wie oft jedes Modell schon bewertet wurde
+                    processed_counts_per_model[model_name] = processed_counts_per_model.get(model_name, 0) + 1
 
-    pending_images = [img for img in all_images if img.name not in processed_images]
-
-    if len(pending_images) > SAMPLE_SIZE:
-        sample_images = random.sample(pending_images, SAMPLE_SIZE)
-    else:
-        sample_images = pending_images
+    # 2. Bilder intelligent pro Modell auswählen (Stratified Sampling)
+    sample_images = []
+    
+    for model_folder in INPUT_DIR.iterdir():
+        if not model_folder.is_dir():
+            continue
+            
+        model_name = model_folder.name
+        all_model_images = list(model_folder.rglob("*.png")) + list(model_folder.rglob("*.jpg"))
+        
+        # Nur Bilder nehmen, die noch nicht bewertet wurden
+        pending_model_images = [img for img in all_model_images if img.name not in processed_images]
+        
+        already_done = processed_counts_per_model.get(model_name, 0)
+        needed = TARGET_PER_MODEL - already_done
+        
+        if needed > 0 and pending_model_images:
+            # Ziehe exakt die fehlende Menge (oder was noch übrig ist)
+            to_sample = min(needed, len(pending_model_images))
+            sampled = random.sample(pending_model_images, to_sample)
+            sample_images.extend(sampled)
+            print(f"📊 {model_name}: {already_done} bereits bewertet -> Lade {to_sample} neue Bilder.")
+        else:
+            print(f"✅ {model_name}: {already_done} Bilder bewertet (Ziel von {TARGET_PER_MODEL} ist erreicht!)")
 
     if not sample_images:
-        print("✅ Du hast bereits alle Bilder (oder genug für deine Stichprobe) bewertet!")
+        print("\n🎉 Du hast bereits für JEDES Modell mindestens 30 Bilder bewertet!")
         return
 
-    print(f"Lade {len(sample_images)} verbleibende Stichproben-Bilder...")
+    # 3. Mischen, damit die Modelle abwechselnd angezeigt werden
+    random.shuffle(sample_images)
+    print(f"\n🚀 Starte Evaluation für die fehlenden {len(sample_images)} Bilder insgesamt...")
 
     root = tk.Tk()
     app = AnnotatorApp(root, sample_images)

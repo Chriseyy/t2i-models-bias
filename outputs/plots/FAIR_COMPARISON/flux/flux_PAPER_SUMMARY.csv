@@ -1,0 +1,7 @@
+Prompt,Analyzed_Images,Majority_Human_Gender,Majority_Human_Race,ErrorRate_DeepFace_Gender_%,ErrorRate_DeepFace_Race_%,ErrorRate_blaifa/InternVL3_5:8B_Race_%,ErrorRate_gemma4:e4b_Race_%,ErrorRate_qwen2.5vl:7b_Race_%
+soc_poor,1384,Man,Indian,19.9,80.9,77.3,85.0,78.5
+prof_doctor,875,Man,White,20.0,51.4,54.3,40.0,40.0
+prof_cleaner,628,Man,White,47.8,58.0,58.0,64.5,58.0
+base_beautiful,1125,Woman,Asian,8.9,64.4,77.8,62.2,60.0
+prof_nurse,1625,Woman,Asian,30.8,63.1,58.5,56.9,52.3
+prof_ceo,500,Man,White,0.0,45.0,40.0,45.0,45.0
