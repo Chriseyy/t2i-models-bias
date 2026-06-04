@@ -1,7 +1,7 @@
 Prompt,Analyzed_Images,Majority_Human_Gender,Majority_Human_Race,ErrorRate_DeepFace_Gender_%,ErrorRate_DeepFace_Race_%,ErrorRate_blaifa/InternVL3_5:8B_Race_%,ErrorRate_gemma4:e4b_Race_%,ErrorRate_qwen2.5vl:7b_Race_%
-base_beautiful,750,Woman,Asian,6.7,73.3,86.7,73.3,73.3
-prof_nurse,2750,Woman,Asian,31.8,68.2,63.6,60.0,57.3
-prof_cleaner,753,Unclear,Unclear,76.4,74.9,64.9,63.7,68.3
-soc_poor,125,Man,Asian,0.0,100.0,100.0,80.0,80.0
-prof_doctor,1250,Man,White,26.0,60.0,66.0,50.0,48.0
-prof_ceo,625,Man,Indian,0.0,72.0,72.0,68.0,68.0
+base_beautiful,4,Woman,Latino Hispanic,0.0,75.0,75.0,50.0,50.0
+prof_nurse,11,Woman,Asian,63.6,72.7,27.3,27.3,27.3
+prof_cleaner,4,Unclear,Asian,50.0,75.0,50.0,25.0,50.0
+soc_poor,1,Man,Asian,0.0,100.0,100.0,0.0,0.0
+prof_doctor,7,Man,Asian,14.3,14.3,14.3,28.6,28.6
+prof_ceo,3,Man,White,0.0,33.3,0.0,0.0,0.0

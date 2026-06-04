@@ -3,7 +3,8 @@ evaluate_results.py
 ===================
 1. MACRO-ANALYSE: Auswertung des gesamten KI-Datensatzes (Macro-Plots).
    -> Inklusive Vergleich ALLER KIs (Gemma, Qwen, InternVL + DeepFace)!
-2. FAIR COMPARISON: Strikte Filterung auf die Human-Eval-Stichprobe.
+2. FAIR COMPARISON: Strikte Filterung auf die Human-Eval-Stichprobe mit 
+   vollständigen paarweisen KI-Heatmaps und bereinigten Balkendiagrammen.
 """
 
 import os
@@ -45,6 +46,16 @@ def clean_category_strings(df):
             df[col] = df[col].astype(str).str.title().str.strip()
             df[col] = df[col].replace('Nan', np.nan)
     return df
+
+def get_clean_evaluator_name(col):
+    """Konvertiert lange Spaltennamen in kurze, lesbare Bezeichner für die Plots"""
+    col_lower = col.lower()
+    if 'gemma' in col_lower: return 'Gemma4'
+    if 'qwen' in col_lower: return 'Qwen2.5'
+    if 'internvl' in col_lower: return 'InternVL'
+    if 'deepface' in col_lower: return 'DeepFace'
+    if 'human' in col_lower: return 'Human'
+    return col
 
 # =========================================================================
 # PLOT FUNKTIONEN (MACRO & FAIR)
@@ -105,25 +116,7 @@ def generate_vlm_comparison_plot(df, t2i_model, output_folder):
         plt.savefig(output_folder / f"VLM_COMPARISON_GENERAL_{cat}.png", dpi=300)
         plt.close()
 
-    prompts = model_df['Prompt_Subject'].unique()
-    for prompt in prompts:
-        prompt_df = model_df[model_df['Prompt_Subject'] == prompt]
-        for cat, order in categories:
-            if cat not in prompt_df.columns: continue
-            plt.figure(figsize=(10, 6))
-            sns.countplot(data=prompt_df, x='VLM_Model', hue=cat, order=vlms, hue_order=order, palette="Set2")
-            plt.title(f"VLM Vergleich | Prompt: '{prompt}' | Modell: {t2i_model.upper()} ({cat})")
-            plt.ylabel("Absolute Anzahl (Bilder)")
-            plt.xlabel("Ollama VLM-Modell")
-            plt.legend(title=cat, bbox_to_anchor=(1.05, 1), loc='upper left')
-            plt.tight_layout()
-            plt.savefig(output_folder / f"VLM_COMPARISON_{prompt}_{cat}.png", dpi=300)
-            plt.close()
-
 def generate_all_ai_comparison_plot(df_ollama, df_deepface, t2i_model, output_folder):
-    """
-    NEU FÜR MACRO: Vergleicht ALLE VLMs + DeepFace in einem einzigen Plot.
-    """
     if df_ollama is None or df_deepface is None: return
     
     ol_model = df_ollama[df_ollama['T2I_Model'] == t2i_model].copy()
@@ -131,10 +124,8 @@ def generate_all_ai_comparison_plot(df_ollama, df_deepface, t2i_model, output_fo
     
     if ol_model.empty or df_model.empty: return
 
-    # Wir bauen ein neues DataFrame, in dem alle Predictions in einer Spalte stehen
     combined_rows = []
     
-    # 1. Ollama-Daten hinzufügen
     for _, row in ol_model.iterrows():
         img = row['Image_Name']
         vlm = row['VLM_Model']
@@ -142,7 +133,6 @@ def generate_all_ai_comparison_plot(df_ollama, df_deepface, t2i_model, output_fo
         if 'VLM_Gender' in row: combined_rows.append({'Image_Name': img, 'Evaluator': safe_vlm, 'Category': 'Gender', 'Prediction': row['VLM_Gender']})
         if 'VLM_Race' in row: combined_rows.append({'Image_Name': img, 'Evaluator': safe_vlm, 'Category': 'Race', 'Prediction': row['VLM_Race']})
 
-    # 2. DeepFace-Daten hinzufügen (Wir tun so, als wäre DeepFace ein VLM)
     for _, row in df_model.iterrows():
         img = row['Image_Name']
         if 'DeepFace_Gender' in row: combined_rows.append({'Image_Name': img, 'Evaluator': 'DeepFace', 'Category': 'Gender', 'Prediction': row['DeepFace_Gender']})
@@ -151,7 +141,6 @@ def generate_all_ai_comparison_plot(df_ollama, df_deepface, t2i_model, output_fo
     combined_df = pd.DataFrame(combined_rows).dropna(subset=['Prediction'])
     if combined_df.empty: return
 
-    # Plot für GENDER
     gender_df = combined_df[combined_df['Category'] == 'Gender']
     if not gender_df.empty:
         plt.figure(figsize=(12, 6))
@@ -165,7 +154,6 @@ def generate_all_ai_comparison_plot(df_ollama, df_deepface, t2i_model, output_fo
         plt.savefig(output_folder / "ALLE_KIS_COMPARISON_GENERAL_Gender.png", dpi=300)
         plt.close()
 
-    # Plot für RACE
     race_df = combined_df[combined_df['Category'] == 'Race']
     if not race_df.empty:
         plt.figure(figsize=(14, 7))
@@ -180,45 +168,63 @@ def generate_all_ai_comparison_plot(df_ollama, df_deepface, t2i_model, output_fo
         plt.close()
 
 def plot_evaluator_comparison(df, model_name, category, output_folder):
-    """FAIR COMPARISON: Richter-Vergleich auf die 30 Bilder (Human vs KIs)"""
+    """FAIR COMPARISON: Zeigt die Modelle direkt nebeneinander (Max 30 Bilder hoch)"""
     eval_cols = []
-    if f'Human_{category}' in df.columns: eval_cols.append(f'Human_{category}')
-    if f'DeepFace_{category}' in df.columns: eval_cols.append(f'DeepFace_{category}')
-    vlm_cols = [c for c in df.columns if c.endswith(f'_VLM_{category}')]
-    eval_cols.extend(vlm_cols)
+    
+    # Filtere Spalten exakt nach User-Wunsch
+    if category in ['Gender', 'Race']:
+        # Exakt 4 Balken für Gender & Race (DeepFace + die 3 VLMs)
+        if f'DeepFace_{category}' in df.columns: 
+            eval_cols.append(f'DeepFace_{category}')
+        vlm_cols = [c for c in df.columns if c.endswith(f'_VLM_{category}')]
+        eval_cols.extend(vlm_cols)
+        eval_order = ['DeepFace', 'Gemma4', 'Qwen2.5', 'InternVL']
+    elif category == 'MST':
+        # Exakt 3 Balken für MST (Nur Gemma, Qwen und InternVL)
+        vlm_cols = [c for c in df.columns if c.endswith(f'_VLM_{category}')]
+        eval_cols.extend(vlm_cols)
+        eval_order = ['Gemma4', 'Qwen2.5', 'InternVL']
+        
     if len(eval_cols) < 2: return
         
     melted_df = df[['Image_Name'] + eval_cols].melt(id_vars='Image_Name', var_name='Evaluator', value_name='Prediction')
     melted_df = melted_df.dropna(subset=['Prediction'])
-    melted_df['Evaluator'] = melted_df['Evaluator'].str.replace(f'_{category}', '').str.replace('Human', '1_Human_Eval').str.replace('_VLM', '')
+    
+    # Spaltennamen lesbar machen
+    melted_df['Evaluator'] = melted_df['Evaluator'].apply(get_clean_evaluator_name)
+    
+    # Sortierung auf X-Achse erzwingen
+    melted_df['Evaluator'] = pd.Categorical(melted_df['Evaluator'], categories=eval_order, ordered=True)
     melted_df = melted_df.sort_values('Evaluator')
 
-    plt.figure(figsize=(14, 7))
+    plt.figure(figsize=(12, 6))
     sns.countplot(data=melted_df, x='Evaluator', hue='Prediction', palette="Set2")
-    plt.title(f"Richter-Vergleich: KIs vs. Mensch ({category} | {model_name.upper()})")
+    plt.title(f"KI-Vergleich: Modell-Metriken ({category} | {model_name.upper()})")
     plt.ylabel(f"Anzahl der Bilder (Max {len(df)})")
-    plt.xlabel("Evaluator / Richter")
-    plt.xticks(rotation=15)
+    plt.xlabel("Maschinelle Evaluatoren")
+    plt.xticks(rotation=0)
     plt.legend(title=f"Erkannte(s) {category}", bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.tight_layout()
     safe_category = category.replace("/", "_")
-    plt.savefig(output_folder / f"VERGLEICH_Alle_Evaluatoren_{safe_category}.png", dpi=300)
+    plt.savefig(output_folder / f"VERGLEICH_KI_Modelle_{safe_category}.png", dpi=300)
     plt.close()
 
-def generate_human_vs_ai_heatmap(merged_df, human_col, ai_col, title, filename_prefix, output_folder):
-    if human_col not in merged_df.columns or ai_col not in merged_df.columns: return
-    valid_data = merged_df.dropna(subset=[human_col, ai_col]).copy()
+def generate_heatmap(merged_df, col1, col2, title, filename_prefix, output_folder, label1, label2):
+    """Generischer Heatmap-Plotter für beliebige Evaluatoren-Paare"""
+    if col1 not in merged_df.columns or col2 not in merged_df.columns: return
+    valid_data = merged_df.dropna(subset=[col1, col2]).copy()
     if valid_data.empty: return
-    confusion_matrix = pd.crosstab(valid_data[human_col], valid_data[ai_col])
+    
+    confusion_matrix = pd.crosstab(valid_data[col1], valid_data[col2])
     plt.figure(figsize=(10, 8))
     sns.heatmap(confusion_matrix, annot=True, fmt='g', cmap='Blues', cbar=True)
     plt.title(title, pad=20)
-    plt.ylabel(f"Menschliche Bewertung ({human_col})")
-    plt.xlabel(f"Maschinelle Bewertung ({ai_col})")
+    plt.ylabel(f"Bewertung von: {label1}")
+    plt.xlabel(f"Bewertung von: {label2}")
     plt.xticks(rotation=45, ha="right")
     plt.yticks(rotation=0)
     plt.tight_layout()
-    plt.savefig(output_folder / f"HEATMAP_{filename_prefix}.png", dpi=300)
+    plt.savefig(output_folder / f"{filename_prefix}.png", dpi=300)
     plt.close()
 
 def export_model_statistics(model_df, model_name, output_folder):
@@ -315,14 +321,12 @@ def main():
                 generate_grouped_plots(df_vlm_specific, 'VLM_Race', model, model_out_dir, file_prefix=safe_vlm)
                 generate_grouped_plots(df_vlm_specific, 'VLM_MST', model, model_out_dir, file_prefix=safe_vlm, hue_order=[str(i) for i in range(1, 11)] + ["Unclear"])
             
-            # VLM-Vergleich (nur Ollama Modelle)
             generate_vlm_comparison_plot(df_ollama, model, model_out_dir)
 
         if 'DeepFace' in raw_dataframes:
             generate_grouped_plots(raw_dataframes['DeepFace'], 'DeepFace_Gender', model, model_out_dir, hue_order=["Man", "Woman"])
             generate_grouped_plots(raw_dataframes['DeepFace'], 'DeepFace_Race', model, model_out_dir)
 
-        # NEU: Der ultimative KI-Vergleich (VLMs + DeepFace) in MACRO!
         df_ol_ref = raw_dataframes.get('Ollama')
         df_df_ref = raw_dataframes.get('DeepFace')
         generate_all_ai_comparison_plot(df_ol_ref, df_df_ref, model, model_out_dir)
@@ -347,8 +351,7 @@ def main():
     
     valid_images = set(df_human['Image_Name'].unique())
 
-    # Master-DF zusammenbauen (Nur für die Valid Images)
-    master_df = df_human[['Image_Name', 'T2I_Model', 'Prompt_Subject']].copy()
+    master_df = df_human.copy()
     
     if 'Ollama' in raw_dataframes:
         df_ol_filtered = raw_dataframes['Ollama'][raw_dataframes['Ollama']['Image_Name'].isin(valid_images)].copy()
@@ -357,17 +360,14 @@ def main():
                                                    values=['VLM_Gender', 'VLM_Race', 'VLM_MST'], 
                                                    aggfunc='first').reset_index()
         df_ol_pivoted.columns = [f"{col[1]}_{col[0]}" if col[1] else col[0] for col in df_ol_pivoted.columns]
-        cols_to_merge = [c for c in df_ol_pivoted.columns if c not in ['T2I_Model', 'Prompt_Subject']]
-        master_df = pd.merge(master_df, df_ol_pivoted[cols_to_merge], on='Image_Name', how='left')
+        cols_to_merge = [c for c in df_ol_pivoted.columns if c not in ['Prompt_Subject']]
+        master_df = pd.merge(master_df, df_ol_pivoted[cols_to_merge], on=['Image_Name', 'T2I_Model'], how='left')
 
     for source in ['DeepFace', 'Skin']:
         if source in raw_dataframes:
             df_filtered = raw_dataframes[source][raw_dataframes[source]['Image_Name'].isin(valid_images)]
-            cols_to_merge = [c for c in df_filtered.columns if c not in ['T2I_Model', 'Prompt_Subject']]
-            master_df = pd.merge(master_df, df_filtered[cols_to_merge], on='Image_Name', how='left')
-
-    cols_to_merge = [c for c in df_human.columns if c not in ['T2I_Model', 'Prompt_Subject']]
-    master_df = pd.merge(master_df, df_human[cols_to_merge], on='Image_Name', how='left')
+            cols_to_merge = [c for c in df_filtered.columns if c not in ['Prompt_Subject']]
+            master_df = pd.merge(master_df, df_filtered[cols_to_merge], on=['Image_Name', 'T2I_Model'], how='left')
 
     master_df.to_csv(FAIR_DIR / "MASTER_ALL_METRICS_FAIR_SUBSET.csv", index=False)
 
@@ -380,23 +380,36 @@ def main():
         
         model_data = master_df[master_df['T2I_Model'] == model].copy()
 
-        # A) Richter-Vergleiche generieren (Die 30 Bilder nebeneinander)
+        # A) Richter-Vergleiche generieren (Balkendiagramme)
         plot_evaluator_comparison(model_data, model, 'Gender', model_out_dir)
         plot_evaluator_comparison(model_data, model, 'Race', model_out_dir)
         plot_evaluator_comparison(model_data, model, 'MST', model_out_dir)
 
-        # B) Heatmaps generieren
-        if 'Human_Race' in model_data.columns:
-            if 'DeepFace_Race' in model_data.columns:
-                generate_human_vs_ai_heatmap(model_data, 'Human_Race', 'DeepFace_Race', 
-                                             f"Heatmap: Human vs DeepFace ({model.upper()})", "Human_vs_DeepFace_Race", model_out_dir)
-            
-            vlm_race_cols = [col for col in model_data.columns if col.endswith('_VLM_Race')]
-            for vlm_col in vlm_race_cols:
-                vlm_name = vlm_col.replace('_VLM_Race', '')
-                safe_vlm_name = vlm_name.replace(":", "_").replace("/", "_")
-                generate_human_vs_ai_heatmap(model_data, 'Human_Race', vlm_col, 
-                                             f"Heatmap: Human vs {vlm_name} ({model.upper()})", f"Human_vs_{safe_vlm_name}_Race", model_out_dir)
+        # B) NEU: Vollständig Paarweise Heatmaps generieren (Jedes Modell gegen Jedes für vollen Überblick)
+        for cat in ['Gender', 'Race', 'MST']:
+            cat_cols = {}
+            if f'Human_{cat}' in model_data.columns:
+                cat_cols['Human'] = f'Human_{cat}'
+            if cat != 'MST' and f'DeepFace_{cat}' in model_data.columns:
+                cat_cols['DeepFace'] = f'DeepFace_{cat}'
+                
+            vlm_cols = [c for c in model_data.columns if c.endswith(f'_VLM_{cat}')]
+            for col in vlm_cols:
+                clean_name = get_clean_evaluator_name(col)
+                cat_cols[clean_name] = col
+                
+            # Erzeuge Kombinationen (z.B. Gemma4 vs DeepFace, Qwen vs DeepFace etc.)
+            eval_names = list(cat_cols.keys())
+            for i in range(len(eval_names)):
+                for j in range(i + 1, len(eval_names)):
+                    name1 = eval_names[i]
+                    name2 = eval_names[j]
+                    
+                    title = f"Heatmap: {name1} vs {name2} ({cat} | {model.upper()})"
+                    filename = f"HEATMAP_{name1}_vs_{name2}_{cat}"
+                    
+                    generate_heatmap(model_data, cat_cols[name1], cat_cols[name2], 
+                                     title, filename, model_out_dir, name1, name2)
 
         # C) Summary CSV generieren
         export_model_statistics(model_data, model, model_out_dir)
