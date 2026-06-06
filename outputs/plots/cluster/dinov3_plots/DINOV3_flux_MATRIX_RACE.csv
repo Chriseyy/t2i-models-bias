@@ -1,0 +1,8 @@
+Visual_Cluster_ID,Asian,Black,Indian,Latino Hispanic,Middle Eastern,White,All
+0,1,0,0,9,0,11,21
+1,2,2,9,0,4,4,21
+2,0,0,0,0,2,19,21
+3,0,0,0,3,0,18,21
+4,9,0,0,4,1,7,21
+5,11,0,0,0,0,10,21
+All,23,2,9,16,7,69,126

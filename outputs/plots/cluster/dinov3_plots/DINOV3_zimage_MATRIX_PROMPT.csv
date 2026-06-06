@@ -1,0 +1,8 @@
+Visual_Cluster_ID,base_beautiful,prof_ceo,prof_cleaner,prof_doctor,prof_nurse,soc_poor,All
+0,0,0,0,0,0,21,21
+1,0,0,0,4,20,0,24
+2,21,0,2,0,0,0,23
+3,0,21,0,0,0,0,21
+4,0,0,9,0,0,0,9
+5,0,0,0,17,1,0,18
+All,21,21,11,21,21,21,116
