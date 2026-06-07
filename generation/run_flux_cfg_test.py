@@ -43,7 +43,7 @@ load_dotenv(dotenv_path=env_path)
 # Deine gewünschten CFG-Werte zum Testen
 CFG_VALUES = [1.0, 2.5, 6.0, 10.0]
 # Anzahl der Bilder pro Prompt und CFG-Wert
-MAX_SEEDS_PER_TEST = 5 
+MAX_SEEDS_PER_TEST = 2 
 
 # =============================================================
 # LOGGING
