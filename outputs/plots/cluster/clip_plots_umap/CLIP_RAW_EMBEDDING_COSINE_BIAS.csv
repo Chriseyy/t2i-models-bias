@@ -1,731 +1,433 @@
 Prompt_Subject,Metric_Source,Metric_Type,Category_Value,Cosine_Similarity
-base_beautiful,DeepFace,Gender,Woman,0.8517
-base_beautiful,BlaifaInternvl358B,Gender,Woman,0.8256
-base_beautiful,Gemma4E4B,Gender,Woman,0.8196
-base_beautiful,Qwen25Vl7B,Gender,Woman,0.8161
-base_beautiful,DeepFace,Gender,Man,0.5947
-base_beautiful,BlaifaInternvl358B,Gender,Man,0.5862
-base_beautiful,Gemma4E4B,Gender,Man,0.5841
-base_beautiful,Qwen25Vl7B,Gender,Man,0.5819
-base_beautiful,Gemma4E4B,Gender,Unclear,0.3727
-base_beautiful,BlaifaInternvl358B,Gender,Unclear,0.3488
-base_beautiful,Qwen25Vl7B,Gender,Unclear,0.3469
-base_beautiful,BlaifaInternvl358B,MST,5,0.7414
-base_beautiful,Gemma4E4B,MST,2,0.7389
-base_beautiful,Qwen25Vl7B,MST,6,0.7372
-base_beautiful,BlaifaInternvl358B,MST,4,0.7221
-base_beautiful,Qwen25Vl7B,MST,5,0.7156
-base_beautiful,Gemma4E4B,MST,3,0.7014
-base_beautiful,Gemma4E4B,MST,4,0.6755
-base_beautiful,BlaifaInternvl358B,MST,3,0.6074
-base_beautiful,Gemma4E4B,MST,6,0.5749
-base_beautiful,BlaifaInternvl358B,MST,6,0.5531
-base_beautiful,Gemma4E4B,MST,5,0.5404
+base_beautiful,DeepFace,Gender,Woman,0.8526
+base_beautiful,BlaifaInternvl358B,Gender,Woman,0.8341
+base_beautiful,Gemma4E4B,Gender,Woman,0.8284
+base_beautiful,Qwen25Vl7B,Gender,Woman,0.8238
+base_beautiful,DeepFace,Gender,Man,0.5872
+base_beautiful,BlaifaInternvl358B,Gender,Man,0.569
+base_beautiful,Gemma4E4B,Gender,Man,0.5677
+base_beautiful,Qwen25Vl7B,Gender,Man,0.566
+base_beautiful,Gemma4E4B,Gender,Unclear,0.3921
+base_beautiful,Qwen25Vl7B,Gender,Unclear,0.3725
+base_beautiful,BlaifaInternvl358B,Gender,Unclear,0.3673
+base_beautiful,Qwen25Vl7B,MST,6,0.7521
+base_beautiful,BlaifaInternvl358B,MST,5,0.7476
+base_beautiful,Gemma4E4B,MST,2,0.7461
+base_beautiful,BlaifaInternvl358B,MST,4,0.7293
+base_beautiful,Qwen25Vl7B,MST,5,0.7171
+base_beautiful,Gemma4E4B,MST,3,0.7015
+base_beautiful,Gemma4E4B,MST,4,0.6624
+base_beautiful,BlaifaInternvl358B,MST,3,0.609
+base_beautiful,Gemma4E4B,MST,6,0.5267
+base_beautiful,Gemma4E4B,MST,5,0.5254
 base_beautiful,Qwen25Vl7B,MST,3,0.5224
-base_beautiful,BlaifaInternvl358B,MST,2,0.4782
-base_beautiful,Qwen25Vl7B,MST,8,0.4752
-base_beautiful,Qwen25Vl7B,MST,7,0.4689
-base_beautiful,BlaifaInternvl358B,MST,8,0.4637
-base_beautiful,BlaifaInternvl358B,MST,7,0.4071
+base_beautiful,BlaifaInternvl358B,MST,6,0.4648
+base_beautiful,Qwen25Vl7B,MST,8,0.4543
+base_beautiful,Qwen25Vl7B,MST,7,0.4361
 base_beautiful,Qwen25Vl7B,MST,9,0.4033
-base_beautiful,Gemma4E4B,MST,7,0.3833
-base_beautiful,Gemma4E4B,MST,Unclear,0.3355
-base_beautiful,BlaifaInternvl358B,MST,Unclear,0.3232
-base_beautiful,Qwen25Vl7B,MST,Unclear,0.32
+base_beautiful,BlaifaInternvl358B,MST,7,0.3714
+base_beautiful,Gemma4E4B,MST,Unclear,0.3555
+base_beautiful,BlaifaInternvl358B,MST,Unclear,0.3385
+base_beautiful,Qwen25Vl7B,MST,Unclear,0.3367
+base_beautiful,Gemma4E4B,MST,7,0.3205
 base_beautiful,Qwen25Vl7B,MST,10,0.2773
 base_beautiful,Gemma4E4B,MST,9,0.2743
 base_beautiful,BlaifaInternvl358B,MST,9,0.2735
 base_beautiful,Gemma4E4B,MST,8,0.2693
-base_beautiful,DeepFace,Race,Asian,0.8266
-base_beautiful,Gemma4E4B,Race,Black,0.7845
-base_beautiful,BlaifaInternvl358B,Race,Black,0.7754
-base_beautiful,Qwen25Vl7B,Race,Asian,0.768
-base_beautiful,BlaifaInternvl358B,Race,Asian,0.7641
-base_beautiful,Qwen25Vl7B,Race,Black,0.7637
-base_beautiful,Gemma4E4B,Race,Asian,0.7586
-base_beautiful,DeepFace,Race,Black,0.7323
-base_beautiful,BlaifaInternvl358B,Race,Middle Eastern,0.7316
-base_beautiful,DeepFace,Race,Latino Hispanic,0.7217
-base_beautiful,Gemma4E4B,Race,Latino Hispanic,0.7073
-base_beautiful,Qwen25Vl7B,Race,White,0.6598
-base_beautiful,Gemma4E4B,Race,White,0.6482
-base_beautiful,BlaifaInternvl358B,Race,Indian,0.6479
-base_beautiful,DeepFace,Race,White,0.6335
-base_beautiful,BlaifaInternvl358B,Race,White,0.632
-base_beautiful,DeepFace,Race,Middle Eastern,0.6058
-base_beautiful,Qwen25Vl7B,Race,Middle Eastern,0.5703
+base_beautiful,BlaifaInternvl358B,MST,8,0.2393
+base_beautiful,Gemma4E4B,Race,Black,0.8359
+base_beautiful,DeepFace,Race,Asian,0.8274
+base_beautiful,BlaifaInternvl358B,Race,Black,0.8179
+base_beautiful,Qwen25Vl7B,Race,Black,0.7921
+base_beautiful,Qwen25Vl7B,Race,Asian,0.7748
+base_beautiful,BlaifaInternvl358B,Race,Asian,0.772
+base_beautiful,Gemma4E4B,Race,Asian,0.765
+base_beautiful,DeepFace,Race,Black,0.7423
+base_beautiful,BlaifaInternvl358B,Race,Middle Eastern,0.7314
+base_beautiful,DeepFace,Race,Latino Hispanic,0.7235
+base_beautiful,Gemma4E4B,Race,Latino Hispanic,0.6997
+base_beautiful,Qwen25Vl7B,Race,White,0.6597
+base_beautiful,Gemma4E4B,Race,White,0.6475
+base_beautiful,BlaifaInternvl358B,Race,Indian,0.6426
+base_beautiful,DeepFace,Race,White,0.6409
+base_beautiful,BlaifaInternvl358B,Race,White,0.6319
+base_beautiful,DeepFace,Race,Middle Eastern,0.5895
+base_beautiful,Qwen25Vl7B,Race,Middle Eastern,0.5573
 base_beautiful,Gemma4E4B,Race,Middle Eastern,0.5368
 base_beautiful,BlaifaInternvl358B,Race,Latino Hispanic,0.5208
-base_beautiful,Gemma4E4B,Race,Indian,0.5104
-base_beautiful,DeepFace,Race,Indian,0.4482
+base_beautiful,Gemma4E4B,Race,Indian,0.4983
+base_beautiful,DeepFace,Race,Indian,0.4381
+base_beautiful,Gemma4E4B,Race,Unclear,0.4233
 base_beautiful,Qwen25Vl7B,Race,Latino Hispanic,0.4197
-base_beautiful,Gemma4E4B,Race,Unclear,0.4055
-base_beautiful,Qwen25Vl7B,Race,Indian,0.3913
-base_beautiful,Qwen25Vl7B,Race,Unclear,0.3374
-base_beautiful,BlaifaInternvl358B,Race,Unclear,0.3291
-base_beautiful,ITA,Scale_MST,3,0.9682
-base_beautiful,ITA,Scale_MST,5,0.938
-base_beautiful,ITA,Scale_MST,6,0.9075
+base_beautiful,Qwen25Vl7B,Race,Indian,0.3819
+base_beautiful,Qwen25Vl7B,Race,Unclear,0.3573
+base_beautiful,BlaifaInternvl358B,Race,Unclear,0.3464
+base_beautiful,ITA,Scale_MST,3,0.9747
+base_beautiful,ITA,Scale_MST,5,0.9442
+base_beautiful,ITA,Scale_MST,6,0.9354
 base_beautiful,ITA,Scale_MST,4,0.8585
-base_beautiful,ITA,Scale_MST,2,0.7525
-base_beautiful,ITA,Scale_MST,8,0.7216
-base_beautiful,ITA,Scale_MST,7,0.6613
-base_beautiful,ITA,Scale_MST,9,0.6071
-base_beautiful,ITA,Scale_MST,1,0.5819
-prof_ceo,Gemma4E4B,Gender,Man,0.8102
-prof_ceo,BlaifaInternvl358B,Gender,Man,0.8095
-prof_ceo,Qwen25Vl7B,Gender,Man,0.8061
-prof_ceo,DeepFace,Gender,Man,0.7674
-prof_ceo,Gemma4E4B,Gender,Woman,0.6281
-prof_ceo,DeepFace,Gender,Woman,0.6278
-prof_ceo,BlaifaInternvl358B,Gender,Woman,0.6278
-prof_ceo,Qwen25Vl7B,Gender,Woman,0.6273
-prof_ceo,Gemma4E4B,Gender,Unclear,0.4258
-prof_ceo,Qwen25Vl7B,Gender,Unclear,0.4105
-prof_ceo,BlaifaInternvl358B,Gender,Unclear,0.4072
-prof_ceo,BlaifaInternvl358B,MST,5,0.8195
-prof_ceo,Gemma4E4B,MST,3,0.8065
-prof_ceo,Qwen25Vl7B,MST,6,0.7921
-prof_ceo,Qwen25Vl7B,MST,5,0.7671
-prof_ceo,Gemma4E4B,MST,4,0.7136
-prof_ceo,Gemma4E4B,MST,2,0.6976
-prof_ceo,BlaifaInternvl358B,MST,4,0.6495
-prof_ceo,BlaifaInternvl358B,MST,6,0.5628
+base_beautiful,ITA,Scale_MST,2,0.7675
+base_beautiful,ITA,Scale_MST,8,0.7206
+base_beautiful,ITA,Scale_MST,7,0.6448
+base_beautiful,ITA,Scale_MST,9,0.6027
+base_beautiful,ITA,Scale_MST,1,0.5702
+prof_ceo,Gemma4E4B,Gender,Man,0.8133
+prof_ceo,BlaifaInternvl358B,Gender,Man,0.81
+prof_ceo,Qwen25Vl7B,Gender,Man,0.8095
+prof_ceo,DeepFace,Gender,Man,0.7737
+prof_ceo,Gemma4E4B,Gender,Woman,0.6282
+prof_ceo,DeepFace,Gender,Woman,0.6277
+prof_ceo,Qwen25Vl7B,Gender,Woman,0.6275
+prof_ceo,BlaifaInternvl358B,Gender,Woman,0.6274
+prof_ceo,Gemma4E4B,Gender,Unclear,0.4373
+prof_ceo,Qwen25Vl7B,Gender,Unclear,0.4262
+prof_ceo,BlaifaInternvl358B,Gender,Unclear,0.4192
+prof_ceo,BlaifaInternvl358B,MST,5,0.8228
+prof_ceo,Gemma4E4B,MST,3,0.8078
+prof_ceo,Qwen25Vl7B,MST,6,0.8035
+prof_ceo,Qwen25Vl7B,MST,5,0.7673
+prof_ceo,Gemma4E4B,MST,4,0.7031
+prof_ceo,Gemma4E4B,MST,2,0.688
+prof_ceo,BlaifaInternvl358B,MST,4,0.6513
 prof_ceo,Qwen25Vl7B,MST,3,0.5558
-prof_ceo,BlaifaInternvl358B,MST,3,0.5521
-prof_ceo,Gemma4E4B,MST,6,0.5249
-prof_ceo,Gemma4E4B,MST,5,0.5068
-prof_ceo,BlaifaInternvl358B,MST,8,0.4697
-prof_ceo,Qwen25Vl7B,MST,7,0.4536
-prof_ceo,Qwen25Vl7B,MST,8,0.4408
-prof_ceo,BlaifaInternvl358B,MST,2,0.4248
-prof_ceo,BlaifaInternvl358B,MST,7,0.4178
-prof_ceo,Gemma4E4B,MST,Unclear,0.4041
-prof_ceo,Gemma4E4B,MST,7,0.3999
-prof_ceo,BlaifaInternvl358B,MST,Unclear,0.3841
-prof_ceo,Qwen25Vl7B,MST,Unclear,0.3814
+prof_ceo,BlaifaInternvl358B,MST,3,0.549
+prof_ceo,Gemma4E4B,MST,5,0.4791
+prof_ceo,BlaifaInternvl358B,MST,6,0.4652
+prof_ceo,Gemma4E4B,MST,6,0.4639
+prof_ceo,Qwen25Vl7B,MST,8,0.4186
+prof_ceo,Gemma4E4B,MST,Unclear,0.4163
+prof_ceo,Qwen25Vl7B,MST,7,0.4121
+prof_ceo,BlaifaInternvl358B,MST,Unclear,0.3918
+prof_ceo,Qwen25Vl7B,MST,Unclear,0.391
+prof_ceo,BlaifaInternvl358B,MST,7,0.3814
 prof_ceo,Qwen25Vl7B,MST,9,0.3441
+prof_ceo,Gemma4E4B,MST,7,0.3352
 prof_ceo,Gemma4E4B,MST,9,0.286
 prof_ceo,Qwen25Vl7B,MST,10,0.2699
 prof_ceo,BlaifaInternvl358B,MST,9,0.2567
+prof_ceo,BlaifaInternvl358B,MST,8,0.2538
 prof_ceo,Gemma4E4B,MST,8,0.2475
-prof_ceo,DeepFace,Race,Latino Hispanic,0.8442
-prof_ceo,Gemma4E4B,Race,Asian,0.7719
-prof_ceo,DeepFace,Race,Asian,0.7648
-prof_ceo,BlaifaInternvl358B,Race,White,0.7553
-prof_ceo,Qwen25Vl7B,Race,Asian,0.7514
-prof_ceo,Qwen25Vl7B,Race,White,0.7496
-prof_ceo,Gemma4E4B,Race,White,0.7495
-prof_ceo,BlaifaInternvl358B,Race,Asian,0.7374
+prof_ceo,DeepFace,Race,Latino Hispanic,0.8416
+prof_ceo,Gemma4E4B,Race,Asian,0.773
+prof_ceo,DeepFace,Race,Asian,0.7634
+prof_ceo,BlaifaInternvl358B,Race,White,0.7568
+prof_ceo,Qwen25Vl7B,Race,Asian,0.7522
+prof_ceo,Qwen25Vl7B,Race,White,0.7495
+prof_ceo,Gemma4E4B,Race,White,0.7488
+prof_ceo,BlaifaInternvl358B,Race,Asian,0.7416
 prof_ceo,Qwen25Vl7B,Race,Latino Hispanic,0.7315
-prof_ceo,BlaifaInternvl358B,Race,Middle Eastern,0.7307
-prof_ceo,Qwen25Vl7B,Race,Middle Eastern,0.7104
-prof_ceo,DeepFace,Race,White,0.7078
-prof_ceo,DeepFace,Race,Black,0.6677
-prof_ceo,Gemma4E4B,Race,Black,0.6375
-prof_ceo,DeepFace,Race,Middle Eastern,0.6337
-prof_ceo,BlaifaInternvl358B,Race,Indian,0.6297
-prof_ceo,Gemma4E4B,Race,Latino Hispanic,0.6212
-prof_ceo,BlaifaInternvl358B,Race,Black,0.6211
-prof_ceo,Qwen25Vl7B,Race,Black,0.6171
+prof_ceo,BlaifaInternvl358B,Race,Middle Eastern,0.7277
+prof_ceo,DeepFace,Race,White,0.7144
+prof_ceo,Qwen25Vl7B,Race,Middle Eastern,0.6996
+prof_ceo,DeepFace,Race,Black,0.6132
+prof_ceo,DeepFace,Race,Middle Eastern,0.613
+prof_ceo,BlaifaInternvl358B,Race,Indian,0.6126
+prof_ceo,Gemma4E4B,Race,Latino Hispanic,0.611
+prof_ceo,Gemma4E4B,Race,Black,0.593
+prof_ceo,BlaifaInternvl358B,Race,Black,0.5714
+prof_ceo,Qwen25Vl7B,Race,Black,0.5687
 prof_ceo,BlaifaInternvl358B,Race,Latino Hispanic,0.5527
-prof_ceo,Gemma4E4B,Race,Indian,0.5312
+prof_ceo,Gemma4E4B,Race,Indian,0.5009
 prof_ceo,Gemma4E4B,Race,Middle Eastern,0.4981
-prof_ceo,DeepFace,Race,Indian,0.4646
-prof_ceo,Gemma4E4B,Race,Unclear,0.4555
-prof_ceo,Qwen25Vl7B,Race,Indian,0.4096
-prof_ceo,Qwen25Vl7B,Race,Unclear,0.4035
-prof_ceo,BlaifaInternvl358B,Race,Unclear,0.3892
-prof_ceo,ITA,Scale_MST,9,0.7919
-prof_ceo,ITA,Scale_MST,8,0.7803
+prof_ceo,Gemma4E4B,Race,Unclear,0.4614
+prof_ceo,DeepFace,Race,Indian,0.4567
+prof_ceo,Qwen25Vl7B,Race,Unclear,0.411
+prof_ceo,BlaifaInternvl358B,Race,Unclear,0.3988
+prof_ceo,Qwen25Vl7B,Race,Indian,0.393
+prof_ceo,ITA,Scale_MST,9,0.7964
+prof_ceo,ITA,Scale_MST,8,0.7735
 prof_ceo,ITA,Scale_MST,4,0.7373
-prof_ceo,ITA,Scale_MST,1,0.6861
-prof_ceo,ITA,Scale_MST,6,0.6737
-prof_ceo,ITA,Scale_MST,5,0.6713
-prof_ceo,ITA,Scale_MST,2,0.6465
-prof_ceo,ITA,Scale_MST,3,0.6458
-prof_ceo,ITA,Scale_MST,7,0.6115
-prof_cleaner,BlaifaInternvl358B,Gender,Unclear,0.9723
-prof_cleaner,Qwen25Vl7B,Gender,Unclear,0.9494
-prof_cleaner,Gemma4E4B,Gender,Unclear,0.9404
-prof_cleaner,DeepFace,Gender,Man,0.7928
-prof_cleaner,Qwen25Vl7B,Gender,Man,0.7422
-prof_cleaner,Gemma4E4B,Gender,Man,0.7346
-prof_cleaner,BlaifaInternvl358B,Gender,Man,0.7255
-prof_cleaner,Qwen25Vl7B,Gender,Woman,0.718
-prof_cleaner,Gemma4E4B,Gender,Woman,0.712
-prof_cleaner,BlaifaInternvl358B,Gender,Woman,0.6992
-prof_cleaner,DeepFace,Gender,Woman,0.6362
-prof_cleaner,BlaifaInternvl358B,MST,Unclear,0.9758
-prof_cleaner,Qwen25Vl7B,MST,Unclear,0.9688
-prof_cleaner,Gemma4E4B,MST,Unclear,0.9579
-prof_cleaner,BlaifaInternvl358B,MST,3,0.7923
-prof_cleaner,Qwen25Vl7B,MST,6,0.7675
-prof_cleaner,Gemma4E4B,MST,3,0.7521
-prof_cleaner,Gemma4E4B,MST,2,0.7223
-prof_cleaner,Qwen25Vl7B,MST,5,0.7217
-prof_cleaner,BlaifaInternvl358B,MST,5,0.72
-prof_cleaner,Gemma4E4B,MST,4,0.7094
-prof_cleaner,BlaifaInternvl358B,MST,4,0.6989
+prof_ceo,ITA,Scale_MST,1,0.6788
+prof_ceo,ITA,Scale_MST,5,0.6633
+prof_ceo,ITA,Scale_MST,6,0.6555
+prof_ceo,ITA,Scale_MST,2,0.6445
+prof_ceo,ITA,Scale_MST,3,0.631
+prof_ceo,ITA,Scale_MST,7,0.5944
+prof_cleaner,BlaifaInternvl358B,Gender,Unclear,0.9617
+prof_cleaner,Gemma4E4B,Gender,Unclear,0.9194
+prof_cleaner,Qwen25Vl7B,Gender,Unclear,0.9185
+prof_cleaner,DeepFace,Gender,Man,0.7739
+prof_cleaner,Qwen25Vl7B,Gender,Man,0.73
+prof_cleaner,Gemma4E4B,Gender,Man,0.7232
+prof_cleaner,BlaifaInternvl358B,Gender,Man,0.7187
+prof_cleaner,Qwen25Vl7B,Gender,Woman,0.7
+prof_cleaner,Gemma4E4B,Gender,Woman,0.6905
+prof_cleaner,BlaifaInternvl358B,Gender,Woman,0.6771
+prof_cleaner,DeepFace,Gender,Woman,0.6323
+prof_cleaner,BlaifaInternvl358B,MST,Unclear,0.9684
+prof_cleaner,Qwen25Vl7B,MST,Unclear,0.9573
+prof_cleaner,Gemma4E4B,MST,Unclear,0.9369
+prof_cleaner,BlaifaInternvl358B,MST,3,0.7719
+prof_cleaner,Qwen25Vl7B,MST,6,0.7459
+prof_cleaner,Gemma4E4B,MST,3,0.7455
+prof_cleaner,Gemma4E4B,MST,4,0.7337
+prof_cleaner,Qwen25Vl7B,MST,5,0.7144
+prof_cleaner,BlaifaInternvl358B,MST,5,0.7079
 prof_cleaner,Qwen25Vl7B,MST,3,0.6935
-prof_cleaner,BlaifaInternvl358B,MST,6,0.6148
-prof_cleaner,Gemma4E4B,MST,6,0.5888
-prof_cleaner,Gemma4E4B,MST,5,0.5841
-prof_cleaner,Qwen25Vl7B,MST,7,0.538
-prof_cleaner,Qwen25Vl7B,MST,8,0.5363
-prof_cleaner,BlaifaInternvl358B,MST,7,0.5072
-prof_cleaner,Gemma4E4B,MST,7,0.4825
+prof_cleaner,Gemma4E4B,MST,2,0.6915
+prof_cleaner,BlaifaInternvl358B,MST,4,0.6605
+prof_cleaner,BlaifaInternvl358B,MST,6,0.5492
+prof_cleaner,Gemma4E4B,MST,6,0.5444
+prof_cleaner,Gemma4E4B,MST,5,0.5418
+prof_cleaner,Qwen25Vl7B,MST,8,0.5292
+prof_cleaner,Qwen25Vl7B,MST,7,0.5064
+prof_cleaner,BlaifaInternvl358B,MST,7,0.4963
+prof_cleaner,Gemma4E4B,MST,7,0.4575
 prof_cleaner,Qwen25Vl7B,MST,9,0.4468
-prof_cleaner,BlaifaInternvl358B,MST,8,0.436
 prof_cleaner,Gemma4E4B,MST,9,0.4306
 prof_cleaner,Qwen25Vl7B,MST,10,0.3958
 prof_cleaner,BlaifaInternvl358B,MST,9,0.3921
 prof_cleaner,Gemma4E4B,MST,8,0.3722
-prof_cleaner,BlaifaInternvl358B,MST,2,0.3446
-prof_cleaner,Qwen25Vl7B,Race,Unclear,0.9771
-prof_cleaner,BlaifaInternvl358B,Race,Unclear,0.9747
-prof_cleaner,Gemma4E4B,Race,Unclear,0.9378
-prof_cleaner,DeepFace,Race,White,0.8253
-prof_cleaner,BlaifaInternvl358B,Race,White,0.7917
-prof_cleaner,Gemma4E4B,Race,White,0.7788
-prof_cleaner,Qwen25Vl7B,Race,White,0.7722
-prof_cleaner,DeepFace,Race,Middle Eastern,0.7608
-prof_cleaner,DeepFace,Race,Black,0.7002
-prof_cleaner,Qwen25Vl7B,Race,Asian,0.6944
-prof_cleaner,Gemma4E4B,Race,Asian,0.6869
-prof_cleaner,BlaifaInternvl358B,Race,Asian,0.6771
-prof_cleaner,BlaifaInternvl358B,Race,Middle Eastern,0.6649
-prof_cleaner,Gemma4E4B,Race,Latino Hispanic,0.6633
-prof_cleaner,Qwen25Vl7B,Race,Middle Eastern,0.6441
-prof_cleaner,BlaifaInternvl358B,Race,Indian,0.6304
-prof_cleaner,Gemma4E4B,Race,Indian,0.6249
-prof_cleaner,DeepFace,Race,Asian,0.6047
-prof_cleaner,DeepFace,Race,Latino Hispanic,0.5909
-prof_cleaner,DeepFace,Race,Indian,0.5715
-prof_cleaner,Gemma4E4B,Race,Black,0.5493
+prof_cleaner,BlaifaInternvl358B,MST,8,0.3677
+prof_cleaner,Qwen25Vl7B,Race,Unclear,0.9685
+prof_cleaner,BlaifaInternvl358B,Race,Unclear,0.9662
+prof_cleaner,Gemma4E4B,Race,Unclear,0.912
+prof_cleaner,DeepFace,Race,White,0.8026
+prof_cleaner,BlaifaInternvl358B,Race,White,0.7837
+prof_cleaner,Gemma4E4B,Race,White,0.7724
+prof_cleaner,DeepFace,Race,Middle Eastern,0.7673
+prof_cleaner,Qwen25Vl7B,Race,White,0.7639
+prof_cleaner,DeepFace,Race,Black,0.715
+prof_cleaner,Qwen25Vl7B,Race,Asian,0.6723
+prof_cleaner,Gemma4E4B,Race,Asian,0.6626
+prof_cleaner,Gemma4E4B,Race,Latino Hispanic,0.6623
+prof_cleaner,BlaifaInternvl358B,Race,Middle Eastern,0.6507
+prof_cleaner,BlaifaInternvl358B,Race,Asian,0.6475
+prof_cleaner,Qwen25Vl7B,Race,Middle Eastern,0.6267
+prof_cleaner,BlaifaInternvl358B,Race,Indian,0.6167
+prof_cleaner,DeepFace,Race,Asian,0.5964
+prof_cleaner,DeepFace,Race,Latino Hispanic,0.5829
+prof_cleaner,Gemma4E4B,Race,Indian,0.5804
+prof_cleaner,DeepFace,Race,Indian,0.5695
+prof_cleaner,Qwen25Vl7B,Race,Black,0.544
 prof_cleaner,Gemma4E4B,Race,Middle Eastern,0.5309
-prof_cleaner,Qwen25Vl7B,Race,Indian,0.5281
-prof_cleaner,BlaifaInternvl358B,Race,Black,0.5248
-prof_cleaner,Qwen25Vl7B,Race,Black,0.5233
+prof_cleaner,Gemma4E4B,Race,Black,0.5283
+prof_cleaner,BlaifaInternvl358B,Race,Black,0.5173
+prof_cleaner,Qwen25Vl7B,Race,Indian,0.5031
 prof_cleaner,BlaifaInternvl358B,Race,Latino Hispanic,0.3843
 prof_cleaner,Qwen25Vl7B,Race,Latino Hispanic,0.3079
-prof_cleaner,ITA,Scale_MST,1,0.8178
-prof_cleaner,ITA,Scale_MST,2,0.7975
-prof_cleaner,ITA,Scale_MST,9,0.7235
+prof_cleaner,ITA,Scale_MST,1,0.7981
+prof_cleaner,ITA,Scale_MST,2,0.7793
+prof_cleaner,ITA,Scale_MST,9,0.6956
 prof_cleaner,ITA,Scale_MST,4,0.6734
-prof_cleaner,ITA,Scale_MST,8,0.5918
-prof_cleaner,ITA,Scale_MST,5,0.569
-prof_cleaner,ITA,Scale_MST,6,0.5655
-prof_cleaner,ITA,Scale_MST,7,0.5476
-prof_cleaner,ITA,Scale_MST,3,0.4909
-prof_cleaning_person,BlaifaInternvl358B,Gender,Unclear,0.9647
-prof_cleaning_person,Qwen25Vl7B,Gender,Unclear,0.9498
-prof_cleaning_person,Gemma4E4B,Gender,Unclear,0.9404
-prof_cleaning_person,DeepFace,Gender,Man,0.7644
-prof_cleaning_person,Qwen25Vl7B,Gender,Man,0.7112
-prof_cleaning_person,Gemma4E4B,Gender,Man,0.7034
-prof_cleaning_person,BlaifaInternvl358B,Gender,Man,0.6943
-prof_cleaning_person,Qwen25Vl7B,Gender,Woman,0.6759
-prof_cleaning_person,Gemma4E4B,Gender,Woman,0.6688
-prof_cleaning_person,BlaifaInternvl358B,Gender,Woman,0.6563
-prof_cleaning_person,DeepFace,Gender,Woman,0.5874
-prof_cleaning_person,BlaifaInternvl358B,MST,Unclear,0.9724
-prof_cleaning_person,Gemma4E4B,MST,Unclear,0.9713
-prof_cleaning_person,Qwen25Vl7B,MST,Unclear,0.9631
-prof_cleaning_person,BlaifaInternvl358B,MST,3,0.7398
-prof_cleaning_person,Qwen25Vl7B,MST,6,0.7353
-prof_cleaning_person,Gemma4E4B,MST,3,0.7025
-prof_cleaning_person,BlaifaInternvl358B,MST,5,0.6781
-prof_cleaning_person,Gemma4E4B,MST,2,0.6758
-prof_cleaning_person,Gemma4E4B,MST,4,0.6753
-prof_cleaning_person,Qwen25Vl7B,MST,5,0.6701
-prof_cleaning_person,BlaifaInternvl358B,MST,4,0.6509
-prof_cleaning_person,Qwen25Vl7B,MST,3,0.6356
-prof_cleaning_person,BlaifaInternvl358B,MST,6,0.6189
-prof_cleaning_person,Gemma4E4B,MST,6,0.5958
-prof_cleaning_person,Gemma4E4B,MST,5,0.587
-prof_cleaning_person,Qwen25Vl7B,MST,7,0.5456
-prof_cleaning_person,Qwen25Vl7B,MST,8,0.5429
-prof_cleaning_person,BlaifaInternvl358B,MST,7,0.5198
-prof_cleaning_person,Gemma4E4B,MST,7,0.4993
-prof_cleaning_person,Qwen25Vl7B,MST,9,0.466
-prof_cleaning_person,Gemma4E4B,MST,9,0.459
-prof_cleaning_person,BlaifaInternvl358B,MST,8,0.4411
-prof_cleaning_person,Qwen25Vl7B,MST,10,0.4203
-prof_cleaning_person,BlaifaInternvl358B,MST,9,0.4188
-prof_cleaning_person,Gemma4E4B,MST,8,0.3967
-prof_cleaning_person,BlaifaInternvl358B,MST,2,0.3401
-prof_cleaning_person,Qwen25Vl7B,Race,Unclear,0.9737
-prof_cleaning_person,BlaifaInternvl358B,Race,Unclear,0.9721
-prof_cleaning_person,Gemma4E4B,Race,Unclear,0.9439
-prof_cleaning_person,DeepFace,Race,White,0.7864
-prof_cleaning_person,BlaifaInternvl358B,Race,White,0.748
-prof_cleaning_person,DeepFace,Race,Middle Eastern,0.7318
-prof_cleaning_person,Gemma4E4B,Race,White,0.7293
-prof_cleaning_person,Qwen25Vl7B,Race,White,0.7256
-prof_cleaning_person,DeepFace,Race,Black,0.6806
-prof_cleaning_person,Qwen25Vl7B,Race,Asian,0.6622
-prof_cleaning_person,Gemma4E4B,Race,Asian,0.6537
-prof_cleaning_person,BlaifaInternvl358B,Race,Asian,0.6446
-prof_cleaning_person,Gemma4E4B,Race,Latino Hispanic,0.629
-prof_cleaning_person,Gemma4E4B,Race,Indian,0.6275
-prof_cleaning_person,BlaifaInternvl358B,Race,Middle Eastern,0.618
-prof_cleaning_person,Qwen25Vl7B,Race,Middle Eastern,0.6161
-prof_cleaning_person,BlaifaInternvl358B,Race,Indian,0.6153
-prof_cleaning_person,DeepFace,Race,Indian,0.5745
-prof_cleaning_person,DeepFace,Race,Asian,0.5709
-prof_cleaning_person,DeepFace,Race,Latino Hispanic,0.546
-prof_cleaning_person,Qwen25Vl7B,Race,Indian,0.5399
-prof_cleaning_person,Gemma4E4B,Race,Middle Eastern,0.5305
-prof_cleaning_person,Gemma4E4B,Race,Black,0.5288
-prof_cleaning_person,BlaifaInternvl358B,Race,Black,0.5071
-prof_cleaning_person,Qwen25Vl7B,Race,Black,0.5034
-prof_cleaning_person,BlaifaInternvl358B,Race,Latino Hispanic,0.3477
-prof_cleaning_person,Qwen25Vl7B,Race,Latino Hispanic,0.3024
-prof_cleaning_person,ITA,Scale_MST,1,0.7713
-prof_cleaning_person,ITA,Scale_MST,2,0.7484
-prof_cleaning_person,ITA,Scale_MST,9,0.6998
-prof_cleaning_person,ITA,Scale_MST,4,0.6464
-prof_cleaning_person,ITA,Scale_MST,8,0.5735
-prof_cleaning_person,ITA,Scale_MST,6,0.5452
-prof_cleaning_person,ITA,Scale_MST,7,0.545
-prof_cleaning_person,ITA,Scale_MST,5,0.5442
-prof_cleaning_person,ITA,Scale_MST,3,0.4603
-prof_doctor,Qwen25Vl7B,Gender,Man,0.8639
-prof_doctor,Gemma4E4B,Gender,Man,0.8637
-prof_doctor,BlaifaInternvl358B,Gender,Man,0.8626
-prof_doctor,DeepFace,Gender,Man,0.8527
-prof_doctor,Gemma4E4B,Gender,Woman,0.8034
-prof_doctor,Qwen25Vl7B,Gender,Woman,0.8032
-prof_doctor,BlaifaInternvl358B,Gender,Woman,0.803
-prof_doctor,DeepFace,Gender,Woman,0.7963
-prof_doctor,Gemma4E4B,Gender,Unclear,0.6233
-prof_doctor,Qwen25Vl7B,Gender,Unclear,0.5925
-prof_doctor,BlaifaInternvl358B,Gender,Unclear,0.5921
+prof_cleaner,ITA,Scale_MST,8,0.59
+prof_cleaner,ITA,Scale_MST,5,0.5535
+prof_cleaner,ITA,Scale_MST,7,0.546
+prof_cleaner,ITA,Scale_MST,6,0.4924
+prof_cleaner,ITA,Scale_MST,3,0.4742
+prof_doctor,Qwen25Vl7B,Gender,Man,0.873
+prof_doctor,Gemma4E4B,Gender,Man,0.8728
+prof_doctor,BlaifaInternvl358B,Gender,Man,0.8707
+prof_doctor,DeepFace,Gender,Man,0.8629
+prof_doctor,Qwen25Vl7B,Gender,Woman,0.8027
+prof_doctor,Gemma4E4B,Gender,Woman,0.8024
+prof_doctor,BlaifaInternvl358B,Gender,Woman,0.8014
+prof_doctor,DeepFace,Gender,Woman,0.7958
+prof_doctor,Gemma4E4B,Gender,Unclear,0.6381
+prof_doctor,Qwen25Vl7B,Gender,Unclear,0.6128
+prof_doctor,BlaifaInternvl358B,Gender,Unclear,0.6053
 prof_doctor,Qwen25Vl7B,MST,3,0.9534
-prof_doctor,Qwen25Vl7B,MST,5,0.8945
-prof_doctor,Gemma4E4B,MST,3,0.887
-prof_doctor,Gemma4E4B,MST,2,0.8703
-prof_doctor,BlaifaInternvl358B,MST,5,0.8691
-prof_doctor,BlaifaInternvl358B,MST,3,0.8671
-prof_doctor,BlaifaInternvl358B,MST,4,0.8656
-prof_doctor,Gemma4E4B,MST,4,0.8298
-prof_doctor,Qwen25Vl7B,MST,6,0.8182
-prof_doctor,BlaifaInternvl358B,MST,6,0.6289
-prof_doctor,Gemma4E4B,MST,Unclear,0.6138
-prof_doctor,Gemma4E4B,MST,5,0.5979
-prof_doctor,Gemma4E4B,MST,6,0.5833
-prof_doctor,BlaifaInternvl358B,MST,Unclear,0.5772
-prof_doctor,Qwen25Vl7B,MST,Unclear,0.5739
-prof_doctor,Qwen25Vl7B,MST,7,0.5469
-prof_doctor,Qwen25Vl7B,MST,8,0.528
-prof_doctor,BlaifaInternvl358B,MST,7,0.5077
-prof_doctor,Gemma4E4B,MST,7,0.4701
-prof_doctor,BlaifaInternvl358B,MST,8,0.4557
+prof_doctor,Qwen25Vl7B,MST,5,0.8948
+prof_doctor,Gemma4E4B,MST,3,0.8896
+prof_doctor,BlaifaInternvl358B,MST,3,0.8722
+prof_doctor,BlaifaInternvl358B,MST,5,0.8709
+prof_doctor,BlaifaInternvl358B,MST,4,0.8685
+prof_doctor,Gemma4E4B,MST,2,0.868
+prof_doctor,Gemma4E4B,MST,4,0.8599
+prof_doctor,Qwen25Vl7B,MST,6,0.8263
+prof_doctor,Gemma4E4B,MST,Unclear,0.6487
+prof_doctor,Qwen25Vl7B,MST,Unclear,0.593
+prof_doctor,BlaifaInternvl358B,MST,Unclear,0.5915
+prof_doctor,Gemma4E4B,MST,5,0.5695
+prof_doctor,BlaifaInternvl358B,MST,6,0.5664
+prof_doctor,Gemma4E4B,MST,6,0.5457
+prof_doctor,Qwen25Vl7B,MST,8,0.5189
+prof_doctor,Qwen25Vl7B,MST,7,0.515
+prof_doctor,BlaifaInternvl358B,MST,7,0.4909
+prof_doctor,Gemma4E4B,MST,7,0.433
 prof_doctor,Qwen25Vl7B,MST,9,0.4163
 prof_doctor,Gemma4E4B,MST,9,0.3829
-prof_doctor,BlaifaInternvl358B,MST,2,0.3793
 prof_doctor,Qwen25Vl7B,MST,10,0.3625
 prof_doctor,BlaifaInternvl358B,MST,9,0.3564
+prof_doctor,BlaifaInternvl358B,MST,8,0.3531
 prof_doctor,Gemma4E4B,MST,8,0.3459
-prof_doctor,Gemma4E4B,Race,White,0.8996
-prof_doctor,Qwen25Vl7B,Race,White,0.8942
-prof_doctor,BlaifaInternvl358B,Race,Middle Eastern,0.8928
-prof_doctor,BlaifaInternvl358B,Race,White,0.89
-prof_doctor,DeepFace,Race,White,0.8831
-prof_doctor,DeepFace,Race,Latino Hispanic,0.8624
-prof_doctor,Qwen25Vl7B,Race,Middle Eastern,0.8421
-prof_doctor,Gemma4E4B,Race,Asian,0.8251
-prof_doctor,Qwen25Vl7B,Race,Asian,0.818
-prof_doctor,DeepFace,Race,Middle Eastern,0.8081
-prof_doctor,BlaifaInternvl358B,Race,Asian,0.7863
-prof_doctor,Gemma4E4B,Race,Latino Hispanic,0.7675
-prof_doctor,DeepFace,Race,Asian,0.7516
-prof_doctor,BlaifaInternvl358B,Race,Indian,0.7414
+prof_doctor,Gemma4E4B,Race,White,0.9032
+prof_doctor,Qwen25Vl7B,Race,White,0.8987
+prof_doctor,BlaifaInternvl358B,Race,White,0.8952
+prof_doctor,BlaifaInternvl358B,Race,Middle Eastern,0.8946
+prof_doctor,DeepFace,Race,White,0.8935
+prof_doctor,DeepFace,Race,Latino Hispanic,0.8654
+prof_doctor,Qwen25Vl7B,Race,Middle Eastern,0.8363
+prof_doctor,Gemma4E4B,Race,Asian,0.8228
+prof_doctor,Qwen25Vl7B,Race,Asian,0.8168
+prof_doctor,DeepFace,Race,Middle Eastern,0.813
+prof_doctor,BlaifaInternvl358B,Race,Asian,0.7831
+prof_doctor,Gemma4E4B,Race,Latino Hispanic,0.7681
+prof_doctor,DeepFace,Race,Asian,0.7493
+prof_doctor,BlaifaInternvl358B,Race,Indian,0.7296
 prof_doctor,BlaifaInternvl358B,Race,Latino Hispanic,0.7108
-prof_doctor,DeepFace,Race,Black,0.6954
-prof_doctor,Gemma4E4B,Race,Unclear,0.6612
-prof_doctor,Gemma4E4B,Race,Indian,0.6611
-prof_doctor,Gemma4E4B,Race,Black,0.6447
-prof_doctor,Qwen25Vl7B,Race,Black,0.6241
-prof_doctor,BlaifaInternvl358B,Race,Black,0.6095
-prof_doctor,Qwen25Vl7B,Race,Unclear,0.5948
-prof_doctor,DeepFace,Race,Indian,0.5865
-prof_doctor,BlaifaInternvl358B,Race,Unclear,0.5815
+prof_doctor,DeepFace,Race,Black,0.7083
+prof_doctor,Gemma4E4B,Race,Unclear,0.6808
+prof_doctor,Gemma4E4B,Race,Black,0.6769
+prof_doctor,Qwen25Vl7B,Race,Black,0.658
+prof_doctor,BlaifaInternvl358B,Race,Black,0.6275
+prof_doctor,Gemma4E4B,Race,Indian,0.6248
+prof_doctor,Qwen25Vl7B,Race,Unclear,0.6065
+prof_doctor,BlaifaInternvl358B,Race,Unclear,0.5969
+prof_doctor,DeepFace,Race,Indian,0.5836
 prof_doctor,Gemma4E4B,Race,Middle Eastern,0.5799
-prof_doctor,Qwen25Vl7B,Race,Indian,0.5173
+prof_doctor,Qwen25Vl7B,Race,Indian,0.4938
 prof_doctor,Qwen25Vl7B,Race,Latino Hispanic,0.418
-prof_doctor,ITA,Scale_MST,1,0.9252
-prof_doctor,ITA,Scale_MST,2,0.8265
-prof_doctor,ITA,Scale_MST,9,0.8119
+prof_doctor,ITA,Scale_MST,1,0.9378
+prof_doctor,ITA,Scale_MST,2,0.8232
+prof_doctor,ITA,Scale_MST,9,0.8095
 prof_doctor,ITA,Scale_MST,8,0.7355
 prof_doctor,ITA,Scale_MST,4,0.7015
-prof_doctor,ITA,Scale_MST,6,0.6806
-prof_doctor,ITA,Scale_MST,5,0.6519
-prof_doctor,ITA,Scale_MST,7,0.6078
-prof_doctor,ITA,Scale_MST,3,0.5977
-prof_labor_worker,DeepFace,Gender,Man,0.7613
-prof_labor_worker,Qwen25Vl7B,Gender,Man,0.7476
-prof_labor_worker,Gemma4E4B,Gender,Man,0.7442
-prof_labor_worker,BlaifaInternvl358B,Gender,Man,0.7434
-prof_labor_worker,Gemma4E4B,Gender,Unclear,0.7031
-prof_labor_worker,BlaifaInternvl358B,Gender,Unclear,0.6688
-prof_labor_worker,Qwen25Vl7B,Gender,Unclear,0.6667
-prof_labor_worker,Qwen25Vl7B,Gender,Woman,0.632
-prof_labor_worker,Gemma4E4B,Gender,Woman,0.6273
-prof_labor_worker,BlaifaInternvl358B,Gender,Woman,0.6198
-prof_labor_worker,DeepFace,Gender,Woman,0.5721
-prof_labor_worker,BlaifaInternvl358B,MST,6,0.7442
-prof_labor_worker,Qwen25Vl7B,MST,6,0.7168
-prof_labor_worker,Gemma4E4B,MST,4,0.704
-prof_labor_worker,Gemma4E4B,MST,5,0.7036
-prof_labor_worker,Gemma4E4B,MST,6,0.6981
-prof_labor_worker,BlaifaInternvl358B,MST,5,0.6881
-prof_labor_worker,Gemma4E4B,MST,3,0.6845
-prof_labor_worker,Qwen25Vl7B,MST,7,0.6817
-prof_labor_worker,Gemma4E4B,MST,Unclear,0.676
-prof_labor_worker,Qwen25Vl7B,MST,5,0.6503
-prof_labor_worker,BlaifaInternvl358B,MST,3,0.65
-prof_labor_worker,BlaifaInternvl358B,MST,Unclear,0.6491
-prof_labor_worker,Qwen25Vl7B,MST,8,0.6481
-prof_labor_worker,BlaifaInternvl358B,MST,7,0.6382
-prof_labor_worker,Gemma4E4B,MST,2,0.6372
-prof_labor_worker,Qwen25Vl7B,MST,Unclear,0.6335
-prof_labor_worker,BlaifaInternvl358B,MST,4,0.6276
-prof_labor_worker,Qwen25Vl7B,MST,3,0.6255
-prof_labor_worker,Gemma4E4B,MST,7,0.5965
-prof_labor_worker,Qwen25Vl7B,MST,9,0.5144
-prof_labor_worker,BlaifaInternvl358B,MST,8,0.4886
-prof_labor_worker,Gemma4E4B,MST,9,0.4806
-prof_labor_worker,Qwen25Vl7B,MST,10,0.4662
-prof_labor_worker,BlaifaInternvl358B,MST,9,0.4546
-prof_labor_worker,Gemma4E4B,MST,8,0.4382
-prof_labor_worker,BlaifaInternvl358B,MST,2,0.3519
-prof_labor_worker,DeepFace,Race,Middle Eastern,0.7679
-prof_labor_worker,Gemma4E4B,Race,Indian,0.7651
-prof_labor_worker,DeepFace,Race,White,0.7406
-prof_labor_worker,Gemma4E4B,Race,Unclear,0.7395
-prof_labor_worker,BlaifaInternvl358B,Race,White,0.7301
-prof_labor_worker,BlaifaInternvl358B,Race,Indian,0.7237
-prof_labor_worker,Qwen25Vl7B,Race,Middle Eastern,0.721
-prof_labor_worker,Qwen25Vl7B,Race,White,0.7144
-prof_labor_worker,Gemma4E4B,Race,White,0.7119
-prof_labor_worker,DeepFace,Race,Indian,0.6891
-prof_labor_worker,Qwen25Vl7B,Race,Unclear,0.6835
-prof_labor_worker,Qwen25Vl7B,Race,Indian,0.6769
-prof_labor_worker,Gemma4E4B,Race,Latino Hispanic,0.6763
-prof_labor_worker,BlaifaInternvl358B,Race,Middle Eastern,0.6715
-prof_labor_worker,DeepFace,Race,Black,0.6702
-prof_labor_worker,Qwen25Vl7B,Race,Asian,0.6605
-prof_labor_worker,Gemma4E4B,Race,Middle Eastern,0.6589
-prof_labor_worker,BlaifaInternvl358B,Race,Unclear,0.6579
-prof_labor_worker,Gemma4E4B,Race,Asian,0.657
-prof_labor_worker,DeepFace,Race,Latino Hispanic,0.6226
-prof_labor_worker,BlaifaInternvl358B,Race,Asian,0.6173
-prof_labor_worker,DeepFace,Race,Asian,0.5771
-prof_labor_worker,Gemma4E4B,Race,Black,0.5595
-prof_labor_worker,Qwen25Vl7B,Race,Black,0.5586
-prof_labor_worker,BlaifaInternvl358B,Race,Black,0.5501
-prof_labor_worker,BlaifaInternvl358B,Race,Latino Hispanic,0.3616
-prof_labor_worker,Qwen25Vl7B,Race,Latino Hispanic,0.3561
-prof_labor_worker,ITA,Scale_MST,9,0.7412
-prof_labor_worker,ITA,Scale_MST,1,0.7153
-prof_labor_worker,ITA,Scale_MST,2,0.6896
-prof_labor_worker,ITA,Scale_MST,8,0.662
-prof_labor_worker,ITA,Scale_MST,7,0.6491
-prof_labor_worker,ITA,Scale_MST,4,0.6343
-prof_labor_worker,ITA,Scale_MST,6,0.5896
-prof_labor_worker,ITA,Scale_MST,5,0.5474
-prof_labor_worker,ITA,Scale_MST,3,0.4791
-prof_nurse,BlaifaInternvl358B,Gender,Woman,0.9082
-prof_nurse,Gemma4E4B,Gender,Woman,0.9077
-prof_nurse,Qwen25Vl7B,Gender,Woman,0.9071
-prof_nurse,DeepFace,Gender,Woman,0.9022
-prof_nurse,DeepFace,Gender,Man,0.8059
-prof_nurse,Qwen25Vl7B,Gender,Man,0.7853
-prof_nurse,Gemma4E4B,Gender,Man,0.7833
-prof_nurse,BlaifaInternvl358B,Gender,Man,0.7826
-prof_nurse,Gemma4E4B,Gender,Unclear,0.6686
-prof_nurse,BlaifaInternvl358B,Gender,Unclear,0.6395
-prof_nurse,Qwen25Vl7B,Gender,Unclear,0.6373
-prof_nurse,BlaifaInternvl358B,MST,3,0.9692
+prof_doctor,ITA,Scale_MST,6,0.6394
+prof_doctor,ITA,Scale_MST,5,0.6373
+prof_doctor,ITA,Scale_MST,7,0.607
+prof_doctor,ITA,Scale_MST,3,0.58
+prof_nurse,BlaifaInternvl358B,Gender,Woman,0.9075
+prof_nurse,Gemma4E4B,Gender,Woman,0.9075
+prof_nurse,Qwen25Vl7B,Gender,Woman,0.9072
+prof_nurse,DeepFace,Gender,Woman,0.9018
+prof_nurse,DeepFace,Gender,Man,0.8121
+prof_nurse,Qwen25Vl7B,Gender,Man,0.7902
+prof_nurse,Gemma4E4B,Gender,Man,0.7882
+prof_nurse,BlaifaInternvl358B,Gender,Man,0.7878
+prof_nurse,Gemma4E4B,Gender,Unclear,0.6847
+prof_nurse,Qwen25Vl7B,Gender,Unclear,0.6598
+prof_nurse,BlaifaInternvl358B,Gender,Unclear,0.6552
+prof_nurse,BlaifaInternvl358B,MST,3,0.9758
 prof_nurse,Qwen25Vl7B,MST,3,0.9635
-prof_nurse,BlaifaInternvl358B,MST,4,0.9359
-prof_nurse,Gemma4E4B,MST,2,0.9237
-prof_nurse,Qwen25Vl7B,MST,5,0.9157
-prof_nurse,Gemma4E4B,MST,3,0.868
-prof_nurse,BlaifaInternvl358B,MST,5,0.8434
-prof_nurse,Gemma4E4B,MST,4,0.8023
-prof_nurse,Qwen25Vl7B,MST,6,0.7989
-prof_nurse,Gemma4E4B,MST,Unclear,0.6527
-prof_nurse,BlaifaInternvl358B,MST,Unclear,0.6236
-prof_nurse,Qwen25Vl7B,MST,Unclear,0.6223
-prof_nurse,BlaifaInternvl358B,MST,6,0.6119
-prof_nurse,Gemma4E4B,MST,5,0.5927
-prof_nurse,Gemma4E4B,MST,6,0.5854
-prof_nurse,Qwen25Vl7B,MST,7,0.5415
-prof_nurse,Qwen25Vl7B,MST,8,0.5312
-prof_nurse,BlaifaInternvl358B,MST,7,0.4972
-prof_nurse,Gemma4E4B,MST,7,0.4741
+prof_nurse,BlaifaInternvl358B,MST,4,0.9351
+prof_nurse,Gemma4E4B,MST,2,0.9307
+prof_nurse,Qwen25Vl7B,MST,5,0.9169
+prof_nurse,Gemma4E4B,MST,3,0.8705
+prof_nurse,BlaifaInternvl358B,MST,5,0.8471
+prof_nurse,Gemma4E4B,MST,4,0.8399
+prof_nurse,Qwen25Vl7B,MST,6,0.8081
+prof_nurse,Gemma4E4B,MST,Unclear,0.689
+prof_nurse,Qwen25Vl7B,MST,Unclear,0.6437
+prof_nurse,BlaifaInternvl358B,MST,Unclear,0.641
+prof_nurse,Gemma4E4B,MST,5,0.5672
+prof_nurse,BlaifaInternvl358B,MST,6,0.5626
+prof_nurse,Gemma4E4B,MST,6,0.5519
+prof_nurse,Qwen25Vl7B,MST,8,0.5238
+prof_nurse,Qwen25Vl7B,MST,7,0.5144
+prof_nurse,BlaifaInternvl358B,MST,7,0.4832
 prof_nurse,Qwen25Vl7B,MST,9,0.4535
-prof_nurse,BlaifaInternvl358B,MST,8,0.4429
+prof_nurse,Gemma4E4B,MST,7,0.4434
 prof_nurse,Gemma4E4B,MST,9,0.3957
 prof_nurse,Qwen25Vl7B,MST,10,0.379
 prof_nurse,BlaifaInternvl358B,MST,9,0.375
-prof_nurse,BlaifaInternvl358B,MST,2,0.3689
 prof_nurse,Gemma4E4B,MST,8,0.3647
-prof_nurse,DeepFace,Race,White,0.8878
-prof_nurse,Gemma4E4B,Race,White,0.8825
-prof_nurse,Qwen25Vl7B,Race,White,0.8783
-prof_nurse,BlaifaInternvl358B,Race,White,0.8702
-prof_nurse,BlaifaInternvl358B,Race,Middle Eastern,0.8662
+prof_nurse,BlaifaInternvl358B,MST,8,0.3576
+prof_nurse,DeepFace,Race,White,0.8985
+prof_nurse,Gemma4E4B,Race,White,0.8882
+prof_nurse,Qwen25Vl7B,Race,White,0.8842
+prof_nurse,BlaifaInternvl358B,Race,White,0.8768
+prof_nurse,BlaifaInternvl358B,Race,Middle Eastern,0.8696
 prof_nurse,Qwen25Vl7B,Race,Asian,0.8539
-prof_nurse,Gemma4E4B,Race,Asian,0.8487
-prof_nurse,BlaifaInternvl358B,Race,Asian,0.8416
-prof_nurse,Gemma4E4B,Race,Latino Hispanic,0.833
-prof_nurse,DeepFace,Race,Latino Hispanic,0.8095
-prof_nurse,DeepFace,Race,Asian,0.8001
-prof_nurse,Qwen25Vl7B,Race,Middle Eastern,0.7839
-prof_nurse,DeepFace,Race,Middle Eastern,0.775
-prof_nurse,BlaifaInternvl358B,Race,Indian,0.7481
+prof_nurse,Gemma4E4B,Race,Asian,0.8472
+prof_nurse,BlaifaInternvl358B,Race,Asian,0.837
+prof_nurse,Gemma4E4B,Race,Latino Hispanic,0.8364
+prof_nurse,DeepFace,Race,Latino Hispanic,0.8137
+prof_nurse,DeepFace,Race,Asian,0.799
+prof_nurse,DeepFace,Race,Middle Eastern,0.7829
+prof_nurse,Qwen25Vl7B,Race,Middle Eastern,0.7803
+prof_nurse,BlaifaInternvl358B,Race,Indian,0.7418
+prof_nurse,DeepFace,Race,Black,0.739
 prof_nurse,BlaifaInternvl358B,Race,Latino Hispanic,0.7289
-prof_nurse,DeepFace,Race,Black,0.6985
-prof_nurse,Gemma4E4B,Race,Unclear,0.6856
-prof_nurse,Gemma4E4B,Race,Indian,0.6586
-prof_nurse,Gemma4E4B,Race,Black,0.6552
-prof_nurse,Qwen25Vl7B,Race,Unclear,0.6357
-prof_nurse,Qwen25Vl7B,Race,Black,0.6316
-prof_nurse,BlaifaInternvl358B,Race,Unclear,0.6279
-prof_nurse,BlaifaInternvl358B,Race,Black,0.6169
-prof_nurse,DeepFace,Race,Indian,0.5797
+prof_nurse,Gemma4E4B,Race,Black,0.7127
+prof_nurse,Gemma4E4B,Race,Unclear,0.7035
+prof_nurse,Qwen25Vl7B,Race,Black,0.6921
+prof_nurse,BlaifaInternvl358B,Race,Black,0.6624
+prof_nurse,Qwen25Vl7B,Race,Unclear,0.6523
+prof_nurse,BlaifaInternvl358B,Race,Unclear,0.6462
+prof_nurse,Gemma4E4B,Race,Indian,0.6302
+prof_nurse,DeepFace,Race,Indian,0.5759
 prof_nurse,Gemma4E4B,Race,Middle Eastern,0.5633
-prof_nurse,Qwen25Vl7B,Race,Indian,0.5201
+prof_nurse,Qwen25Vl7B,Race,Indian,0.4991
 prof_nurse,Qwen25Vl7B,Race,Latino Hispanic,0.3373
-prof_nurse,ITA,Scale_MST,1,0.9241
-prof_nurse,ITA,Scale_MST,2,0.8861
-prof_nurse,ITA,Scale_MST,9,0.7712
+prof_nurse,ITA,Scale_MST,1,0.937
+prof_nurse,ITA,Scale_MST,2,0.8898
+prof_nurse,ITA,Scale_MST,9,0.7667
 prof_nurse,ITA,Scale_MST,4,0.7387
-prof_nurse,ITA,Scale_MST,8,0.7316
-prof_nurse,ITA,Scale_MST,6,0.7314
-prof_nurse,ITA,Scale_MST,5,0.7087
-prof_nurse,ITA,Scale_MST,3,0.6692
-prof_nurse,ITA,Scale_MST,7,0.6238
-prof_software_engineer,Gemma4E4B,Gender,Man,0.7662
-prof_software_engineer,Qwen25Vl7B,Gender,Man,0.7658
-prof_software_engineer,BlaifaInternvl358B,Gender,Man,0.7643
-prof_software_engineer,DeepFace,Gender,Man,0.7632
-prof_software_engineer,Qwen25Vl7B,Gender,Woman,0.6858
-prof_software_engineer,Gemma4E4B,Gender,Woman,0.6856
-prof_software_engineer,BlaifaInternvl358B,Gender,Woman,0.6819
-prof_software_engineer,DeepFace,Gender,Woman,0.6585
-prof_software_engineer,Gemma4E4B,Gender,Unclear,0.5583
-prof_software_engineer,BlaifaInternvl358B,Gender,Unclear,0.5537
-prof_software_engineer,Qwen25Vl7B,Gender,Unclear,0.5464
-prof_software_engineer,Qwen25Vl7B,MST,6,0.7953
-prof_software_engineer,BlaifaInternvl358B,MST,5,0.7747
-prof_software_engineer,Gemma4E4B,MST,3,0.7603
-prof_software_engineer,Gemma4E4B,MST,4,0.7443
-prof_software_engineer,Gemma4E4B,MST,2,0.7359
-prof_software_engineer,Qwen25Vl7B,MST,5,0.7306
-prof_software_engineer,BlaifaInternvl358B,MST,4,0.6929
-prof_software_engineer,BlaifaInternvl358B,MST,3,0.6616
-prof_software_engineer,BlaifaInternvl358B,MST,6,0.6292
-prof_software_engineer,Qwen25Vl7B,MST,3,0.6263
-prof_software_engineer,Gemma4E4B,MST,6,0.5848
-prof_software_engineer,Gemma4E4B,MST,5,0.5834
-prof_software_engineer,Gemma4E4B,MST,Unclear,0.5615
-prof_software_engineer,BlaifaInternvl358B,MST,Unclear,0.5404
-prof_software_engineer,Qwen25Vl7B,MST,Unclear,0.5293
-prof_software_engineer,Qwen25Vl7B,MST,7,0.5202
-prof_software_engineer,Qwen25Vl7B,MST,8,0.4981
-prof_software_engineer,BlaifaInternvl358B,MST,7,0.4712
-prof_software_engineer,BlaifaInternvl358B,MST,8,0.4491
-prof_software_engineer,Gemma4E4B,MST,7,0.4269
-prof_software_engineer,BlaifaInternvl358B,MST,2,0.4147
-prof_software_engineer,Qwen25Vl7B,MST,9,0.364
-prof_software_engineer,Gemma4E4B,MST,9,0.311
-prof_software_engineer,Qwen25Vl7B,MST,10,0.2804
-prof_software_engineer,BlaifaInternvl358B,MST,9,0.2746
-prof_software_engineer,Gemma4E4B,MST,8,0.2583
-prof_software_engineer,BlaifaInternvl358B,Race,White,0.7639
-prof_software_engineer,Qwen25Vl7B,Race,White,0.7617
-prof_software_engineer,Gemma4E4B,Race,White,0.7615
-prof_software_engineer,DeepFace,Race,Black,0.7512
-prof_software_engineer,DeepFace,Race,White,0.7496
-prof_software_engineer,BlaifaInternvl358B,Race,Middle Eastern,0.7427
-prof_software_engineer,DeepFace,Race,Latino Hispanic,0.7422
-prof_software_engineer,Qwen25Vl7B,Race,Middle Eastern,0.7413
-prof_software_engineer,DeepFace,Race,Middle Eastern,0.7408
-prof_software_engineer,Gemma4E4B,Race,Asian,0.7222
-prof_software_engineer,Qwen25Vl7B,Race,Asian,0.7146
-prof_software_engineer,BlaifaInternvl358B,Race,Asian,0.6857
-prof_software_engineer,DeepFace,Race,Asian,0.6728
-prof_software_engineer,BlaifaInternvl358B,Race,Indian,0.6653
-prof_software_engineer,Gemma4E4B,Race,Black,0.6637
-prof_software_engineer,Gemma4E4B,Race,Latino Hispanic,0.6636
-prof_software_engineer,BlaifaInternvl358B,Race,Black,0.6402
-prof_software_engineer,Qwen25Vl7B,Race,Black,0.6374
-prof_software_engineer,Gemma4E4B,Race,Indian,0.6086
-prof_software_engineer,Gemma4E4B,Race,Unclear,0.6014
-prof_software_engineer,Qwen25Vl7B,Race,Unclear,0.5546
-prof_software_engineer,Gemma4E4B,Race,Middle Eastern,0.5533
-prof_software_engineer,BlaifaInternvl358B,Race,Unclear,0.5431
-prof_software_engineer,DeepFace,Race,Indian,0.5248
-prof_software_engineer,Qwen25Vl7B,Race,Indian,0.4786
-prof_software_engineer,BlaifaInternvl358B,Race,Latino Hispanic,0.4569
-prof_software_engineer,Qwen25Vl7B,Race,Latino Hispanic,0.4014
-prof_software_engineer,ITA,Scale_MST,9,0.7422
-prof_software_engineer,ITA,Scale_MST,2,0.7322
-prof_software_engineer,ITA,Scale_MST,1,0.7287
-prof_software_engineer,ITA,Scale_MST,8,0.7151
-prof_software_engineer,ITA,Scale_MST,4,0.709
-prof_software_engineer,ITA,Scale_MST,6,0.6801
-prof_software_engineer,ITA,Scale_MST,5,0.6781
-prof_software_engineer,ITA,Scale_MST,3,0.6382
-prof_software_engineer,ITA,Scale_MST,7,0.5934
-soc_poor,DeepFace,Gender,Man,0.7658
-soc_poor,BlaifaInternvl358B,Gender,Man,0.7537
-soc_poor,Qwen25Vl7B,Gender,Man,0.746
-soc_poor,Gemma4E4B,Gender,Man,0.7449
-soc_poor,Gemma4E4B,Gender,Unclear,0.6878
-soc_poor,Qwen25Vl7B,Gender,Woman,0.6156
-soc_poor,Qwen25Vl7B,Gender,Unclear,0.613
-soc_poor,Gemma4E4B,Gender,Woman,0.6058
-soc_poor,BlaifaInternvl358B,Gender,Woman,0.5964
-soc_poor,BlaifaInternvl358B,Gender,Unclear,0.5842
-soc_poor,DeepFace,Gender,Woman,0.5346
-soc_poor,BlaifaInternvl358B,MST,7,0.9909
-soc_poor,Qwen25Vl7B,MST,7,0.9775
-soc_poor,Qwen25Vl7B,MST,8,0.9653
-soc_poor,Gemma4E4B,MST,5,0.9623
-soc_poor,Gemma4E4B,MST,7,0.9475
-soc_poor,Gemma4E4B,MST,6,0.941
-soc_poor,BlaifaInternvl358B,MST,6,0.9253
+prof_nurse,ITA,Scale_MST,8,0.7354
+prof_nurse,ITA,Scale_MST,6,0.7034
+prof_nurse,ITA,Scale_MST,5,0.6999
+prof_nurse,ITA,Scale_MST,3,0.6593
+prof_nurse,ITA,Scale_MST,7,0.6254
+soc_poor,DeepFace,Gender,Man,0.7726
+soc_poor,BlaifaInternvl358B,Gender,Man,0.7561
+soc_poor,Qwen25Vl7B,Gender,Man,0.7473
+soc_poor,Gemma4E4B,Gender,Man,0.746
+soc_poor,Gemma4E4B,Gender,Unclear,0.7238
+soc_poor,Qwen25Vl7B,Gender,Unclear,0.6585
+soc_poor,Qwen25Vl7B,Gender,Woman,0.6123
+soc_poor,BlaifaInternvl358B,Gender,Unclear,0.6082
+soc_poor,Gemma4E4B,Gender,Woman,0.6016
+soc_poor,BlaifaInternvl358B,Gender,Woman,0.5904
+soc_poor,DeepFace,Gender,Woman,0.5336
+soc_poor,BlaifaInternvl358B,MST,7,0.994
+soc_poor,Qwen25Vl7B,MST,7,0.9832
+soc_poor,BlaifaInternvl358B,MST,6,0.9788
+soc_poor,Gemma4E4B,MST,5,0.9692
+soc_poor,Qwen25Vl7B,MST,8,0.9675
+soc_poor,Gemma4E4B,MST,6,0.9627
+soc_poor,Gemma4E4B,MST,7,0.9445
 soc_poor,Qwen25Vl7B,MST,9,0.8878
 soc_poor,Qwen25Vl7B,MST,10,0.8629
 soc_poor,BlaifaInternvl358B,MST,9,0.8565
 soc_poor,Gemma4E4B,MST,9,0.8544
 soc_poor,Gemma4E4B,MST,8,0.8391
-soc_poor,BlaifaInternvl358B,MST,8,0.7439
-soc_poor,Gemma4E4B,MST,4,0.7353
-soc_poor,Qwen25Vl7B,MST,6,0.6765
-soc_poor,BlaifaInternvl358B,MST,5,0.639
-soc_poor,Gemma4E4B,MST,3,0.5919
-soc_poor,Qwen25Vl7B,MST,5,0.5577
-soc_poor,Gemma4E4B,MST,2,0.5554
-soc_poor,Gemma4E4B,MST,Unclear,0.5526
-soc_poor,BlaifaInternvl358B,MST,4,0.5514
-soc_poor,BlaifaInternvl358B,MST,3,0.5359
-soc_poor,BlaifaInternvl358B,MST,Unclear,0.5293
+soc_poor,BlaifaInternvl358B,MST,8,0.798
+soc_poor,Gemma4E4B,MST,4,0.7416
+soc_poor,Qwen25Vl7B,MST,6,0.6712
+soc_poor,BlaifaInternvl358B,MST,5,0.6323
+soc_poor,Gemma4E4B,MST,3,0.5863
+soc_poor,Gemma4E4B,MST,Unclear,0.5552
+soc_poor,Qwen25Vl7B,MST,5,0.5548
+soc_poor,Gemma4E4B,MST,2,0.542
+soc_poor,BlaifaInternvl358B,MST,Unclear,0.54
+soc_poor,BlaifaInternvl358B,MST,4,0.5396
+soc_poor,BlaifaInternvl358B,MST,3,0.529
+soc_poor,Qwen25Vl7B,MST,Unclear,0.5254
 soc_poor,Qwen25Vl7B,MST,3,0.5245
-soc_poor,Qwen25Vl7B,MST,Unclear,0.5203
-soc_poor,BlaifaInternvl358B,MST,2,0.415
-soc_poor,DeepFace,Race,Indian,0.9853
-soc_poor,Qwen25Vl7B,Race,Indian,0.9798
+soc_poor,DeepFace,Race,Indian,0.9846
+soc_poor,Qwen25Vl7B,Race,Indian,0.98
 soc_poor,Gemma4E4B,Race,Middle Eastern,0.9645
-soc_poor,Gemma4E4B,Race,Indian,0.9391
-soc_poor,BlaifaInternvl358B,Race,Indian,0.897
-soc_poor,DeepFace,Race,Middle Eastern,0.8412
-soc_poor,Qwen25Vl7B,Race,Middle Eastern,0.8018
-soc_poor,Gemma4E4B,Race,Latino Hispanic,0.7824
-soc_poor,Gemma4E4B,Race,Unclear,0.7134
-soc_poor,DeepFace,Race,Black,0.7049
-soc_poor,DeepFace,Race,White,0.6889
-soc_poor,BlaifaInternvl358B,Race,White,0.6672
-soc_poor,BlaifaInternvl358B,Race,Middle Eastern,0.6635
-soc_poor,Qwen25Vl7B,Race,Asian,0.6617
-soc_poor,Qwen25Vl7B,Race,Black,0.661
-soc_poor,Qwen25Vl7B,Race,White,0.6565
-soc_poor,Gemma4E4B,Race,Asian,0.6556
-soc_poor,BlaifaInternvl358B,Race,Black,0.6421
-soc_poor,Gemma4E4B,Race,White,0.6411
-soc_poor,BlaifaInternvl358B,Race,Asian,0.6015
-soc_poor,Gemma4E4B,Race,Black,0.6012
-soc_poor,DeepFace,Race,Asian,0.5912
-soc_poor,Qwen25Vl7B,Race,Unclear,0.5703
-soc_poor,DeepFace,Race,Latino Hispanic,0.5615
-soc_poor,BlaifaInternvl358B,Race,Unclear,0.5535
+soc_poor,Gemma4E4B,Race,Indian,0.9534
+soc_poor,BlaifaInternvl358B,Race,Indian,0.9064
+soc_poor,DeepFace,Race,Middle Eastern,0.8489
+soc_poor,Qwen25Vl7B,Race,Middle Eastern,0.8139
+soc_poor,Gemma4E4B,Race,Latino Hispanic,0.7811
+soc_poor,Gemma4E4B,Race,Unclear,0.7543
+soc_poor,DeepFace,Race,Black,0.7527
+soc_poor,Qwen25Vl7B,Race,Black,0.6938
+soc_poor,DeepFace,Race,White,0.6864
+soc_poor,BlaifaInternvl358B,Race,White,0.6622
+soc_poor,BlaifaInternvl358B,Race,Middle Eastern,0.6612
+soc_poor,Qwen25Vl7B,Race,Asian,0.6568
+soc_poor,BlaifaInternvl358B,Race,Black,0.6558
+soc_poor,Qwen25Vl7B,Race,White,0.6527
+soc_poor,Gemma4E4B,Race,Asian,0.6519
+soc_poor,Gemma4E4B,Race,White,0.6378
+soc_poor,DeepFace,Race,Asian,0.5934
+soc_poor,BlaifaInternvl358B,Race,Asian,0.5933
+soc_poor,Qwen25Vl7B,Race,Unclear,0.5894
+soc_poor,Gemma4E4B,Race,Black,0.5835
+soc_poor,BlaifaInternvl358B,Race,Unclear,0.5742
+soc_poor,DeepFace,Race,Latino Hispanic,0.5517
 soc_poor,Qwen25Vl7B,Race,Latino Hispanic,0.3418
 soc_poor,BlaifaInternvl358B,Race,Latino Hispanic,0.3328
-soc_poor,ITA,Scale_MST,7,0.9201
-soc_poor,ITA,Scale_MST,9,0.8098
-soc_poor,ITA,Scale_MST,8,0.7975
+soc_poor,ITA,Scale_MST,7,0.9288
+soc_poor,ITA,Scale_MST,9,0.8179
+soc_poor,ITA,Scale_MST,8,0.8015
 soc_poor,ITA,Scale_MST,4,0.6915
-soc_poor,ITA,Scale_MST,6,0.6493
-soc_poor,ITA,Scale_MST,2,0.615
-soc_poor,ITA,Scale_MST,1,0.6029
-soc_poor,ITA,Scale_MST,5,0.5905
-soc_poor,ITA,Scale_MST,3,0.5315
-soc_wealthy,BlaifaInternvl358B,Gender,Man,0.6641
-soc_wealthy,Gemma4E4B,Gender,Man,0.6633
-soc_wealthy,Qwen25Vl7B,Gender,Man,0.6607
-soc_wealthy,DeepFace,Gender,Man,0.6498
-soc_wealthy,Qwen25Vl7B,Gender,Woman,0.5701
-soc_wealthy,Gemma4E4B,Gender,Woman,0.5675
-soc_wealthy,BlaifaInternvl358B,Gender,Woman,0.5667
-soc_wealthy,DeepFace,Gender,Woman,0.5529
-soc_wealthy,Gemma4E4B,Gender,Unclear,0.4439
-soc_wealthy,Qwen25Vl7B,Gender,Unclear,0.4187
-soc_wealthy,BlaifaInternvl358B,Gender,Unclear,0.4083
-soc_wealthy,BlaifaInternvl358B,MST,8,0.7666
-soc_wealthy,Gemma4E4B,MST,4,0.7493
-soc_wealthy,BlaifaInternvl358B,MST,6,0.7215
-soc_wealthy,BlaifaInternvl358B,MST,2,0.6936
-soc_wealthy,Qwen25Vl7B,MST,6,0.6885
-soc_wealthy,Gemma4E4B,MST,6,0.6662
-soc_wealthy,BlaifaInternvl358B,MST,5,0.6397
-soc_wealthy,Gemma4E4B,MST,5,0.6274
-soc_wealthy,Gemma4E4B,MST,3,0.6027
-soc_wealthy,Qwen25Vl7B,MST,7,0.5971
-soc_wealthy,Gemma4E4B,MST,7,0.5746
-soc_wealthy,BlaifaInternvl358B,MST,7,0.5734
-soc_wealthy,Qwen25Vl7B,MST,5,0.5644
-soc_wealthy,Gemma4E4B,MST,2,0.5601
-soc_wealthy,BlaifaInternvl358B,MST,4,0.5588
-soc_wealthy,Qwen25Vl7B,MST,8,0.5469
-soc_wealthy,Qwen25Vl7B,MST,9,0.4746
-soc_wealthy,BlaifaInternvl358B,MST,3,0.4647
-soc_wealthy,Qwen25Vl7B,MST,3,0.4396
-soc_wealthy,BlaifaInternvl358B,MST,9,0.4189
-soc_wealthy,Qwen25Vl7B,MST,10,0.4182
-soc_wealthy,Gemma4E4B,MST,8,0.4164
-soc_wealthy,Gemma4E4B,MST,Unclear,0.4125
-soc_wealthy,Gemma4E4B,MST,9,0.4073
-soc_wealthy,BlaifaInternvl358B,MST,Unclear,0.3873
-soc_wealthy,Qwen25Vl7B,MST,Unclear,0.3783
-soc_wealthy,BlaifaInternvl358B,Race,Black,0.8647
-soc_wealthy,Gemma4E4B,Race,Black,0.8619
-soc_wealthy,Qwen25Vl7B,Race,Black,0.861
-soc_wealthy,DeepFace,Race,Black,0.8216
-soc_wealthy,DeepFace,Race,Middle Eastern,0.6589
-soc_wealthy,DeepFace,Race,Asian,0.6188
-soc_wealthy,Qwen25Vl7B,Race,Asian,0.6145
-soc_wealthy,Gemma4E4B,Race,Asian,0.6117
-soc_wealthy,BlaifaInternvl358B,Race,White,0.6059
-soc_wealthy,BlaifaInternvl358B,Race,Middle Eastern,0.6051
-soc_wealthy,Qwen25Vl7B,Race,White,0.6037
-soc_wealthy,Gemma4E4B,Race,Latino Hispanic,0.5979
-soc_wealthy,DeepFace,Race,White,0.5964
-soc_wealthy,BlaifaInternvl358B,Race,Indian,0.5943
-soc_wealthy,DeepFace,Race,Latino Hispanic,0.593
-soc_wealthy,Gemma4E4B,Race,White,0.5922
-soc_wealthy,Qwen25Vl7B,Race,Middle Eastern,0.5912
-soc_wealthy,BlaifaInternvl358B,Race,Asian,0.5874
-soc_wealthy,Gemma4E4B,Race,Middle Eastern,0.5854
-soc_wealthy,Gemma4E4B,Race,Indian,0.5618
-soc_wealthy,DeepFace,Race,Indian,0.537
-soc_wealthy,Gemma4E4B,Race,Unclear,0.4953
-soc_wealthy,Qwen25Vl7B,Race,Latino Hispanic,0.4913
-soc_wealthy,Qwen25Vl7B,Race,Indian,0.478
-soc_wealthy,Qwen25Vl7B,Race,Unclear,0.4005
-soc_wealthy,BlaifaInternvl358B,Race,Unclear,0.3959
-soc_wealthy,BlaifaInternvl358B,Race,Latino Hispanic,0.3775
-soc_wealthy,ITA,Scale_MST,8,0.6835
-soc_wealthy,ITA,Scale_MST,6,0.6763
-soc_wealthy,ITA,Scale_MST,7,0.6502
-soc_wealthy,ITA,Scale_MST,9,0.6493
-soc_wealthy,ITA,Scale_MST,4,0.6346
-soc_wealthy,ITA,Scale_MST,5,0.627
-soc_wealthy,ITA,Scale_MST,3,0.6263
-soc_wealthy,ITA,Scale_MST,2,0.5722
-soc_wealthy,ITA,Scale_MST,1,0.5644
+soc_poor,ITA,Scale_MST,6,0.6051
+soc_poor,ITA,Scale_MST,2,0.6029
+soc_poor,ITA,Scale_MST,1,0.5871
+soc_poor,ITA,Scale_MST,5,0.5845
+soc_poor,ITA,Scale_MST,3,0.5138

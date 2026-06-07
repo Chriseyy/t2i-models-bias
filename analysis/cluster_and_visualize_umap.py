@@ -27,7 +27,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 # KONFIGURATION: HIER VEKTORRAUM WÄHLEN ("dinov3" oder "clip")
 # =============================================================
 FEATURE_TYPE = "dinov3"  
-# FEATURE_TYPE = "clip"  
+FEATURE_TYPE = "clip"  
 
 # =============================================================
 # PFADE STRUKTURIEREN (Dynamisch auf _umap angepasst)

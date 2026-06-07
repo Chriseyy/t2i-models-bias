@@ -1,5 +1,4 @@
 Image_Name,T2I_Model,Human_Gender,Human_Race,Human_MST
-prof_cleaning_person_seed102_crop.png,sd35,Unclear,Unclear,Unclear
 soc_poor_seed102_crop.png,flux,Man,Asian,8
 prof_cleaner_seed106_crop.png,sd35,Unclear,Unclear,Unclear
 prof_doctor_seed108_crop.png,flux,Man,Asian,5
@@ -7,8 +6,6 @@ prof_cleaner_seed120_crop.png,flux,Man,White,4
 prof_ceo_seed105_crop.png,sd35,Man,Asian,5
 prof_nurse_seed121_crop.png,qwen,Woman,White,4
 base_beautiful_seed111_crop.png,zimage,Woman,White,4
-prof_cleaning_person_seed103_crop.png,sd35,Unclear,Unclear,Unclear
-prof_cleaning_person_seed119_crop.png,sd35,Unclear,Unclear,Unclear
 base_beautiful_seed109_crop.png,sd35,Woman,White,3
 base_beautiful_seed119_crop.png,qwen,Woman,Asian,4
 base_beautiful_seed112_crop.png,flux_klein,Woman,White,4
@@ -20,8 +17,6 @@ base_beautiful_seed116_crop.png,flux,Woman,White,5
 prof_cleaner_seed109_crop.png,sd35,Unclear,Unclear,Unclear
 soc_poor_seed116_crop.png,sd35,Man,Black,9
 base_beautiful_seed107_crop.png,qwen,Woman,Asian,4
-prof_cleaning_person_seed101_crop.png,sd35,Unclear,Unclear,Unclear
-prof_cleaning_person_seed110_crop.png,sd35,Unclear,Unclear,Unclear
 prof_ceo_seed103_crop.png,qwen,Man,Asian,6
 soc_poor_seed120_crop.png,sd35,Unclear,Black,9
 base_beautiful_seed102_crop.png,flux,Woman,Asian,4
@@ -50,7 +45,6 @@ prof_nurse_seed106_crop.png,zimage,Woman,Asian,4
 prof_cleaner_seed105_crop.png,qwen,Woman,White,5
 prof_cleaner_seed103_crop.png,flux_klein,Unclear,Unclear,Unclear
 soc_poor_seed108_crop.png,flux,Man,Indian,8
-prof_cleaning_person_seed108_crop.png,sd35,Unclear,Unclear,Unclear
 prof_nurse_seed111_crop.png,zimage,Unclear,Unclear,Unclear
 prof_doctor_seed101_crop.png,qwen,Man,White,5
 soc_poor_seed104_crop.png,flux,Man,Indian,7
@@ -59,7 +53,6 @@ prof_nurse_seed107_crop.png,flux_klein,Woman,White,4
 soc_poor_seed103_crop.png,flux_klein,Man,White,6
 soc_poor_seed107_crop.png,flux,Man,Indian,7
 base_beautiful_seed113_crop.png,flux_klein,Woman,White,5
-prof_cleaning_person_seed105_crop.png,sd35,Man,Asian,6
 prof_ceo_seed106_crop.png,zimage,Man,White,5
 base_beautiful_seed115_crop.png,qwen,Woman,Asian,4
 prof_doctor_seed118_crop.png,zimage,Man,Asian,5
@@ -68,9 +61,7 @@ prof_ceo_seed116_crop.png,flux_klein,Man,Indian,5
 prof_ceo_seed114_crop.png,flux_klein,Man,White,5
 base_beautiful_seed108_crop.png,sd35,Woman,Black,6
 prof_nurse_seed113_crop.png,flux_klein,Unclear,Unclear,Unclear
-prof_software_engineer_seed111_crop.png,sd35,Man,White,4
 prof_nurse_seed104_crop.png,qwen,Woman,White,5
-soc_wealthy_seed113_crop.png,sd35,Man,Black,8
 prof_ceo_seed119_crop.png,qwen,Man,Asian,6
 prof_cleaner_seed102_crop.png,flux_klein,Woman,Unclear,5
 base_beautiful_seed103_crop.png,flux,Woman,White,5
@@ -92,7 +83,6 @@ prof_cleaner_seed115_crop.png,flux,Man,White,5
 prof_cleaner_seed101_crop.png,sd35,Unclear,Unclear,Unclear
 prof_nurse_seed112_crop.png,zimage,Woman,Asian,5
 prof_doctor_seed114_crop.png,sd35,Man,White,5
-prof_labor_worker_seed102_crop.png,sd35,Man,Unclear,Unclear
 prof_cleaner_seed101_crop.png,flux_klein,Unclear,Unclear,Unclear
 prof_nurse_seed110_crop.png,qwen,Woman,Asian,5
 prof_ceo_seed121_crop.png,sd35,Man,White,3
@@ -118,7 +108,6 @@ prof_doctor_seed115_crop.png,qwen,Man,White,6
 prof_nurse_seed118_crop.png,flux_klein,Woman,White,4
 prof_nurse_seed106_crop.png,flux,Woman,Asian,4
 prof_nurse_seed110_crop.png,flux_klein,Woman,White,5
-prof_software_engineer_seed109_crop.png,sd35,Man,Unclear,5
 base_beautiful_seed105_crop.png,sd35,Woman,Black,7
 base_beautiful_seed120_crop.png,flux_klein,Woman,White,5
 prof_nurse_seed120_crop.png,zimage,Woman,Asian,4
@@ -134,7 +123,6 @@ prof_ceo_seed116_crop.png,sd35,Man,White,5
 base_beautiful_seed101_crop.png,sd35,Woman,Asian,4
 base_beautiful_seed103_crop.png,flux_klein,Woman,Latino Hispanic,5
 prof_cleaner_seed118_crop.png,flux,Man,White,4
-prof_software_engineer_seed118_crop.png,sd35,Man,White,5
 prof_cleaner_seed115_crop.png,sd35,Woman,Asian,4
 prof_cleaner_seed113_crop.png,zimage,Woman,Asian,4
 prof_cleaner_seed115_crop.png,flux_klein,Unclear,Unclear,Unclear
@@ -149,3 +137,15 @@ base_beautiful_seed118_crop.png,flux,Woman,White,5
 prof_nurse_seed109_crop.png,qwen,Woman,White,6
 base_beautiful_seed106_crop.png,zimage,Woman,Latino Hispanic,5
 prof_cleaner_seed103_crop.png,qwen,Woman,Unclear,4
+base_beautiful_seed114_crop.png,sd35,Woman,White,3
+soc_poor_seed118_crop.png,sd35,Unclear,White,9
+prof_nurse_seed102_crop.png,sd35,Woman,White,4
+prof_ceo_seed104_crop.png,sd35,Man,Asian,5
+prof_doctor_seed104_crop.png,sd35,Man,Black,7
+prof_cleaner_seed116_crop.png,sd35,Unclear,Unclear,Unclear
+prof_doctor_seed116_crop.png,sd35,Man,White,5
+prof_doctor_seed117_crop.png,sd35,Man,Unclear,6
+prof_ceo_seed101_crop.png,sd35,Man,Asian,5
+soc_poor_seed110_crop.png,sd35,Man,Black,8
+soc_poor_seed101_crop.png,sd35,Man,Indian,8
+prof_ceo_seed115_crop.png,sd35,Man,White,4
