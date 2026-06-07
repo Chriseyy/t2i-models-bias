@@ -3,8 +3,11 @@ evaluate_results.py
 ===================
 1. MACRO-ANALYSE: Auswertung des gesamten KI-Datensatzes (Macro-Plots).
    -> Inklusive Vergleich ALLER KIs (Gemma, Qwen, InternVL + DeepFace)!
+   -> ERWEITERUNG A: Kontinuierliche ITA-Hauttonverteilungen (Violin-Plots).
+   -> ERWEITERUNG B: Divergierende Delta-Paritätsbalken für intuitive Bias-Ausschläge.
 2. FAIR COMPARISON: Strikte Filterung auf die Human-Eval-Stichprobe mit 
    vollständigen paarweisen KI-Heatmaps und bereinigten Balkendiagrammen.
+   -> ERWEITERUNG C: Globales KI-Mensch-Alignment (Genauigkeitsabgleich gegen Ground Truth).
 """
 
 import os
@@ -56,6 +59,111 @@ def get_clean_evaluator_name(col):
     if 'deepface' in col_lower: return 'DeepFace'
     if 'human' in col_lower: return 'Human'
     return col
+
+# =========================================================================
+# NEU: EXKLUSIVE ERWEITERUNGS-PLOT-FUNKTIONEN (A, B & C)
+# =========================================================================
+def plot_continuous_ita_distribution(df, t2i_model, output_folder):
+    """ERWEITERUNG A: Generiert hochpräzise Violin-Plots für kontinuierliche ITA-Hauttonwerte"""
+    model_df = df[df['T2I_Model'] == t2i_model].copy()
+    if model_df.empty or 'ITA_Value' not in model_df.columns: return
+
+    # Erzwinge numerische Datentypen für kontinuierliche Berechnungen
+    model_df['ITA_Value'] = pd.to_numeric(model_df['ITA_Value'], errors='coerce')
+    model_df = model_df.dropna(subset=['ITA_Value'])
+    if model_df.empty: return
+
+    plt.figure(figsize=(14, 7))
+    # 'coolwarm' Farbpalette bildet den Übergang von hellen zu dunklen Hauttönen perfekt ab
+    sns.violinplot(data=model_df, x='Prompt_Subject', y='ITA_Value', hue='Prompt_Subject', palette="coolwarm", inner="box", legend=False)
+    plt.axhline(y=0, color='black', linestyle='--', alpha=0.6, label='ITA Paritätsgrenze (0°)')
+    plt.title(f"Kontinuierliche ITA-Hauttonverteilung (Dichte & Streuung) | Modell: {t2i_model.upper()}")
+    plt.ylabel("Individual Typology Angle (ITA-Wert in Grad)")
+    plt.xlabel("Generierter Prompt")
+    plt.xticks(rotation=30, ha="right")
+    plt.tight_layout()
+    plt.savefig(output_folder / "ITA_CONTINUOUS_VIOLIN_DISTRIBUTION.png", dpi=300)
+    plt.close()
+
+def plot_diverging_gender_bias(df, t2i_model, category_col, output_folder, file_prefix=""):
+    """ERWEITERUNG B: Generiert ein horizontales, divergierendes Delta-Paritätsdiagramm"""
+    model_df = df[df['T2I_Model'] == t2i_model].copy()
+    if model_df.empty or category_col not in model_df.columns: return
+
+    # Berechne die relativen Anteile pro Prompt-Thema
+    crosstab = pd.crosstab(model_df['Prompt_Subject'], model_df[category_col], normalize='index') * 100
+    if 'Man' not in crosstab.columns: crosstab['Man'] = 0.0
+    if 'Woman' not in crosstab.columns: crosstab['Woman'] = 0.0
+
+    # Mathematische Delta-Parität: Überhang berechnen (% Männer - % Frauen)
+    crosstab['Delta'] = crosstab['Man'] - crosstab['Woman']
+    crosstab = crosstab.reset_index().sort_values(by='Delta')
+
+    plt.figure(figsize=(12, 6))
+    # Farbkodierung: Sanftes Grün für Frauen-Überhang, Erdiges Orange für Männer-Überhang
+    colors = ['#4c9173' if x < 0 else '#df8a5a' for x in crosstab['Delta']]
+    
+    sns.barplot(data=crosstab, y='Prompt_Subject', x='Delta', palette=colors, hue='Prompt_Subject', legend=False)
+    plt.axvline(x=0, color='black', linestyle='-', linewidth=2.0)
+    plt.title(f"Divergierende Geschlechterparität (Delta) | Metrik: {category_col} | Modell: {t2i_model.upper()}")
+    plt.xlabel("← Frauen-Überhang (%)  |  Männer-Überhang (%) →")
+    plt.ylabel("Prompt Thema")
+    plt.xlim(-105, 105)
+    plt.tight_layout()
+
+    safe_prefix = file_prefix.replace(":", "_").replace("/", "_")
+    if safe_prefix: safe_prefix += "_"
+    plt.savefig(output_folder / f"{safe_prefix}{category_col}_DIVERGING_DELTA_PARITY.png", dpi=300)
+    plt.close()
+
+def plot_global_alignment_comparison(master_df, output_folder):
+    """ERWEITERUNG C: Berechnet das methodische Gesamt-Alignment (Genauigkeit) aller KIs vs. Mensch"""
+    if master_df.empty: return
+
+    categories = ['Gender', 'Race', 'MST']
+    alignment_rows = []
+
+    for cat in categories:
+        human_col = f'Human_{cat}'
+        if human_col not in master_df.columns: continue
+
+        eval_cols = {}
+        if cat != 'MST' and f'DeepFace_{cat}' in master_df.columns:
+            eval_cols['DeepFace'] = f'DeepFace_{cat}'
+
+        vlm_cols = [c for c in master_df.columns if c.endswith(f'_VLM_{cat}')]
+        for col in vlm_cols:
+            clean_name = get_clean_evaluator_name(col)
+            eval_cols[clean_name] = col
+
+        # Berechne exakte mathematische Übereinstimmungsraten
+        for eval_name, col_name in eval_cols.items():
+            valid_sub = master_df.dropna(subset=[human_col, col_name])
+            if valid_sub.empty: continue
+
+            matches = (valid_sub[human_col].astype(str).str.lower().str.strip() == 
+                       valid_sub[col_name].astype(str).str.lower().str.strip()).sum()
+            accuracy = (matches / len(valid_sub)) * 100
+
+            alignment_rows.append({
+                'Kategorie': cat,
+                'Evaluator': eval_name,
+                'Uebereinstimmung': round(accuracy, 2)
+            })
+
+    if not alignment_rows: return
+    df_align = pd.DataFrame(alignment_rows)
+
+    plt.figure(figsize=(11, 6))
+    sns.barplot(data=df_align, x='Kategorie', y='Uebereinstimmung', hue='Evaluator', palette='Set2')
+    plt.title("Methodische Kür: Globales KI-Alignment (Exakte Übereinstimmung mit Mensch)")
+    plt.ylabel("Exakte Übereinstimmung zur Ground Truth (%)")
+    plt.xlabel("Evaluierungs-Dimension")
+    plt.ylim(0, 105)
+    plt.legend(title="Maschinelle KI", bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.tight_layout()
+    plt.savefig(output_folder / "GLOBAL_KI_ALIGNMENT_TO_HUMAN.png", dpi=300)
+    plt.close()
 
 # =========================================================================
 # PLOT FUNKTIONEN (MACRO & FAIR)
@@ -171,16 +279,13 @@ def plot_evaluator_comparison(df, model_name, category, output_folder):
     """FAIR COMPARISON: Zeigt die Modelle direkt nebeneinander (Max 30 Bilder hoch)"""
     eval_cols = []
     
-    # Filtere Spalten exakt nach User-Wunsch
     if category in ['Gender', 'Race']:
-        # Exakt 4 Balken für Gender & Race (DeepFace + die 3 VLMs)
         if f'DeepFace_{category}' in df.columns: 
             eval_cols.append(f'DeepFace_{category}')
         vlm_cols = [c for c in df.columns if c.endswith(f'_VLM_{category}')]
         eval_cols.extend(vlm_cols)
         eval_order = ['DeepFace', 'Gemma4', 'Qwen2.5', 'InternVL']
     elif category == 'MST':
-        # Exakt 3 Balken für MST (Nur Gemma, Qwen und InternVL)
         vlm_cols = [c for c in df.columns if c.endswith(f'_VLM_{category}')]
         eval_cols.extend(vlm_cols)
         eval_order = ['Gemma4', 'Qwen2.5', 'InternVL']
@@ -190,10 +295,8 @@ def plot_evaluator_comparison(df, model_name, category, output_folder):
     melted_df = df[['Image_Name'] + eval_cols].melt(id_vars='Image_Name', var_name='Evaluator', value_name='Prediction')
     melted_df = melted_df.dropna(subset=['Prediction'])
     
-    # Spaltennamen lesbar machen
     melted_df['Evaluator'] = melted_df['Evaluator'].apply(get_clean_evaluator_name)
     
-    # Sortierung auf X-Achse erzwingen
     melted_df['Evaluator'] = pd.Categorical(melted_df['Evaluator'], categories=eval_order, ordered=True)
     melted_df = melted_df.sort_values('Evaluator')
 
@@ -320,12 +423,18 @@ def main():
                 generate_grouped_plots(df_vlm_specific, 'VLM_Gender', model, model_out_dir, file_prefix=safe_vlm, hue_order=["Man", "Woman", "Unclear"])
                 generate_grouped_plots(df_vlm_specific, 'VLM_Race', model, model_out_dir, file_prefix=safe_vlm)
                 generate_grouped_plots(df_vlm_specific, 'VLM_MST', model, model_out_dir, file_prefix=safe_vlm, hue_order=[str(i) for i in range(1, 11)] + ["Unclear"])
+                
+                # INTEGRIERTE ERWEITERUNG B: Divergierende Delta-Parität für Ollama VLMs auf Macro-Ebene
+                plot_diverging_gender_bias(df_vlm_specific, model, 'VLM_Gender', model_out_dir, file_prefix=safe_vlm)
             
             generate_vlm_comparison_plot(df_ollama, model, model_out_dir)
 
         if 'DeepFace' in raw_dataframes:
             generate_grouped_plots(raw_dataframes['DeepFace'], 'DeepFace_Gender', model, model_out_dir, hue_order=["Man", "Woman"])
             generate_grouped_plots(raw_dataframes['DeepFace'], 'DeepFace_Race', model, model_out_dir)
+            
+            # INTEGRIERTE ERWEITERUNG B: Divergierende Delta-Parität für DeepFace auf Macro-Ebene
+            plot_diverging_gender_bias(raw_dataframes['DeepFace'], model, 'DeepFace_Gender', model_out_dir, file_prefix="DeepFace")
 
         df_ol_ref = raw_dataframes.get('Ollama')
         df_df_ref = raw_dataframes.get('DeepFace')
@@ -334,6 +443,9 @@ def main():
         if 'Skin' in raw_dataframes:
             generate_grouped_plots(raw_dataframes['Skin'], 'MonkScale_RGB', model, model_out_dir, hue_order=[str(i) for i in range(1, 11)] + ["Error"])
             generate_grouped_plots(raw_dataframes['Skin'], 'ITA_Scale_MST', model, model_out_dir, hue_order=[str(i) for i in range(1, 11)] + ["Error"])
+            
+            # INTEGRIERTE ERWEITERUNG A: Kontinuierliche ITA-Hauttonverteilungen (Violin-Plots) auf Macro-Ebene
+            plot_continuous_ita_distribution(raw_dataframes['Skin'], model, model_out_dir)
 
     # ---------------------------------------------------------
     # TEIL 2: FAIR COMPARISON (Strikt auf Human Eval gefiltert)
@@ -371,6 +483,9 @@ def main():
 
     master_df.to_csv(FAIR_DIR / "MASTER_ALL_METRICS_FAIR_SUBSET.csv", index=False)
 
+    # INTEGRIERTE ERWEITERUNG C: Globaler Alignment-Abgleich aller KIs gegen den Menschen über das gesamte Subset
+    plot_global_alignment_comparison(master_df, FAIR_DIR)
+
     all_models_fair = df_human['T2I_Model'].unique()
 
     for model in all_models_fair:
@@ -385,7 +500,7 @@ def main():
         plot_evaluator_comparison(model_data, model, 'Race', model_out_dir)
         plot_evaluator_comparison(model_data, model, 'MST', model_out_dir)
 
-        # B) NEU: Vollständig Paarweise Heatmaps generieren (Jedes Modell gegen Jedes für vollen Überblick)
+        # B) Vollständig Paarweise Heatmaps generieren
         for cat in ['Gender', 'Race', 'MST']:
             cat_cols = {}
             if f'Human_{cat}' in model_data.columns:
@@ -398,7 +513,6 @@ def main():
                 clean_name = get_clean_evaluator_name(col)
                 cat_cols[clean_name] = col
                 
-            # Erzeuge Kombinationen (z.B. Gemma4 vs DeepFace, Qwen vs DeepFace etc.)
             eval_names = list(cat_cols.keys())
             for i in range(len(eval_names)):
                 for j in range(i + 1, len(eval_names)):
