@@ -26,7 +26,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 # KONFIGURATION: HIER VEKTORRAUM WÄHLEN ("dinov3" oder "clip")
 # =============================================================
 FEATURE_TYPE = "dinov3"  
-FEATURE_TYPE = "clip"  
+# FEATURE_TYPE = "clip"  
 
 # =============================================================
 # PFADE STRUKTURIEREN
@@ -36,7 +36,7 @@ PROJECT_ROOT = SCRIPT_DIR if SCRIPT_DIR.name != 'analysis' else SCRIPT_DIR.paren
 OUTPUT_DIR = PROJECT_ROOT / "outputs"
 
 # Zielverzeichnis wird dynamisch je nach FEATURE_TYPE erzeugt
-PLOTS_DIR = OUTPUT_DIR / "plots" / "cluster" / f"{FEATURE_TYPE}_plots"
+PLOTS_DIR = OUTPUT_DIR / "plots" / "cluster" / f"{FEATURE_TYPE}_plots_tnse"
 
 OLLAMA_CSV = OUTPUT_DIR / "ollama_results.csv"
 DEEPFACE_CSV = OUTPUT_DIR / "deepface_results.csv"
