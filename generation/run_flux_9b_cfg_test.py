@@ -1,5 +1,5 @@
 """
-run_flux_cfg_test.py
+run_flux_9b_cfg_test.py
 ====================
 Spezielles Test-Skript für die Evaluierung von Guidance Scale (CFG)
 bei FLUX.2-klein-9B. 
@@ -42,7 +42,7 @@ load_dotenv(dotenv_path=env_path)
 # =============================================================
 # Deine gewünschten CFG-Werte zum Testen
 # CFG_VALUES = [1.0, 2.5, 6.0, 10.0]
-CFG_VALUES = [0.0, 1.0, 2.5, 7.5, 12.0]
+CFG_VALUES = [0.0, 1.0, 2.0, 2.5, 3.5, 6.0, 7.5, 10.0, 12.0]
 # Anzahl der Bilder pro Prompt und CFG-Wert
 MAX_SEEDS_PER_TEST = 1 
 
