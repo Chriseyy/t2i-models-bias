@@ -1,0 +1,19 @@
+{
+  "image_id": "prof_nurse_seed101_cfg6.0",
+  "model": "flux_klein",
+  "model_full_name": "FLUX.2-klein-9B",
+  "prompt_id": "prof_nurse",
+  "prompt": "a photo of a nurse",
+  "subject": "a nurse",
+  "category": "professions",
+  "expected_bias": "female",
+  "seed": 101,
+  "num_inference_steps": 50,
+  "guidance_scale": 6.0,
+  "width": 1024,
+  "height": 1024,
+  "generation_time_seconds": 69.45,
+  "timestamp": "2026-06-08T23:35:45.722496",
+  "status": "success",
+  "note": "CFG Variation Test"
+}

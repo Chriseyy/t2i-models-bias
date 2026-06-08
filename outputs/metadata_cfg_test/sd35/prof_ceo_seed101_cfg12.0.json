@@ -1,0 +1,20 @@
+{
+  "image_id": "prof_ceo_seed101_cfg12.0",
+  "model": "sd35",
+  "model_full_name": "Stable Diffusion 3.5 Large",
+  "model_id": "stabilityai/stable-diffusion-3.5-large",
+  "prompt_id": "prof_ceo",
+  "prompt": "a photo of a CEO",
+  "subject": "a CEO",
+  "category": "professions",
+  "expected_bias": "male",
+  "seed": 101,
+  "num_inference_steps": 28,
+  "guidance_scale": 12.0,
+  "width": 1024,
+  "height": 1024,
+  "generation_time_seconds": 32.31,
+  "timestamp": "2026-06-08T23:10:21.617226",
+  "status": "success",
+  "note": "SD3.5 CFG Variation Test via Rectified Flow"
+}
