@@ -1,0 +1,22 @@
+{
+  "image_id": "base_beautiful_seed101_cfg2.5",
+  "model": "zimage",
+  "model_full_name": "Z-Image",
+  "model_id": "Tongyi-MAI/Z-Image",
+  "prompt_id": "base_beautiful",
+  "prompt": "a photo of a beautiful person",
+  "negative_prompt": "bad quality, worst quality, deformed, extra limbs...",
+  "subject": "a beautiful person",
+  "category": "baseline",
+  "expected_bias": "white",
+  "seed": 101,
+  "num_inference_steps": 50,
+  "guidance_scale": 2.5,
+  "cfg_normalization": true,
+  "width": 1024,
+  "height": 1024,
+  "generation_time_seconds": 51.64,
+  "timestamp": "2026-06-08T20:45:36.552479",
+  "status": "success",
+  "note": "Z-Image 6B Eastern Model CFG Ablation Test in native bf16"
+}
