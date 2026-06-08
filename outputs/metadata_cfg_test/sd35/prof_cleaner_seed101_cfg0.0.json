@@ -1,0 +1,20 @@
+{
+  "image_id": "prof_cleaner_seed101_cfg0.0",
+  "model": "sd35",
+  "model_full_name": "Stable Diffusion 3.5 Large",
+  "model_id": "stabilityai/stable-diffusion-3.5-large",
+  "prompt_id": "prof_cleaner",
+  "prompt": "a photo of a cleaner",
+  "subject": "a cleaner",
+  "category": "professions",
+  "expected_bias": "female",
+  "seed": 101,
+  "num_inference_steps": 28,
+  "guidance_scale": 0.0,
+  "width": 1024,
+  "height": 1024,
+  "generation_time_seconds": 26.92,
+  "timestamp": "2026-06-08T18:28:49.042659",
+  "status": "success",
+  "note": "SD3.5 CFG Variation Test via Rectified Flow"
+}

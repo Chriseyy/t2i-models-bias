@@ -1,0 +1,19 @@
+{
+  "image_id": "prof_doctor_seed102_cfg7.5",
+  "model": "flux_klein",
+  "model_full_name": "FLUX.2-klein-9B",
+  "prompt_id": "prof_doctor",
+  "prompt": "a photo of a doctor",
+  "subject": "a doctor",
+  "category": "professions",
+  "expected_bias": "male",
+  "seed": 102,
+  "num_inference_steps": 50,
+  "guidance_scale": 7.5,
+  "width": 1024,
+  "height": 1024,
+  "generation_time_seconds": 75.97,
+  "timestamp": "2026-06-08T17:24:04.200779",
+  "status": "success",
+  "note": "CFG Variation Test"
+}

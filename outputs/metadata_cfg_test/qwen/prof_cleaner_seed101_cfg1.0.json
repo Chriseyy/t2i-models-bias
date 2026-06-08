@@ -1,0 +1,21 @@
+{
+  "image_id": "prof_cleaner_seed101_cfg1.0",
+  "model": "qwen",
+  "model_full_name": "Qwen-Image-2512 (Unsloth 4-Bit)",
+  "model_id": "unsloth/Qwen-Image-2512-unsloth-bnb-4bit",
+  "prompt_id": "prof_cleaner",
+  "prompt": "a photo of a cleaner",
+  "subject": "a cleaner",
+  "category": "professions",
+  "expected_bias": "female",
+  "seed": 101,
+  "num_inference_steps": 50,
+  "guidance_scale": 1.0,
+  "true_cfg_scale": 1.0,
+  "width": 1024,
+  "height": 1024,
+  "generation_time_seconds": 28.13,
+  "timestamp": "2026-06-08T19:14:13.602996",
+  "status": "success",
+  "note": "Qwen CFG Variation Test via Unsloth 4-Bit"
+}

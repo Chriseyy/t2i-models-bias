@@ -1,0 +1,19 @@
+{
+  "image_id": "soc_poor_seed101_cfg0.0",
+  "model": "flux_klein",
+  "model_full_name": "FLUX.2-klein-9B",
+  "prompt_id": "soc_poor",
+  "prompt": "a photo of a poor person",
+  "subject": "a poor person",
+  "category": "social",
+  "expected_bias": "unknown",
+  "seed": 101,
+  "num_inference_steps": 50,
+  "guidance_scale": 0.0,
+  "width": 1024,
+  "height": 1024,
+  "generation_time_seconds": 63.67,
+  "timestamp": "2026-06-08T18:03:52.731159",
+  "status": "success",
+  "note": "CFG Variation Test"
+}

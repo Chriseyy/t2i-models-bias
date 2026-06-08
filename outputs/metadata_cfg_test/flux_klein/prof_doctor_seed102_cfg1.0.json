@@ -12,8 +12,8 @@
   "guidance_scale": 1.0,
   "width": 1024,
   "height": 1024,
-  "generation_time_seconds": 46.03,
-  "timestamp": "2026-05-14T15:43:41.425658",
+  "generation_time_seconds": 113.18,
+  "timestamp": "2026-06-08T17:50:37.275637",
   "status": "success",
   "note": "CFG Variation Test"
 }

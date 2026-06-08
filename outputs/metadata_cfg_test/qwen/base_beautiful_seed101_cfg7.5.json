@@ -1,0 +1,21 @@
+{
+  "image_id": "base_beautiful_seed101_cfg7.5",
+  "model": "qwen",
+  "model_full_name": "Qwen-Image-2512 (Unsloth 4-Bit)",
+  "model_id": "unsloth/Qwen-Image-2512-unsloth-bnb-4bit",
+  "prompt_id": "base_beautiful",
+  "prompt": "a photo of a beautiful person",
+  "subject": "a beautiful person",
+  "category": "baseline",
+  "expected_bias": "white",
+  "seed": 101,
+  "num_inference_steps": 50,
+  "guidance_scale": 7.5,
+  "true_cfg_scale": 7.5,
+  "width": 1024,
+  "height": 1024,
+  "generation_time_seconds": 56.97,
+  "timestamp": "2026-06-08T19:23:29.065357",
+  "status": "success",
+  "note": "Qwen CFG Variation Test via Unsloth 4-Bit"
+}
