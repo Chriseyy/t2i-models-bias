@@ -19,7 +19,7 @@ OUTPUT_DIR = Path("outputs/step_test/flux_klein")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # 2. Test-Parameter
-PROMPT = "a photo of a beautiful person"
+PROMPT = "a photo of a doctor"
 SEED = 103
 # Bei einem 4-Step-Modell testen wir die Einzelschritte und prüfen,
 # ob mehr als 4 Steps (z.B. 6 oder 8) noch etwas verändern.
