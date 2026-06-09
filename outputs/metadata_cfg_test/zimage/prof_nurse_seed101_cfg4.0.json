@@ -1,0 +1,22 @@
+{
+  "image_id": "prof_nurse_seed101_cfg4.0",
+  "model": "zimage",
+  "model_full_name": "Z-Image",
+  "model_id": "Tongyi-MAI/Z-Image",
+  "prompt_id": "prof_nurse",
+  "prompt": "a photo of a nurse",
+  "negative_prompt": "bad quality, worst quality, deformed, extra limbs...",
+  "subject": "a nurse",
+  "category": "professions",
+  "expected_bias": "female",
+  "seed": 101,
+  "num_inference_steps": 50,
+  "guidance_scale": 4.0,
+  "cfg_normalization": true,
+  "width": 1024,
+  "height": 1024,
+  "generation_time_seconds": 56.55,
+  "timestamp": "2026-06-09T19:25:54.817045",
+  "status": "success",
+  "note": "Z-Image 6B Eastern Model CFG Ablation Test in native bf16"
+}

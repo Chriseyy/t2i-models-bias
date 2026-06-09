@@ -42,7 +42,7 @@ load_dotenv(dotenv_path=env_path)
 # TEST KONFIGURATION
 # =============================================================
 # Deine wissenschaftlich validierte CFG-Testreihe
-CFG_VALUES = [0.0, 1.0, 2.0, 2.5, 3.5, 4.0, 6.0, 7.5, 10.0, 12.0]
+CFG_VALUES = [0.0, 1.0, 2.5, 3.5, 4.0, 7.5, 12.0]
 
 # Konstante Baseline: Exakt 1 Seed für den perfekten Vorher-Nachher-Vergleich
 MAX_SEEDS_PER_TEST = 1 

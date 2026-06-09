@@ -19,7 +19,7 @@ from torch import seed
 # =============================================================
 PROJECT_ROOT = Path(__file__).parent.parent
 INPUT_DIR    = PROJECT_ROOT / "outputs" / "images_cfg_test"
-OUTPUT_DIR   = PROJECT_ROOT / "plots" / "cfg"
+OUTPUT_DIR   = PROJECT_ROOT / "outputs" / "plots" / "cfg"
 
 # Reihenfolge der Zeilen in der Matrix (West nach Ost sortiert)
 MODEL_ORDER  = ["sd35", "flux", "flux_klein", "qwen", "zimage"]
@@ -111,39 +111,6 @@ def build_matrix_plots():
                     display_name = model_name.upper().replace("_", " ")
                     ax.set_ylabel(display_name, fontsize=14, fontweight='bold', labelpad=15)
         
-        # =============================================================
-        # AUTOMATISCHE ROT-MARKIERUNG (FREEZE-PUNKT / MODE COLLAPSE)
-        #  * Automatische Erkennung der letzten beiden Spalten (meistens 7.5 und 12.0 bzw. 6.0 und 10.0)
-        # =============================================================
-        # Koordinaten für das rote Rechteck berechnen (umschließt die letzten beiden Spalten)
-        # Matplotlib nutzt standardmäßig Figure-Koordinaten oder wir zeichnen es direkt über den Subplot-Space
-        try:
-            # Holen uns die Bounding Boxes der gewünschten Zielspalten
-            ax_start = axes[0, -2] # Oben links im Freeze-Bereich
-            ax_end = axes[-1, -1]  # Unten rechts im Freeze-Bereich
-            
-            # Transformation in Figure-Koordinaten für einen nahtlosen Kasten
-            bbox_start = ax_start.get_position()
-            bbox_end = ax_end.get_position()
-            
-            # Kasten zeichnen mit leichtem Padding
-            rect = patches.Rectangle(
-                (bbox_start.x0 - 0.01, bbox_end.y0 - 0.01),  # Startpunkt (unten links)
-                (bbox_end.x1 - bbox_start.x0) + 0.02,        # Breite
-                (bbox_start.y1 - bbox_end.y0) + 0.02,        # Höhe
-                linewidth=3.5, edgecolor='red', facecolor='none', transform=fig.transFigure, linestyle='--'
-            )
-            fig.patches.append(rect)
-            
-            # Textlabel für den Freeze-Punkt hinzufügen
-            fig.text(
-                bbox_start.x0 + (bbox_end.x1 - bbox_start.x0)/2, bbox_start.y1 + 0.01, 
-                "⚠️ Visueller Freeze-Punkt (Mode Collapse)", 
-                color='red', fontsize=12, fontweight='bold', ha='center', transform=fig.transFigure
-            )
-        except Exception as e:
-            print(f"⚠️ Kasten-Zeichnung übersprungen: {e}")
-
         # Speichern des finalen Plots
         plt.tight_layout(rect=[0, 0, 1, 0.93])
         output_path = OUTPUT_DIR / f"{prompt_id}_seed{seed}_matrix.png"

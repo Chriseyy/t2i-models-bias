@@ -1,0 +1,19 @@
+{
+  "image_id": "base_beautiful_seed101_cfg3.5",
+  "model": "flux_klein",
+  "model_full_name": "FLUX.2-klein-9B",
+  "prompt_id": "base_beautiful",
+  "prompt": "a photo of a beautiful person",
+  "subject": "a beautiful person",
+  "category": "baseline",
+  "expected_bias": "white",
+  "seed": 101,
+  "num_inference_steps": 50,
+  "guidance_scale": 3.5,
+  "width": 1024,
+  "height": 1024,
+  "generation_time_seconds": 74.88,
+  "timestamp": "2026-06-09T19:20:15.760414",
+  "status": "success",
+  "note": "CFG Variation Test"
+}

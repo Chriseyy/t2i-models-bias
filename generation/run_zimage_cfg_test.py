@@ -41,7 +41,7 @@ load_dotenv(dotenv_path=env_path)
 # TEST KONFIGURATION
 # =============================================================
 # Symmetrisches Test-Design (4.0 ist deine Baseline aus der Haupt-Pipeline)
-CFG_VALUES = [0.0, 1.0, 2.0, 2.5, 3.5, 4.0, 6.0, 7.5, 10.0, 12.0]
+CFG_VALUES = [0.0, 1.0, 2.5, 3.5, 4.0, 7.5, 12.0]
 
 # Exakt 1 Seed für den perfekten Vorher-Nachher-Vergleich ohne Layout-Verschiebung
 MAX_SEEDS_PER_TEST = 1 
