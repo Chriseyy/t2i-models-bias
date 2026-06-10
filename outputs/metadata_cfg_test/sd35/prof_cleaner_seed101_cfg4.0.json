@@ -13,8 +13,8 @@
   "guidance_scale": 4.0,
   "width": 1024,
   "height": 1024,
-  "generation_time_seconds": 33.1,
-  "timestamp": "2026-06-08T23:11:30.314327",
+  "generation_time_seconds": 52.52,
+  "timestamp": "2026-06-10T13:14:14.615659",
   "status": "success",
   "note": "SD3.5 CFG Variation Test via Rectified Flow"
 }
