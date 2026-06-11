@@ -1,15 +1,16 @@
 """
 run_flux.py
 ===========
-Generation-Script für FLUX.2-dev ("FLUX.2-dev (4-Bit LOCAL)")
+Generation-Script für FLUX.2-dev ("FLUX.2-dev (4-Bit LOCAL)") - Erweitert um Cross-Lingual Support
 
 Wichtiger Unterschied zu SD 3.5:
 - Nutzt einen Cloud-Server für die Text-Vektoren (spart ~20GB VRAM!)
 - Nutzt das 4-Bit quantisierte Modell für maximale RTX 5090 Performance
 - Keine negativen Prompts
+- Dynamischer Sprach-Switch via --chinese Flag mit angepassten Pfaden
 
 Verwendung:
-    python generation/run_flux.py
+    python generation/run_flux.py --chinese
 """
 
 import os
@@ -34,11 +35,13 @@ from dotenv import load_dotenv
 from huggingface_hub import get_token
 
 # =============================================================
-# PFADE
+# PFADE (Standard-Vorgaben)
 # =============================================================
 PROJECT_ROOT    = Path(__file__).parent.parent
 CONFIG_DIR      = PROJECT_ROOT / "config"
 OUTPUT_DIR      = PROJECT_ROOT / "outputs"
+
+# Standard-Pfade für den englischen Haupt-Lauf
 IMAGE_DIR       = OUTPUT_DIR / "images" / "flux"
 META_DIR        = OUTPUT_DIR / "metadata" / "flux"
 CHECKPOINT_FILE = OUTPUT_DIR / "checkpoint_flux.json"
@@ -49,13 +52,19 @@ load_dotenv(dotenv_path=env_path)
 # =============================================================
 # LOGGING
 # =============================================================
-def setup_logging():
-    log_file = OUTPUT_DIR / "generation_flux.log"
+def setup_logging(chinese=False):
+    log_name = "generation_flux_chines.log" if chinese else "generation_flux.log"
+    log_file = OUTPUT_DIR / log_name
+    
+    # Logger zurücksetzen, um Konflikte bei Parameter-Wechseln zu vermeiden
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+        
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s | %(levelname)s | %(message)s",
         handlers=[
-            logging.FileHandler(log_file),
+            logging.FileHandler(log_file, encoding="utf-8"),
             logging.StreamHandler(sys.stdout)
         ]
     )
@@ -64,8 +73,8 @@ def setup_logging():
 # =============================================================
 # CONFIG
 # =============================================================
-def load_configs():
-    with open(CONFIG_DIR / "prompts.yaml", "r", encoding="utf-8") as f:
+def load_configs(prompt_filename="prompts.yaml"):
+    with open(CONFIG_DIR / prompt_filename, "r", encoding="utf-8") as f:
         prompt_cfg = yaml.safe_load(f)
     with open(CONFIG_DIR / "models.yaml", "r", encoding="utf-8") as f:
         model_cfg = yaml.safe_load(f)
@@ -95,24 +104,25 @@ def load_checkpoint():
             return set(json.load(f).get("completed", []))
     return set()
 
-def save_checkpoint(completed: set):
+def save_checkpoint(completed: set, is_chinese=False):
     with open(CHECKPOINT_FILE, "w") as f:
         json.dump({
             "completed": list(completed),
             "last_updated": datetime.now().isoformat(),
-            "model": "flux"
+            "model": "flux_chines" if is_chinese else "flux"
         }, f, indent=2)
 
 def make_image_id(prompt_id: str, seed: int) -> str:
     return f"{prompt_id}_seed{seed:03d}"
 
-def save_metadata(image_id, prompt_info, seed, model_cfg, gen_time, image_path):
+def save_metadata(image_id, prompt_info, seed, model_cfg, gen_time, image_path, is_chinese=False):
     gen_cfg = model_cfg["models"]["flux"]["generation"]
     img_cfg = model_cfg["global"]["output_size"]
 
     meta = {
         "image_id": image_id,
         "model": "flux",
+        "language": "chinese" if is_chinese else "english",
         "model_full_name": model_cfg["models"]["flux"]["name"],
         "model_id": model_cfg["models"]["flux"]["model_id"],
         "prompt_id": prompt_info["id"],
@@ -128,7 +138,7 @@ def save_metadata(image_id, prompt_info, seed, model_cfg, gen_time, image_path):
         "generation_time_seconds": round(gen_time, 2),
         "timestamp": datetime.now().isoformat(),
         "status": "success",
-        "note": "Used remote text encoder and 4-bit quantization"
+        "note": "Cross-Lingual Deep Dive via remote text encoder and 4-bit quantization" if is_chinese else "Used remote text encoder and 4-bit quantization"
     }
 
     meta_path = META_DIR / f"{image_id}.json"
@@ -140,13 +150,12 @@ def save_metadata(image_id, prompt_info, seed, model_cfg, gen_time, image_path):
 # MODELL LADEN
 # =============================================================
 def load_model(model_cfg, logger):
-    model_id = model_cfg["models"]["flux"]["model_id"]  # ← aus YAML lesen
-    device = "cuda:0"
+    model_id = model_cfg["models"]["flux"]["model_id"]
     dtype = torch.bfloat16
 
     logger.info(f"Lade 100% lokales 4-Bit Modell: {model_id}")
     
-    # 1. Text-Encoder manuell laden (Umgeht den Pixtral-Bug!)
+    # 1. Text-Encoder manuell laden
     logger.info("   Lade 4-Bit Text-Encoder...")
     text_encoder = Mistral3ForConditionalGeneration.from_pretrained(
         model_id, subfolder="text_encoder", torch_dtype=dtype, device_map="cpu"
@@ -163,18 +172,10 @@ def load_model(model_cfg, logger):
     pipe = Flux2Pipeline.from_pretrained(
         model_id, text_encoder=text_encoder, transformer=dit, torch_dtype=dtype
     )
-    
-    
 
     pipe.enable_model_cpu_offload()
-    print("   ✅ CPU-Offload aktiviert (RAM <-> VRAM)")
+    logger.info("   ✅ CPU-Offload aktiviert (RAM <-> VRAM)")
 
-    # 5090 Optimierungen
-    # pipe.to("cuda")
-    # pipe.vae.enable_slicing()
-    # pipe.vae.enable_tiling()  
-    
-    # # 5090 Optimierungen
     torch.backends.cuda.matmul.allow_tf32 = True
 
     logger.info("✅ FLUX erfolgreich geladen!")
@@ -191,7 +192,7 @@ def generate_image(pipe, prompt_info, seed, model_cfg, logger):
     generator = torch.Generator(device="cuda").manual_seed(seed)
     start = time.time()
 
-    logger.info("   🖌️ Generiere Bild lokal...")
+    logger.info(f"   🖌️ Generiere Bild lokal für: {prompt_info['prompt']}")
     image = pipe(
         prompt=prompt_info["prompt"], 
         width=img_cfg["width"],
@@ -206,17 +207,29 @@ def generate_image(pipe, prompt_info, seed, model_cfg, logger):
 # =============================================================
 # MAIN
 # =============================================================
-def main(dry_run=False, resume=True):
-    logger = setup_logging()
+def main(dry_run=False, resume=True, chinese=False):
+    global IMAGE_DIR, META_DIR, CHECKPOINT_FILE
+    
+    # EXAKTE PFAD-ANPASSUNG FÜR DEINEN CHINESISCHEN OUTPUT
+    if chinese:
+        IMAGE_DIR       = OUTPUT_DIR / "images_chines" / "flux"
+        META_DIR        = OUTPUT_DIR / "metadata_chines" / "flux"
+        CHECKPOINT_FILE = OUTPUT_DIR / "checkpoint_flux_chines.json"
+
+    logger = setup_logging(chinese=chinese)
     IMAGE_DIR.mkdir(parents=True, exist_ok=True)
     META_DIR.mkdir(parents=True, exist_ok=True)
 
     logger.info("=" * 60)
-    logger.info("BIAS EVALUATION - FLUX.2-dev (4-Bit LOCAL)")
+    logger.info(f"BIAS EVALUATION - FLUX.2-dev (4-Bit LOCAL) ({'CHINESE DEEP DIVE' if chinese else 'ENGLISH MAIN'})")
     logger.info(f"Gestartet: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     logger.info("=" * 60)
 
-    prompt_cfg, model_cfg = load_configs()
+    # Lade die jeweils korrekte Konfigurationsdatei
+    prompt_file = "prompt_chines.yaml" if chinese else "prompts.yaml"
+    logger.info(f"Nutze Konfigurationsdatei: config/{prompt_file}")
+
+    prompt_cfg, model_cfg = load_configs(prompt_file)
     prompts = build_prompt_list(prompt_cfg)
     seeds   = prompt_cfg["seeds"]
     total_images = len(prompts) * len(seeds)
@@ -257,10 +270,10 @@ def main(dry_run=False, resume=True):
                 image_path = IMAGE_DIR / f"{image_id}.png"
                 image.save(image_path, format="PNG")
 
-                save_metadata(image_id, prompt_info, seed, model_cfg, gen_time, image_path)
+                save_metadata(image_id, prompt_info, seed, model_cfg, gen_time, image_path, is_chinese=chinese)
 
                 completed.add(image_id)
-                save_checkpoint(completed)
+                save_checkpoint(completed, is_chinese=chinese)
                 success_count += 1
 
                 elapsed = time.time() - total_start
@@ -268,11 +281,8 @@ def main(dry_run=False, resume=True):
                 logger.info(f"   ✅ {gen_time:.1f}s | {success_count}/{total_images} | ETA: {eta/60:.1f} min")
 
             except Exception as e:
-                # Fängt Fehler beim API-Call UND bei CUDA ab
                 logger.error(f"   ❌ {image_id}: {e}")
                 failed.append({"id": image_id, "error": str(e)})
-                
-                # Sicherheitsnetz: VRAM leeren bei Fehlern
                 torch.cuda.empty_cache()
                 gc.collect()
 
@@ -280,8 +290,9 @@ def main(dry_run=False, resume=True):
     total_time = time.time() - total_start
     logger.info(f"\n✅ {len(completed)}/{total_images} | ❌ {len(failed)} | ⏱️ {total_time/60:.1f} min")
 
+    fail_filename = "failed_flux_chines.json" if chinese else "failed_flux.json"
     if failed:
-        with open(OUTPUT_DIR / "failed_flux.json", "w") as f:
+        with open(OUTPUT_DIR / fail_filename, "w") as f:
             json.dump(failed, f, indent=2)
 
     del pipe
@@ -293,5 +304,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--no-resume", action="store_true")
+    parser.add_argument("--chinese", action="store_true", help="Startet den chinesischen Cross-Lingual Deep Dive")
     args = parser.parse_args()
-    main(dry_run=args.dry_run, resume=not args.no_resume)
+    
+    main(dry_run=args.dry_run, resume=not args.no_resume, chinese=args.chinese)

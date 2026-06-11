@@ -7,11 +7,10 @@ Lädt jedes Modell, generiert alle Bilder, löscht VRAM, nächstes Modell.
 So braucht es nie mehr als den VRAM des aktuell laufenden Modells.
 
 Verwendung:
-    python pipeline.py                    # Alle 4 Modelle
-    python pipeline.py --model sd35       # Nur SD 3.5
-    python pipeline.py --model flux       # Nur Flux.2-dev (Das Große)
-    python pipeline.py --model flux_klein # Nur Flux.2-klein-9B (Das Schnelle)
-    python pipeline.py --model qwen       # Nur Qwen
+    python pipeline.py                    # Alle Modelle (Englisch)
+    python pipeline.py --chinese          # Alle Modelle (Chinesisch Deep Dive)
+    python pipeline.py --model flux_klein # Nur Flux.2-klein-9B (Englisch)
+    python pipeline.py --model zimage --chinese # Nur Z-Image (Chinesisch)
     python pipeline.py --dry-run          # Test ohne Generierung
 """
 
@@ -30,12 +29,16 @@ import generation.run_zimage as zimage_runner
 
 def main():
     parser = argparse.ArgumentParser(description="Bias Evaluation - Master Pipeline")
-    parser.add_argument("--model", choices=["sd35", "flux", "flux_klein", "qwen", "all"],
+    # "zimage" zu den choices hinzugefügt, damit das Argument fehlerfrei akzeptiert wird
+    parser.add_argument("--model", choices=["sd35", "flux", "flux_klein", "qwen", "zimage", "all"],
                         default="all", help="Welches Modell ausführen")
     parser.add_argument("--dry-run", action="store_true",
                         help="Nur testen ohne echte Generierung")
     parser.add_argument("--no-resume", action="store_true",
                         help="Checkpoint ignorieren")
+    # Das neue Flag für den Cross-Lingual Support
+    parser.add_argument("--chinese", action="store_true",
+                        help="Startet den chinesischen Cross-Lingual Deep Dive für alle ausgewählten Modelle")
     args = parser.parse_args()
 
     logging.basicConfig(
@@ -48,43 +51,44 @@ def main():
     logger.info("=" * 60)
     logger.info("BIAS EVALUATION PIPELINE - Master Runner")
     logger.info(f"Gestartet: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    logger.info(f"Modus: {'DRY-RUN' if args.dry_run else 'PRODUCTION'}")
+    logger.info(f"Modus:    {'DRY-RUN' if args.dry_run else 'PRODUCTION'}")
+    logger.info(f"Sprache:  {'CHINESISCH (Deep Dive)' if args.chinese else 'ENGLISCH (Main)'}")
     logger.info("=" * 60)
 
     resume = not args.no_resume
     dry_run = args.dry_run
     model = args.model
+    chinese = args.chinese # Reicht den Parameter nach unten weiter
 
     if model in ("sd35", "all"):
         logger.info("\n" + "🔵 " * 20)
         logger.info("STARTE: Stable Diffusion 3.5 Large")
         logger.info("🔵 " * 20)
-        sd35_runner.main(dry_run=dry_run, resume=resume)
+        sd35_runner.main(dry_run=dry_run, resume=resume, chinese=chinese)
 
     if model in ("flux", "all"):
         logger.info("\n" + "🟡 " * 20)
         logger.info("STARTE: FLUX.2-dev (32B)")
         logger.info("🟡 " * 20)
-        flux_runner.main(dry_run=dry_run, resume=resume)
+        flux_runner.main(dry_run=dry_run, resume=resume, chinese=chinese)
 
-    # --- NEU: Der Block für das 9B Modell ---
     if model in ("flux_klein", "all"):
-        logger.info("\n" + "🟠 " * 20)
+        logger.info("\n" + "export 🟠 " * 20)
         logger.info("STARTE: FLUX.2-klein-9B")
         logger.info("🟠 " * 20)
-        flux_klein_runner.main(dry_run=dry_run, resume=resume)
+        flux_klein_runner.main(dry_run=dry_run, resume=resume, chinese=chinese)
 
     if model in ("qwen", "all"):
         logger.info("\n" + "🟢 " * 20)
         logger.info("STARTE: Qwen-Image-2512")
         logger.info("🟢 " * 20)
-        qwen_runner.main(dry_run=dry_run, resume=resume)
+        qwen_runner.main(dry_run=dry_run, resume=resume, chinese=chinese)
 
     if model in ("zimage", "all"):
-        logger.info("\n" + "� " * 20)
-        logger.info("STARTE: Z-Image")
-        logger.info("� " * 20)
-        zimage_runner.main(dry_run=dry_run, resume=resume)
+        logger.info("\n" + "🔮 " * 20)
+        logger.info("STARTE: Z-Image (6B)")
+        logger.info("🔮 " * 20)
+        zimage_runner.main(dry_run=dry_run, resume=resume, chinese=chinese)
 
     logger.info("\n" + "=" * 60)
     logger.info("✅ PIPELINE KOMPLETT ABGESCHLOSSEN")

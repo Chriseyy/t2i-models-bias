@@ -1,0 +1,15 @@
+{
+  "completed": [
+    "prof_nurse_seed101",
+    "soc_poor_seed101",
+    "prof_nurse_seed102",
+    "prof_ceo_seed101",
+    "prof_cleaner_seed102",
+    "prof_doctor_seed101",
+    "prof_cleaner_seed101",
+    "prof_doctor_seed102",
+    "prof_ceo_seed102"
+  ],
+  "last_updated": "2026-06-11T13:01:41.156930",
+  "model": "flux_klein_chines"
+}

@@ -1,16 +1,18 @@
 """
 run_sd35.py
 ===========
-Generation-Script für Stable Diffusion 3.5 Large
+Generation-Script für Stable Diffusion 3.5 Large (Erweitert um Cross-Lingual Support)
 
 Features:
 - Checkpoint-System: Startet da weiter wo es aufgehört hat
 - Metadata-JSON pro Bild (für spätere Analyse)
 - Sauberes Error-Logging (kein stiller Fehler!)
 - VRAM-Cleanup nach jedem Batch
+- Dynamischer Sprach-Switch via --chinese Flag
 
 Verwendung:
     python generation/run_sd35.py
+    python generation/run_sd35.py --chinese    # Startet den chinesischen Deep Dive
     python generation/run_sd35.py --dry-run    # Nur testen ohne zu generieren
     python generation/run_sd35.py --resume     # Checkpoint weitermachen
 """
@@ -38,23 +40,32 @@ from dotenv import load_dotenv
 PROJECT_ROOT = Path(__file__).parent.parent
 CONFIG_DIR   = PROJECT_ROOT / "config"
 OUTPUT_DIR   = PROJECT_ROOT / "outputs"
+
+# Standard-Pfade für den englischen Haupt-Lauf
 IMAGE_DIR    = OUTPUT_DIR / "images" / "sd35"
 META_DIR     = OUTPUT_DIR / "metadata" / "sd35"
 LOG_DIR      = OUTPUT_DIR
 CHECKPOINT_FILE = OUTPUT_DIR / "checkpoint_sd35.json"
+
 env_path = PROJECT_ROOT / ".env"
 load_dotenv(dotenv_path=env_path)
 
 # =============================================================
 # LOGGING SETUP
 # =============================================================
-def setup_logging():
-    log_file = LOG_DIR / "generation_sd35.log"
+def setup_logging(chinese=False):
+    log_name = "generation_sd35_chines.log" if chinese else "generation_sd35.log"
+    log_file = LOG_DIR / log_name
+    
+    # Logger zurücksetzen, um Konflikte bei Parameter-Wechseln zu vermeiden
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+        
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s | %(levelname)s | %(message)s",
         handlers=[
-            logging.FileHandler(log_file),
+            logging.FileHandler(log_file, encoding="utf-8"),
             logging.StreamHandler(sys.stdout)
         ]
     )
@@ -64,9 +75,9 @@ def setup_logging():
 # =============================================================
 # CONFIG LADEN
 # =============================================================
-def load_configs():
-    """Lädt prompts.yaml und models.yaml mit Sicherheits-Check"""
-    prompt_path = CONFIG_DIR / "prompts.yaml"
+def load_configs(prompt_filename="prompts.yaml"):
+    """Lädt prompts.yaml/prompt_chines.yaml und models.yaml mit Sicherheits-Check"""
+    prompt_path = CONFIG_DIR / prompt_filename
     model_path = CONFIG_DIR / "models.yaml"
 
     print(f"\n🔍 Lese Prompts von: {prompt_path}")
@@ -99,6 +110,7 @@ def build_prompt_list(prompt_cfg):
 
     for category_name, category_data in prompt_cfg["prompts"].items():
         for item in category_data["items"]:
+            # UTF-8 sicheres Formatting für chinesische Schriftzeichen
             full_prompt = base_template.format(subject=item["subject"])
             all_prompts.append({
                 "id": item["id"],
@@ -123,13 +135,13 @@ def load_checkpoint():
     return set()
 
 
-def save_checkpoint(completed_ids: set):
+def save_checkpoint(completed_ids: set, is_chinese=False):
     """Speichert welche Image-IDs schon fertig sind"""
     with open(CHECKPOINT_FILE, "w") as f:
         json.dump({
             "completed": list(completed_ids),
             "last_updated": datetime.now().isoformat(),
-            "model": "sd35"
+            "model": "sd35_chines" if is_chinese else "sd35"
         }, f, indent=2)
 
 
@@ -143,7 +155,7 @@ def make_image_id(prompt_id: str, seed: int) -> str:
 # =============================================================
 def save_metadata(image_id: str, prompt_info: dict, seed: int,
                   model_cfg: dict, generation_time: float,
-                  image_path: str):
+                  image_path: str, is_chinese=False):
     """
     Speichert JSON-Metadata für jedes Bild.
     Wird später von der Analyse-Pipeline genutzt!
@@ -151,6 +163,7 @@ def save_metadata(image_id: str, prompt_info: dict, seed: int,
     meta = {
         "image_id": image_id,
         "model": "sd35",
+        "language": "chinese" if is_chinese else "english",
         "model_full_name": "Stable Diffusion 3.5 Large",
         "model_id": model_cfg["models"]["sd35"]["model_id"],
 
@@ -211,12 +224,6 @@ def load_model(model_cfg: dict, logger: logging.Logger):
         )
         
         pipe = pipe.to("cuda")
-        # pipe.enable_model_cpu_offload() 
-
-        # torch.backends.cuda.matmul.allow_tf32 = True
-        # pipe.transformer.to(memory_format=torch.channels_last)
-        # pipe.vae.to(memory_format=torch.channels_last)
-        
         logger.info("✅ Modell geladen und optimiert!")
         logger.info(f"   VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
         return pipe
@@ -262,19 +269,30 @@ def generate_image(pipe, prompt_info: dict, seed: int,
 # =============================================================
 # HAUPTPROGRAMM
 # =============================================================
-def main(dry_run: bool = False, resume: bool = True):
+def main(dry_run: bool = False, resume: bool = True, chinese: bool = False):
+    global IMAGE_DIR, META_DIR, CHECKPOINT_FILE
+    
+    # EXAKTE PFAD-ANPASSUNG FÜR DEINEN CHINESISCHEN OUTPUT
+    if chinese:
+        IMAGE_DIR       = OUTPUT_DIR / "images_chines" / "sd35"
+        META_DIR        = OUTPUT_DIR / "metadata_chines" / "sd35"
+        CHECKPOINT_FILE = OUTPUT_DIR / "checkpoint_sd35_chines.json"
+
     # Setup
-    logger = setup_logging()
+    logger = setup_logging(chinese=chinese)
     IMAGE_DIR.mkdir(parents=True, exist_ok=True)
     META_DIR.mkdir(parents=True, exist_ok=True)
 
     logger.info("=" * 60)
-    logger.info("BIAS EVALUATION - SD 3.5 Generation")
+    logger.info(f"BIAS EVALUATION - SD 3.5 Generation ({'CHINESE DEEP DIVE' if chinese else 'ENGLISH MAIN'})")
     logger.info(f"Gestartet: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     logger.info("=" * 60)
 
-    # Config laden
-    prompt_cfg, model_cfg = load_configs()
+    # Config laden basierend auf Sprache
+    prompt_file = "prompt_chines.yaml" if chinese else "prompts.yaml"
+    logger.info(f"Nutze Konfigurationsdatei: config/{prompt_file}")
+    
+    prompt_cfg, model_cfg = load_configs(prompt_file)
     prompts = build_prompt_list(prompt_cfg)
     seeds   = prompt_cfg["seeds"]
 
@@ -338,12 +356,13 @@ def main(dry_run: bool = False, resume: bool = True):
                     seed=seed,
                     model_cfg=model_cfg,
                     generation_time=gen_time,
-                    image_path=image_path
+                    image_path=image_path,
+                    is_chinese=chinese
                 )
 
                 # Checkpoint updaten
                 completed.add(image_id)
-                save_checkpoint(completed)
+                save_checkpoint(completed, is_chinese=chinese)
                 success_count += 1
 
                 logger.info(f"   ✅ Fertig in {gen_time:.1f}s → {image_path.name}")
@@ -379,8 +398,9 @@ def main(dry_run: bool = False, resume: bool = True):
     logger.info(f"📋 Metadata in: {META_DIR}")
 
     # Fehlgeschlagene Bilder speichern
+    fail_filename = "failed_sd35_chines.json" if chinese else "failed_sd35.json"
     if failed:
-        failed_path = OUTPUT_DIR / "failed_sd35.json"
+        failed_path = OUTPUT_DIR / fail_filename
         with open(failed_path, "w") as f:
             json.dump(failed, f, indent=2)
         logger.info(f"⚠️  Fehler-Log: {failed_path}")
@@ -401,9 +421,12 @@ if __name__ == "__main__":
                         help="Nur zeigen was generiert werden würde, ohne echte Bilder")
     parser.add_argument("--no-resume", action="store_true",
                         help="Checkpoint ignorieren, alles neu generieren")
+    parser.add_argument("--chinese", action="store_true", 
+                        help="Startet den chinesischen Cross-Lingual Deep Dive")
     args = parser.parse_args()
 
     main(
         dry_run=args.dry_run,
-        resume=not args.no_resume
+        resume=not args.no_resume,
+        chinese=args.chinese
     )
