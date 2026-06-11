@@ -146,7 +146,7 @@ def plot_global_alignment_comparison(master_df, output_folder):
             accuracy = (matches / len(valid_sub)) * 100
 
             alignment_rows.append({
-                'Kategorie': cat,
+                'Kategorie': 'Ethnicity' if cat == 'Race' else cat, # Visuelle Ersetzung zu Ethnicity
                 'Evaluator': eval_name,
                 'Uebereinstimmung': round(accuracy, 2)
             })
@@ -156,7 +156,7 @@ def plot_global_alignment_comparison(master_df, output_folder):
 
     plt.figure(figsize=(11, 6))
     sns.barplot(data=df_align, x='Kategorie', y='Uebereinstimmung', hue='Evaluator', palette='Set2')
-    plt.title("Methodische Kür: Globales KI-Alignment (Exakte Übereinstimmung mit Mensch)")
+    plt.title("Globales KI-Alignment (Exakte Übereinstimmung mit Mensch)")
     plt.ylabel("Exakte Übereinstimmung zur Ground Truth (%)")
     plt.xlabel("Evaluierungs-Dimension")
     plt.ylim(0, 105)
@@ -175,14 +175,16 @@ def generate_grouped_plots(df, category_col, t2i_model, output_folder, file_pref
     safe_prefix = file_prefix.replace(":", "_").replace("/", "_")
     if safe_prefix: safe_prefix += "_"
 
+    display_name = category_col.replace("Race", "Ethnicity") # Visuelle Ersetzung zu Ethnicity
+
     plt.figure(figsize=(16, 7))
     sns.countplot(data=model_df, x='Prompt_Subject', hue=category_col, hue_order=hue_order, palette="Set2")
     title_prefix = f"[{file_prefix}] " if file_prefix else ""
-    plt.title(f"{title_prefix}Verteilung: {category_col} über alle Prompts ({t2i_model.upper()})")
+    plt.title(f"{title_prefix}Verteilung: {display_name} über alle Prompts ({t2i_model.upper()})")
     plt.ylabel("Absolute Anzahl (Count)")
     plt.xlabel("Generierter Prompt")
     plt.xticks(rotation=30, ha="right")
-    plt.legend(title=category_col, bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.legend(title=display_name, bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.tight_layout()
     plt.savefig(output_folder / f"{safe_prefix}{category_col}_MASTER_ALL_PROMPTS.png", dpi=300)
     plt.close()
@@ -192,9 +194,9 @@ def generate_grouped_plots(df, category_col, t2i_model, output_folder, file_pref
         prompt_df = model_df[model_df['Prompt_Subject'] == prompt]
         plt.figure(figsize=(8, 6))
         sns.countplot(data=prompt_df, x=category_col, order=hue_order, palette="Set2")
-        plt.title(f"{title_prefix}{category_col} | Prompt: {prompt} | Modell: {t2i_model.upper()}")
+        plt.title(f"{title_prefix}{display_name} | Prompt: {prompt} | Modell: {t2i_model.upper()}")
         plt.ylabel("Absolute Anzahl (Count)")
-        plt.xlabel(category_col)
+        plt.xlabel(display_name)
         plt.xticks(rotation=30, ha="right")
         plt.tight_layout()
         plt.savefig(output_folder / f"{safe_prefix}{category_col}_SinglePrompt_{prompt}.png", dpi=300)
@@ -214,12 +216,13 @@ def generate_vlm_comparison_plot(df, t2i_model, output_folder):
 
     for cat, order in categories:
         if cat not in model_df.columns: continue
+        display_name = cat.replace("Race", "Ethnicity") # Visuelle Ersetzung zu Ethnicity
         plt.figure(figsize=(12, 6))
         sns.countplot(data=model_df, x='VLM_Model', hue=cat, order=vlms, hue_order=order, palette="Set2")
-        plt.title(f"VLM Vergleich (Generell): KIs über das gesamte Modell {t2i_model.upper()} ({cat})")
+        plt.title(f"VLM Vergleich (Generell): KIs über das gesamte Modell {t2i_model.upper()} ({display_name})")
         plt.ylabel("Absolute Anzahl (Bilder)")
         plt.xlabel("Ollama VLM-Modell")
-        plt.legend(title=cat, bbox_to_anchor=(1.05, 1), loc='upper left')
+        plt.legend(title=display_name, bbox_to_anchor=(1.05, 1), loc='upper left')
         plt.tight_layout()
         plt.savefig(output_folder / f"VLM_COMPARISON_GENERAL_{cat}.png", dpi=300)
         plt.close()
@@ -239,12 +242,12 @@ def generate_all_ai_comparison_plot(df_ollama, df_deepface, t2i_model, output_fo
         vlm = row['VLM_Model']
         safe_vlm = vlm.replace(":", "_").replace("/", "_")
         if 'VLM_Gender' in row: combined_rows.append({'Image_Name': img, 'Evaluator': safe_vlm, 'Category': 'Gender', 'Prediction': row['VLM_Gender']})
-        if 'VLM_Race' in row: combined_rows.append({'Image_Name': img, 'Evaluator': safe_vlm, 'Category': 'Race', 'Prediction': row['VLM_Race']})
+        if 'VLM_Race' in row: combined_rows.append({'Image_Name': img, 'Evaluator': safe_vlm, 'Category': 'Ethnicity', 'Prediction': row['VLM_Race']}) # Visuelle Ersetzung zu Ethnicity
 
     for _, row in df_model.iterrows():
         img = row['Image_Name']
         if 'DeepFace_Gender' in row: combined_rows.append({'Image_Name': img, 'Evaluator': 'DeepFace', 'Category': 'Gender', 'Prediction': row['DeepFace_Gender']})
-        if 'DeepFace_Race' in row: combined_rows.append({'Image_Name': img, 'Evaluator': 'DeepFace', 'Category': 'Race', 'Prediction': row['DeepFace_Race']})
+        if 'DeepFace_Race' in row: combined_rows.append({'Image_Name': img, 'Evaluator': 'DeepFace', 'Category': 'Ethnicity', 'Prediction': row['DeepFace_Race']}) # Visuelle Ersetzung zu Ethnicity
 
     combined_df = pd.DataFrame(combined_rows).dropna(subset=['Prediction'])
     if combined_df.empty: return
@@ -262,14 +265,14 @@ def generate_all_ai_comparison_plot(df_ollama, df_deepface, t2i_model, output_fo
         plt.savefig(output_folder / "ALLE_KIS_COMPARISON_GENERAL_Gender.png", dpi=300)
         plt.close()
 
-    race_df = combined_df[combined_df['Category'] == 'Race']
+    race_df = combined_df[combined_df['Category'] == 'Ethnicity'] # Visuelle Ersetzung zu Ethnicity
     if not race_df.empty:
         plt.figure(figsize=(14, 7))
         sns.countplot(data=race_df, x='Evaluator', hue='Prediction', palette="Set2")
-        plt.title(f"Alle KIs im Vergleich (Generell): Race für Modell {t2i_model.upper()}")
+        plt.title(f"Alle KIs im Vergleich (Generell): Ethnicity für Modell {t2i_model.upper()}")
         plt.ylabel("Absolute Anzahl (Bilder)")
         plt.xlabel("Evaluator (VLMs + DeepFace)")
-        plt.legend(title="Race", bbox_to_anchor=(1.05, 1), loc='upper left')
+        plt.legend(title="Ethnicity", bbox_to_anchor=(1.05, 1), loc='upper left')
         plt.xticks(rotation=15)
         plt.tight_layout()
         plt.savefig(output_folder / "ALLE_KIS_COMPARISON_GENERAL_Race.png", dpi=300)
@@ -300,13 +303,15 @@ def plot_evaluator_comparison(df, model_name, category, output_folder):
     melted_df['Evaluator'] = pd.Categorical(melted_df['Evaluator'], categories=eval_order, ordered=True)
     melted_df = melted_df.sort_values('Evaluator')
 
+    display_cat = category.replace("Race", "Ethnicity") # Visuelle Ersetzung zu Ethnicity
+
     plt.figure(figsize=(12, 6))
     sns.countplot(data=melted_df, x='Evaluator', hue='Prediction', palette="Set2")
-    plt.title(f"KI-Vergleich: Modell-Metriken ({category} | {model_name.upper()})")
+    plt.title(f"KI-Vergleich: Modell-Metriken ({display_cat} | {model_name.upper()})")
     plt.ylabel(f"Anzahl der Bilder (Max {len(df)})")
     plt.xlabel("Maschinelle Evaluatoren")
     plt.xticks(rotation=0)
-    plt.legend(title=f"Erkannte(s) {category}", bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.legend(title=f"Erkannte(s) {display_cat}", bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.tight_layout()
     safe_category = category.replace("/", "_")
     plt.savefig(output_folder / f"VERGLEICH_KI_Modelle_{safe_category}.png", dpi=300)
@@ -519,7 +524,8 @@ def main():
                     name1 = eval_names[i]
                     name2 = eval_names[j]
                     
-                    title = f"Heatmap: {name1} vs {name2} ({cat} | {model.upper()})"
+                    display_cat = cat.replace("Race", "Ethnicity") # Visuelle Ersetzung zu Ethnicity
+                    title = f"Heatmap: {name1} vs {name2} ({display_cat} | {model.upper()})"
                     filename = f"HEATMAP_{name1}_vs_{name2}_{cat}"
                     
                     generate_heatmap(model_data, cat_cols[name1], cat_cols[name2], 
