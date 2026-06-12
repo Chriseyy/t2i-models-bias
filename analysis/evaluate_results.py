@@ -18,6 +18,7 @@ import seaborn as sns
 from pathlib import Path
 from statistical_suammry_addon import generate_statistical_summary
 from per_prompt_dashboard import generate_per_prompt_dashboards
+from per_prompt_statistics import generate_per_prompt_statistics
 
 # =============================================================
 # PFADE DEFINIEREN
@@ -53,7 +54,6 @@ def clean_category_strings(df):
     return df
 
 def get_clean_evaluator_name(col):
-    """Konvertiert lange Spaltennamen in kurze, lesbare Bezeichner für die Plots"""
     col_lower = col.lower()
     if 'gemma' in col_lower: return 'Gemma4'
     if 'qwen' in col_lower: return 'Qwen2.5'
@@ -63,20 +63,17 @@ def get_clean_evaluator_name(col):
     return col
 
 # =========================================================================
-# NEU: EXKLUSIVE ERWEITERUNGS-PLOT-FUNKTIONEN (A, B & C)
+# EXKLUSIVE ERWEITERUNGS-PLOT-FUNKTIONEN
 # =========================================================================
 def plot_continuous_ita_distribution(df, t2i_model, output_folder):
-    """ERWEITERUNG A: Generiert hochpräzise Violin-Plots für kontinuierliche ITA-Hauttonwerte"""
     model_df = df[df['T2I_Model'] == t2i_model].copy()
     if model_df.empty or 'ITA_Value' not in model_df.columns: return
 
-    # Erzwinge numerische Datentypen für kontinuierliche Berechnungen
     model_df['ITA_Value'] = pd.to_numeric(model_df['ITA_Value'], errors='coerce')
     model_df = model_df.dropna(subset=['ITA_Value'])
     if model_df.empty: return
 
     plt.figure(figsize=(14, 7))
-    # 'coolwarm' Farbpalette bildet den Übergang von hellen zu dunklen Hauttönen perfekt ab
     sns.violinplot(data=model_df, x='Prompt_Subject', y='ITA_Value', hue='Prompt_Subject', palette="coolwarm", inner="box", legend=False)
     plt.axhline(y=0, color='black', linestyle='--', alpha=0.6, label='ITA Paritätsgrenze (0°)')
     plt.title(f"Kontinuierliche ITA-Hauttonverteilung (Dichte & Streuung) | Modell: {t2i_model.upper()}")
@@ -88,21 +85,17 @@ def plot_continuous_ita_distribution(df, t2i_model, output_folder):
     plt.close()
 
 def plot_diverging_gender_bias(df, t2i_model, category_col, output_folder, file_prefix=""):
-    """ERWEITERUNG B: Generiert ein horizontales, divergierendes Delta-Paritätsdiagramm"""
     model_df = df[df['T2I_Model'] == t2i_model].copy()
     if model_df.empty or category_col not in model_df.columns: return
 
-    # Berechne die relativen Anteile pro Prompt-Thema
     crosstab = pd.crosstab(model_df['Prompt_Subject'], model_df[category_col], normalize='index') * 100
     if 'Man' not in crosstab.columns: crosstab['Man'] = 0.0
     if 'Woman' not in crosstab.columns: crosstab['Woman'] = 0.0
 
-    # Mathematische Delta-Parität: Überhang berechnen (% Männer - % Frauen)
     crosstab['Delta'] = crosstab['Man'] - crosstab['Woman']
     crosstab = crosstab.reset_index().sort_values(by='Delta')
 
     plt.figure(figsize=(12, 6))
-    # Farbkodierung: Sanftes Grün für Frauen-Überhang, Erdiges Orange für Männer-Überhang
     colors = ['#4c9173' if x < 0 else '#df8a5a' for x in crosstab['Delta']]
     
     sns.barplot(data=crosstab, y='Prompt_Subject', x='Delta', palette=colors, hue='Prompt_Subject', legend=False)
@@ -119,7 +112,6 @@ def plot_diverging_gender_bias(df, t2i_model, category_col, output_folder, file_
     plt.close()
 
 def plot_global_alignment_comparison(master_df, output_folder):
-    """ERWEITERUNG C: Berechnet das methodische Gesamt-Alignment (Genauigkeit) aller KIs vs. Mensch"""
     if master_df.empty: return
 
     categories = ['Gender', 'Race', 'MST']
@@ -138,7 +130,6 @@ def plot_global_alignment_comparison(master_df, output_folder):
             clean_name = get_clean_evaluator_name(col)
             eval_cols[clean_name] = col
 
-        # Berechne exakte mathematische Übereinstimmungsraten
         for eval_name, col_name in eval_cols.items():
             valid_sub = master_df.dropna(subset=[human_col, col_name])
             if valid_sub.empty: continue
@@ -148,7 +139,7 @@ def plot_global_alignment_comparison(master_df, output_folder):
             accuracy = (matches / len(valid_sub)) * 100
 
             alignment_rows.append({
-                'Kategorie': 'Ethnicity' if cat == 'Race' else cat, # Visuelle Ersetzung zu Ethnicity
+                'Kategorie': 'Ethnicity' if cat == 'Race' else cat,
                 'Evaluator': eval_name,
                 'Uebereinstimmung': round(accuracy, 2)
             })
@@ -177,7 +168,7 @@ def generate_grouped_plots(df, category_col, t2i_model, output_folder, file_pref
     safe_prefix = file_prefix.replace(":", "_").replace("/", "_")
     if safe_prefix: safe_prefix += "_"
 
-    display_name = category_col.replace("Race", "Ethnicity") # Visuelle Ersetzung zu Ethnicity
+    display_name = category_col.replace("Race", "Ethnicity")
 
     plt.figure(figsize=(16, 7))
     sns.countplot(data=model_df, x='Prompt_Subject', hue=category_col, hue_order=hue_order, palette="Set2")
@@ -218,7 +209,7 @@ def generate_vlm_comparison_plot(df, t2i_model, output_folder):
 
     for cat, order in categories:
         if cat not in model_df.columns: continue
-        display_name = cat.replace("Race", "Ethnicity") # Visuelle Ersetzung zu Ethnicity
+        display_name = cat.replace("Race", "Ethnicity")
         plt.figure(figsize=(12, 6))
         sns.countplot(data=model_df, x='VLM_Model', hue=cat, order=vlms, hue_order=order, palette="Set2")
         plt.title(f"VLM Vergleich (Generell): KIs über das gesamte Modell {t2i_model.upper()} ({display_name})")
@@ -244,12 +235,12 @@ def generate_all_ai_comparison_plot(df_ollama, df_deepface, t2i_model, output_fo
         vlm = row['VLM_Model']
         safe_vlm = vlm.replace(":", "_").replace("/", "_")
         if 'VLM_Gender' in row: combined_rows.append({'Image_Name': img, 'Evaluator': safe_vlm, 'Category': 'Gender', 'Prediction': row['VLM_Gender']})
-        if 'VLM_Race' in row: combined_rows.append({'Image_Name': img, 'Evaluator': safe_vlm, 'Category': 'Ethnicity', 'Prediction': row['VLM_Race']}) # Visuelle Ersetzung zu Ethnicity
+        if 'VLM_Race' in row: combined_rows.append({'Image_Name': img, 'Evaluator': safe_vlm, 'Category': 'Ethnicity', 'Prediction': row['VLM_Race']})
 
     for _, row in df_model.iterrows():
         img = row['Image_Name']
         if 'DeepFace_Gender' in row: combined_rows.append({'Image_Name': img, 'Evaluator': 'DeepFace', 'Category': 'Gender', 'Prediction': row['DeepFace_Gender']})
-        if 'DeepFace_Race' in row: combined_rows.append({'Image_Name': img, 'Evaluator': 'DeepFace', 'Category': 'Ethnicity', 'Prediction': row['DeepFace_Race']}) # Visuelle Ersetzung zu Ethnicity
+        if 'DeepFace_Race' in row: combined_rows.append({'Image_Name': img, 'Evaluator': 'DeepFace', 'Category': 'Ethnicity', 'Prediction': row['DeepFace_Race']})
 
     combined_df = pd.DataFrame(combined_rows).dropna(subset=['Prediction'])
     if combined_df.empty: return
@@ -267,7 +258,7 @@ def generate_all_ai_comparison_plot(df_ollama, df_deepface, t2i_model, output_fo
         plt.savefig(output_folder / "ALLE_KIS_COMPARISON_GENERAL_Gender.png", dpi=300)
         plt.close()
 
-    race_df = combined_df[combined_df['Category'] == 'Ethnicity'] # Visuelle Ersetzung zu Ethnicity
+    race_df = combined_df[combined_df['Category'] == 'Ethnicity']
     if not race_df.empty:
         plt.figure(figsize=(14, 7))
         sns.countplot(data=race_df, x='Evaluator', hue='Prediction', palette="Set2")
@@ -281,22 +272,18 @@ def generate_all_ai_comparison_plot(df_ollama, df_deepface, t2i_model, output_fo
         plt.close()
 
 def plot_evaluator_comparison(df, model_name, category, output_folder, exclude_deepface=False):
-    """FAIR COMPARISON: Zeigt die Modelle direkt nebeneinander (Max 30 Bilder hoch)"""
     eval_cols = []
     eval_order = []
 
-    # 1. Human (Ground Truth) IMMER als Erstes hinzufügen (falls vorhanden)
     if f'Human_{category}' in df.columns:
         eval_cols.append(f'Human_{category}')
         eval_order.append('Human')
 
-    # 2. DeepFace hinzufügen (außer es ist explizit ausgeschlossen oder Kategorie ist MST)
     if not exclude_deepface and category in ['Gender', 'Race']:
         if f'DeepFace_{category}' in df.columns: 
             eval_cols.append(f'DeepFace_{category}')
             eval_order.append('DeepFace')
 
-    # 3. VLMs hinzufügen
     vlm_cols = [c for c in df.columns if c.endswith(f'_VLM_{category}')]
     eval_cols.extend(vlm_cols)
     eval_order.extend(['Gemma4', 'Qwen2.5', 'InternVL'])
@@ -306,18 +293,14 @@ def plot_evaluator_comparison(df, model_name, category, output_folder, exclude_d
     melted_df = df[['Image_Name'] + eval_cols].melt(id_vars='Image_Name', var_name='Evaluator', value_name='Prediction')
     melted_df = melted_df.dropna(subset=['Prediction'])
     
-    # Namen bereinigen (aus "Human_Gender" wird "Human", etc.)
     melted_df['Evaluator'] = melted_df['Evaluator'].apply(get_clean_evaluator_name)
-    
-    # Sortierung anwenden
     current_evals = [e for e in eval_order if e in melted_df['Evaluator'].unique()]
     melted_df['Evaluator'] = pd.Categorical(melted_df['Evaluator'], categories=current_evals, ordered=True)
     melted_df = melted_df.sort_values('Evaluator')
 
-    display_cat = category.replace("Race", "Ethnicity") # Visuelle Ersetzung zu Ethnicity
+    display_cat = category.replace("Race", "Ethnicity")
 
     plt.figure(figsize=(12, 6))
-    # Wir heben "Human" optisch etwas ab (z.B. indem es die erste Säule in der Set2 Palette ist)
     sns.countplot(data=melted_df, x='Evaluator', hue='Prediction', palette="Set2")
     
     if exclude_deepface:
@@ -332,18 +315,13 @@ def plot_evaluator_comparison(df, model_name, category, output_folder, exclude_d
     plt.tight_layout()
     
     safe_category = category.replace("/", "_")
-    
-    # Unterschiedliche Dateinamen, je nachdem ob DeepFace dabei ist oder nicht
     if exclude_deepface:
         plt.savefig(output_folder / f"VERGLEICH_VLMs_vs_Human_{safe_category}.png", dpi=300)
     else:
         plt.savefig(output_folder / f"VERGLEICH_Alle_KIs_vs_Human_{safe_category}.png", dpi=300)
-        
     plt.close()
 
-
 def generate_heatmap(merged_df, col1, col2, title, filename_prefix, output_folder, label1, label2):
-    """Generischer Heatmap-Plotter für beliebige Evaluatoren-Paare"""
     if col1 not in merged_df.columns or col2 not in merged_df.columns: return
     valid_data = merged_df.dropna(subset=[col1, col2]).copy()
     if valid_data.empty: return
@@ -438,6 +416,27 @@ def main():
     for name, df in raw_dataframes.items():
         all_models_macro.update(df['T2I_Model'].unique())
 
+    # --- HIER BAUEN WIR DEN MACRO_MASTER_DF FÜR DIE STATISTIK ---
+    macro_master_df = pd.DataFrame()
+    if 'Ollama' in raw_dataframes:
+        # Wir pivotieren die Ollama-Tabelle, damit jede VLM-KI ihre eigene Spalte bekommt
+        df_ol_pivoted_macro = raw_dataframes['Ollama'].pivot_table(
+            index=['Image_Name', 'T2I_Model', 'Prompt_Subject'], 
+            columns='VLM_Model', 
+            values=['VLM_Gender', 'VLM_Race', 'VLM_MST'], 
+            aggfunc='first'
+        ).reset_index()
+        
+        df_ol_pivoted_macro.columns = [f"{c[1]}_{c[0]}" if c[1] else c[0] for c in df_ol_pivoted_macro.columns]
+        macro_master_df = df_ol_pivoted_macro
+
+        # Fügen noch Skin und Deepface an, falls vorhanden
+        for source in ['DeepFace', 'Skin']:
+            if source in raw_dataframes:
+                cols_to_merge = [c for c in raw_dataframes[source].columns if c not in ['Prompt_Subject']]
+                macro_master_df = pd.merge(macro_master_df, raw_dataframes[source][cols_to_merge], on=['Image_Name', 'T2I_Model'], how='left')
+    # --------------------------------------------------------------
+
     print(f"\n[TEIL 1] Generiere MACRO Plots für {len(all_models_macro)} Modelle...")
     for model in all_models_macro:
         model_out_dir = MACRO_DIR / model
@@ -453,8 +452,6 @@ def main():
                 generate_grouped_plots(df_vlm_specific, 'VLM_Gender', model, model_out_dir, file_prefix=safe_vlm, hue_order=["Man", "Woman", "Unclear"])
                 generate_grouped_plots(df_vlm_specific, 'VLM_Race', model, model_out_dir, file_prefix=safe_vlm)
                 generate_grouped_plots(df_vlm_specific, 'VLM_MST', model, model_out_dir, file_prefix=safe_vlm, hue_order=[str(i) for i in range(1, 11)] + ["Unclear"])
-                
-                # INTEGRIERTE ERWEITERUNG B: Divergierende Delta-Parität für Ollama VLMs auf Macro-Ebene
                 plot_diverging_gender_bias(df_vlm_specific, model, 'VLM_Gender', model_out_dir, file_prefix=safe_vlm)
             
             generate_vlm_comparison_plot(df_ollama, model, model_out_dir)
@@ -462,8 +459,6 @@ def main():
         if 'DeepFace' in raw_dataframes:
             generate_grouped_plots(raw_dataframes['DeepFace'], 'DeepFace_Gender', model, model_out_dir, hue_order=["Man", "Woman"])
             generate_grouped_plots(raw_dataframes['DeepFace'], 'DeepFace_Race', model, model_out_dir)
-            
-            # INTEGRIERTE ERWEITERUNG B: Divergierende Delta-Parität für DeepFace auf Macro-Ebene
             plot_diverging_gender_bias(raw_dataframes['DeepFace'], model, 'DeepFace_Gender', model_out_dir, file_prefix="DeepFace")
 
         df_ol_ref = raw_dataframes.get('Ollama')
@@ -473,14 +468,11 @@ def main():
         if 'Skin' in raw_dataframes:
             generate_grouped_plots(raw_dataframes['Skin'], 'MonkScale_RGB', model, model_out_dir, hue_order=[str(i) for i in range(1, 11)] + ["Error"])
             generate_grouped_plots(raw_dataframes['Skin'], 'ITA_Scale_MST', model, model_out_dir, hue_order=[str(i) for i in range(1, 11)] + ["Error"])
-            
-            # INTEGRIERTE ERWEITERUNG A: Kontinuierliche ITA-Hauttonverteilungen (Violin-Plots) auf Macro-Ebene
             plot_continuous_ita_distribution(raw_dataframes['Skin'], model, model_out_dir)
 
         generate_per_prompt_dashboards(
-        raw_dataframes, model, model_out_dir, dataset_label="MACRO"
+            raw_dataframes, model, model_out_dir, dataset_label="MACRO"
         )
-
 
     # ---------------------------------------------------------
     # TEIL 2: FAIR COMPARISON (Strikt auf Human Eval gefiltert)
@@ -518,7 +510,6 @@ def main():
 
     master_df.to_csv(FAIR_DIR / "MASTER_ALL_METRICS_FAIR_SUBSET.csv", index=False)
 
-    # INTEGRIERTE ERWEITERUNG C: Globaler Alignment-Abgleich aller KIs gegen den Menschen über das gesamte Subset
     plot_global_alignment_comparison(master_df, FAIR_DIR)
 
     all_models_fair = df_human['T2I_Model'].unique()
@@ -530,20 +521,14 @@ def main():
         
         model_data = master_df[master_df['T2I_Model'] == model].copy()
 
-        # A) Richter-Vergleiche generieren (Balkendiagramme)
-        # A) Richter-Vergleiche generieren (Balkendiagramme)
-        
-        # Variante 1: ALLE Modelle inklusive DeepFace vs. Human
         plot_evaluator_comparison(model_data, model, 'Gender', model_out_dir, exclude_deepface=False)
         plot_evaluator_comparison(model_data, model, 'Race', model_out_dir, exclude_deepface=False)
         plot_evaluator_comparison(model_data, model, 'MST', model_out_dir, exclude_deepface=False)
 
-        # Variante 2: NUR die LLMs/VLMs vs. Human (ohne DeepFace)
         plot_evaluator_comparison(model_data, model, 'Gender', model_out_dir, exclude_deepface=True)
         plot_evaluator_comparison(model_data, model, 'Race', model_out_dir, exclude_deepface=True)
         plot_evaluator_comparison(model_data, model, 'MST', model_out_dir, exclude_deepface=True)
 
-        # B) Vollständig Paarweise Heatmaps generieren
         for cat in ['Gender', 'Race', 'MST']:
             cat_cols = {}
             if f'Human_{cat}' in model_data.columns:
@@ -562,27 +547,36 @@ def main():
                     name1 = eval_names[i]
                     name2 = eval_names[j]
                     
-                    display_cat = cat.replace("Race", "Ethnicity") # Visuelle Ersetzung zu Ethnicity
+                    display_cat = cat.replace("Race", "Ethnicity")
                     title = f"Heatmap: {name1} vs {name2} ({display_cat} | {model.upper()})"
                     filename = f"HEATMAP_{name1}_vs_{name2}_{cat}"
                     
                     generate_heatmap(model_data, cat_cols[name1], cat_cols[name2], 
                                      title, filename, model_out_dir, name1, name2)
 
-        # C) Summary CSV generieren
         export_model_statistics(model_data, model, model_out_dir)
 
         generate_per_prompt_dashboards(
-        {}, model, model_out_dir,
-        dataset_label="FAIR", is_fair=True, master_df=model_data
+            {}, model, model_out_dir,
+            dataset_label="FAIR", is_fair=True, master_df=model_data
         )   
 
-    # Ganz am Ende von main(), nach den Fair-Comparison Plots:
+    # ---------------------------------------------------------
+    # TEIL 3 & 4: STATISTIKEN GANZ AM ENDE
+    # ---------------------------------------------------------
+    print("\n[TEIL 3 & 4] Generiere Statistische Zusammenfassungen...")
     generate_statistical_summary(master_df, FAIR_DIR)
+    
+    # Statistik für den kleinen Human-Datensatz
+    generate_per_prompt_statistics(master_df, FAIR_DIR, dataset_label="FAIR")
+
+    # Statistik für den riesigen MACRO-Datensatz!
+    if not macro_master_df.empty:
+        generate_per_prompt_statistics(macro_master_df, MACRO_DIR, dataset_label="MACRO")
+    
 
     print("\n" + "=" * 70)
-    print("🎉 ALLES FERTIG! Makro-Plots und Fair-Comparison erfolgreich erstellt.")
+    print("🎉 ALLES FERTIG! Makro-Plots, Dashboards, Fair-Comparison und Statistiken erfolgreich erstellt.")
 
 if __name__ == "__main__":
-    
     main()
