@@ -25,6 +25,8 @@ OUTPUT_CSV = PROJECT_ROOT / "outputs" / "ollama_results.csv"
 
 # Trage hier BEIDE Modelle als Liste ein! Das Skript arbeitet sie nacheinander ab.
 OLLAMA_MODELS = ['gemma4:e4b', 'blaifa/InternVL3_5:8B', 'qwen2.5vl:7b'] # 'qwen3.5:9b'
+# Trage hier ALLE Modelle als Liste ein! Das Skript arbeitet sie nacheinander ab.
+# OLLAMA_MODELS = ['gemma4:e4b', 'blaifa/InternVL3_5:8B', 'qwen2.5vl:7b', 'gemma4:12b', 'qwen3-vl:8b']
 
 def extract_prompt_name(filename):
     if "_seed" in filename:

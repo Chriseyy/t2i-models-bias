@@ -278,44 +278,67 @@ def generate_all_ai_comparison_plot(df_ollama, df_deepface, t2i_model, output_fo
         plt.savefig(output_folder / "ALLE_KIS_COMPARISON_GENERAL_Race.png", dpi=300)
         plt.close()
 
-def plot_evaluator_comparison(df, model_name, category, output_folder):
+def plot_evaluator_comparison(df, model_name, category, output_folder, exclude_deepface=False):
     """FAIR COMPARISON: Zeigt die Modelle direkt nebeneinander (Max 30 Bilder hoch)"""
     eval_cols = []
-    
-    if category in ['Gender', 'Race']:
+    eval_order = []
+
+    # 1. Human (Ground Truth) IMMER als Erstes hinzufügen (falls vorhanden)
+    if f'Human_{category}' in df.columns:
+        eval_cols.append(f'Human_{category}')
+        eval_order.append('Human')
+
+    # 2. DeepFace hinzufügen (außer es ist explizit ausgeschlossen oder Kategorie ist MST)
+    if not exclude_deepface and category in ['Gender', 'Race']:
         if f'DeepFace_{category}' in df.columns: 
             eval_cols.append(f'DeepFace_{category}')
-        vlm_cols = [c for c in df.columns if c.endswith(f'_VLM_{category}')]
-        eval_cols.extend(vlm_cols)
-        eval_order = ['DeepFace', 'Gemma4', 'Qwen2.5', 'InternVL']
-    elif category == 'MST':
-        vlm_cols = [c for c in df.columns if c.endswith(f'_VLM_{category}')]
-        eval_cols.extend(vlm_cols)
-        eval_order = ['Gemma4', 'Qwen2.5', 'InternVL']
+            eval_order.append('DeepFace')
+
+    # 3. VLMs hinzufügen
+    vlm_cols = [c for c in df.columns if c.endswith(f'_VLM_{category}')]
+    eval_cols.extend(vlm_cols)
+    eval_order.extend(['Gemma4', 'Qwen2.5', 'InternVL'])
         
     if len(eval_cols) < 2: return
         
     melted_df = df[['Image_Name'] + eval_cols].melt(id_vars='Image_Name', var_name='Evaluator', value_name='Prediction')
     melted_df = melted_df.dropna(subset=['Prediction'])
     
+    # Namen bereinigen (aus "Human_Gender" wird "Human", etc.)
     melted_df['Evaluator'] = melted_df['Evaluator'].apply(get_clean_evaluator_name)
     
-    melted_df['Evaluator'] = pd.Categorical(melted_df['Evaluator'], categories=eval_order, ordered=True)
+    # Sortierung anwenden
+    current_evals = [e for e in eval_order if e in melted_df['Evaluator'].unique()]
+    melted_df['Evaluator'] = pd.Categorical(melted_df['Evaluator'], categories=current_evals, ordered=True)
     melted_df = melted_df.sort_values('Evaluator')
 
     display_cat = category.replace("Race", "Ethnicity") # Visuelle Ersetzung zu Ethnicity
 
     plt.figure(figsize=(12, 6))
+    # Wir heben "Human" optisch etwas ab (z.B. indem es die erste Säule in der Set2 Palette ist)
     sns.countplot(data=melted_df, x='Evaluator', hue='Prediction', palette="Set2")
-    plt.title(f"KI-Vergleich: Modell-Metriken ({display_cat} | {model_name.upper()})")
+    
+    if exclude_deepface:
+        plt.title(f"KI-Vergleich (Nur VLMs vs Mensch): {display_cat} | {model_name.upper()}")
+    else:
+        plt.title(f"KI-Vergleich (Alle KIs vs Mensch): {display_cat} | {model_name.upper()}")
+        
     plt.ylabel(f"Anzahl der Bilder (Max {len(df)})")
-    plt.xlabel("Maschinelle Evaluatoren")
+    plt.xlabel("Evaluatoren & Menschliche Ground Truth")
     plt.xticks(rotation=0)
     plt.legend(title=f"Erkannte(s) {display_cat}", bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.tight_layout()
+    
     safe_category = category.replace("/", "_")
-    plt.savefig(output_folder / f"VERGLEICH_KI_Modelle_{safe_category}.png", dpi=300)
+    
+    # Unterschiedliche Dateinamen, je nachdem ob DeepFace dabei ist oder nicht
+    if exclude_deepface:
+        plt.savefig(output_folder / f"VERGLEICH_VLMs_vs_Human_{safe_category}.png", dpi=300)
+    else:
+        plt.savefig(output_folder / f"VERGLEICH_Alle_KIs_vs_Human_{safe_category}.png", dpi=300)
+        
     plt.close()
+
 
 def generate_heatmap(merged_df, col1, col2, title, filename_prefix, output_folder, label1, label2):
     """Generischer Heatmap-Plotter für beliebige Evaluatoren-Paare"""
@@ -501,9 +524,17 @@ def main():
         model_data = master_df[master_df['T2I_Model'] == model].copy()
 
         # A) Richter-Vergleiche generieren (Balkendiagramme)
-        plot_evaluator_comparison(model_data, model, 'Gender', model_out_dir)
-        plot_evaluator_comparison(model_data, model, 'Race', model_out_dir)
-        plot_evaluator_comparison(model_data, model, 'MST', model_out_dir)
+        # A) Richter-Vergleiche generieren (Balkendiagramme)
+        
+        # Variante 1: ALLE Modelle inklusive DeepFace vs. Human
+        plot_evaluator_comparison(model_data, model, 'Gender', model_out_dir, exclude_deepface=False)
+        plot_evaluator_comparison(model_data, model, 'Race', model_out_dir, exclude_deepface=False)
+        plot_evaluator_comparison(model_data, model, 'MST', model_out_dir, exclude_deepface=False)
+
+        # Variante 2: NUR die LLMs/VLMs vs. Human (ohne DeepFace)
+        plot_evaluator_comparison(model_data, model, 'Gender', model_out_dir, exclude_deepface=True)
+        plot_evaluator_comparison(model_data, model, 'Race', model_out_dir, exclude_deepface=True)
+        plot_evaluator_comparison(model_data, model, 'MST', model_out_dir, exclude_deepface=True)
 
         # B) Vollständig Paarweise Heatmaps generieren
         for cat in ['Gender', 'Race', 'MST']:
