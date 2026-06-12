@@ -16,6 +16,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
+from statistical_suammry_addon import generate_statistical_summary
+from per_prompt_dashboard import generate_per_prompt_dashboards
 
 # =============================================================
 # PFADE DEFINIEREN
@@ -475,6 +477,11 @@ def main():
             # INTEGRIERTE ERWEITERUNG A: Kontinuierliche ITA-Hauttonverteilungen (Violin-Plots) auf Macro-Ebene
             plot_continuous_ita_distribution(raw_dataframes['Skin'], model, model_out_dir)
 
+        generate_per_prompt_dashboards(
+        raw_dataframes, model, model_out_dir, dataset_label="MACRO"
+        )
+
+
     # ---------------------------------------------------------
     # TEIL 2: FAIR COMPARISON (Strikt auf Human Eval gefiltert)
     # ---------------------------------------------------------
@@ -565,8 +572,17 @@ def main():
         # C) Summary CSV generieren
         export_model_statistics(model_data, model, model_out_dir)
 
+        generate_per_prompt_dashboards(
+        {}, model, model_out_dir,
+        dataset_label="FAIR", is_fair=True, master_df=model_data
+        )   
+
+    # Ganz am Ende von main(), nach den Fair-Comparison Plots:
+    generate_statistical_summary(master_df, FAIR_DIR)
+
     print("\n" + "=" * 70)
     print("🎉 ALLES FERTIG! Makro-Plots und Fair-Comparison erfolgreich erstellt.")
 
 if __name__ == "__main__":
+    
     main()

@@ -1,0 +1,6 @@
+Modell,Silhouette_Score,N_Bilder,N_Prompts,Interpretation
+flux,0.648,126,6,stark getrennt
+flux_klein,0.549,122,6,stark getrennt
+qwen,0.5976,126,6,stark getrennt
+sd35,0.441,121,6,mittel getrennt
+zimage,0.3029,116,6,mittel getrennt
