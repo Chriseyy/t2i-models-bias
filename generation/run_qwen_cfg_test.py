@@ -143,7 +143,7 @@ def load_model(model_cfg, logger):
         torch_dtype=torch.bfloat16,
     ).to("cuda")
 
-    logger.info(f"✅ Qwen erfolgreich geladen! VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
+    logger.info(f"Qwen erfolgreich geladen! VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
     return pipe
 
 # =============================================================
@@ -198,7 +198,7 @@ def main(dry_run=False, resume=True):
         logger.info(f"Checkpoint geladen: {len(completed)} Bilder bereits fertig.")
 
     if dry_run:
-        logger.info("🔍 Dry-Run beendet.")
+        logger.info("Dry-Run beendet.")
         return
 
     pipe = load_model(model_cfg, logger)
@@ -230,10 +230,10 @@ def main(dry_run=False, resume=True):
 
                     elapsed = time.time() - total_start
                     eta = (elapsed / success_count) * (total_images - success_count) if success_count > 0 else 0
-                    logger.info(f"   ✅ {gen_time:.2f}s | Fortschritt: {success_count}/{total_images} | ETA: {eta/60:.1f} min")
+                    logger.info(f"   {gen_time:.2f}s | Fortschritt: {success_count}/{total_images} | ETA: {eta/60:.1f} min")
 
                 except Exception as e:
-                    logger.error(f"   ❌ Fehler bei {image_id}: {e}")
+                    logger.error(f"   Fehler bei {image_id}: {e}")
                     failed.append({"id": image_id, "error": str(e)})
                     torch.cuda.empty_cache()
                     gc.collect()

@@ -74,7 +74,7 @@ def load_configs():
         model_cfg = yaml.safe_load(f)
 
     if prompt_cfg is None or model_cfg is None:
-        raise ValueError("❌ FEHLER: Config-Dateien konnten nicht geladen werden!")
+        raise ValueError("FEHLER: Config-Dateien konnten nicht geladen werden!")
 
     return prompt_cfg, model_cfg
 
@@ -150,7 +150,7 @@ def load_model(model_cfg, logger):
     
     hf_token = os.environ.get("HUGGINGFACE_HUB_TOKEN")
     if not hf_token:
-        logger.error("❌ Kein HF_TOKEN in der .env gefunden!")
+        logger.error("Kein HF_TOKEN in der .env gefunden!")
         raise ValueError("Missing Hugging Face Token")
 
     pipe = StableDiffusion3Pipeline.from_pretrained(
@@ -160,7 +160,7 @@ def load_model(model_cfg, logger):
     )
     pipe = pipe.to("cuda")
 
-    logger.info(f"✅ SD 3.5 Large erfolgreich geladen! VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
+    logger.info(f"SD 3.5 Large erfolgreich geladen! VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
     return pipe
 
 # =============================================================
@@ -196,7 +196,7 @@ def main(dry_run=False, resume=True):
     META_DIR.mkdir(parents=True, exist_ok=True)
 
     logger.info("=" * 60)
-    logger.info("🔬 STARTE SD3.5 CFG-ABLATION-TEST")
+    logger.info("STARTE SD3.5 CFG-ABLATION-TEST")
     logger.info(f"Zeitstempel: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     logger.info("=" * 60)
 
@@ -215,7 +215,7 @@ def main(dry_run=False, resume=True):
         logger.info(f"Checkpoint geladen: {len(completed)} Bilder übersprungen.")
 
     if dry_run:
-        logger.info("🔍 Dry-Run beendet.")
+        logger.info("Dry-Run beendet.")
         return
 
     pipe = load_model(model_cfg, logger)
@@ -231,7 +231,7 @@ def main(dry_run=False, resume=True):
                 if image_id in completed:
                     continue
 
-                logger.info(f"\n📸 Run: {image_id} | CFG: {cfg_val} | Seed: {seed}")
+                logger.info(f"\nRun: {image_id} | CFG: {cfg_val} | Seed: {seed}")
 
                 try:
                     image, gen_time = generate_image(pipe, prompt_info, seed, cfg_val, model_cfg, logger)
@@ -247,16 +247,16 @@ def main(dry_run=False, resume=True):
 
                     elapsed = time.time() - total_start
                     eta = (elapsed / success_count) * (total_images - success_count) if success_count > 0 else 0
-                    logger.info(f"   ✅ {gen_time:.1f}s | Fortschritt: {success_count}/{total_images} | ETA: {eta/60:.1f} min")
+                    logger.info(f"   {gen_time:.1f}s | Fortschritt: {success_count}/{total_images} | ETA: {eta/60:.1f} min")
 
                 except Exception as e:
-                    logger.error(f"   ❌ Fehler bei {image_id}: {e}")
+                    logger.error(f"  Fehler bei {image_id}: {e}")
                     failed.append({"id": image_id, "error": str(e)})
                     torch.cuda.empty_cache()
                     gc.collect()
 
     total_time = time.time() - total_start
-    logger.info(f"\n🎉 CFG-ABLA-TEST BEENDET! Erfolgreich: {len(completed)}/{total_images} | Fehler: {len(failed)}")
+    logger.info(f"\nCFG-ABLA-TEST BEENDET! Erfolgreich: {len(completed)}/{total_images} | Fehler: {len(failed)}")
 
     if failed:
         with open(OUTPUT_DIR / "failed_sd35_cfg_test.json", "w") as f:

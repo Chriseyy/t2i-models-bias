@@ -174,12 +174,12 @@ def load_model(model_cfg, logger):
     )
 
     pipe.enable_model_cpu_offload()
-    logger.info("   ✅ CPU-Offload aktiviert (RAM <-> VRAM)")
+    logger.info("   CPU-Offload aktiviert (RAM <-> VRAM)")
 
     torch.backends.cuda.matmul.allow_tf32 = True
 
-    logger.info("✅ FLUX erfolgreich geladen!")
-    logger.info(f"✅ FLUX geladen | VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
+    logger.info("FLUX erfolgreich geladen!")
+    logger.info(f"FLUX geladen | VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
     return pipe
 
 # =============================================================
@@ -192,7 +192,7 @@ def generate_image(pipe, prompt_info, seed, model_cfg, logger):
     generator = torch.Generator(device="cuda").manual_seed(seed)
     start = time.time()
 
-    logger.info(f"   🖌️ Generiere Bild lokal für: {prompt_info['prompt']}")
+    logger.info(f"   Generiere Bild lokal für: {prompt_info['prompt']}")
     image = pipe(
         prompt=prompt_info["prompt"], 
         width=img_cfg["width"],
@@ -245,7 +245,7 @@ def main(dry_run=False, resume=True, chinese=False):
         for p in prompts[:3]:
             for s in seeds[:2]:
                 img_id = make_image_id(p["id"], s)
-                status = "✅" if img_id in completed else "⏳"
+                status = "ok" if img_id in completed else "pending"
                 logger.info(f"  {status} {img_id}")
         return
 
@@ -278,17 +278,17 @@ def main(dry_run=False, resume=True, chinese=False):
 
                 elapsed = time.time() - total_start
                 eta = (elapsed / success_count) * (total_images - success_count) if success_count > 0 else 0
-                logger.info(f"   ✅ {gen_time:.1f}s | {success_count}/{total_images} | ETA: {eta/60:.1f} min")
+                logger.info(f"   {gen_time:.1f}s | {success_count}/{total_images} | ETA: {eta/60:.1f} min")
 
             except Exception as e:
-                logger.error(f"   ❌ {image_id}: {e}")
+                logger.error(f"   {image_id}: {e}")
                 failed.append({"id": image_id, "error": str(e)})
                 torch.cuda.empty_cache()
                 gc.collect()
 
     # Abschluss
     total_time = time.time() - total_start
-    logger.info(f"\n✅ {len(completed)}/{total_images} | ❌ {len(failed)} | ⏱️ {total_time/60:.1f} min")
+    logger.info(f"\n {len(completed)}/{total_images} | {len(failed)} |  {total_time/60:.1f} min")
 
     fail_filename = "failed_flux_chines.json" if chinese else "failed_flux.json"
     if failed:

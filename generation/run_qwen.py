@@ -143,7 +143,7 @@ def load_model(model_cfg, logger):
         torch_dtype=torch.bfloat16,
     ).to("cuda")
 
-    logger.info(f"✅ Qwen erfolgreich geladen! VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
+    logger.info(f"Qwen erfolgreich geladen! VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
     return pipe
 
 # =============================================================
@@ -161,7 +161,7 @@ def generate_image(pipe, prompt_info, seed, model_cfg, logger):
     generator = torch.Generator(device="cuda").manual_seed(seed)
     start = time.time()
 
-    logger.info(f"   🖌️ Generiere Bild für: {full_prompt}")
+    logger.info(f"   Generiere Bild für: {full_prompt}")
     output = pipe(
         prompt=full_prompt,
         negative_prompt=neg_prompt,
@@ -240,16 +240,16 @@ def main(dry_run=False, resume=True, chinese=False):
 
                 elapsed = time.time() - total_start
                 eta = (elapsed / success_count) * (total_images - success_count) if success_count > 0 else 0
-                logger.info(f"   ✅ {gen_time:.2f}s | {success_count}/{total_images} | ETA: {eta/60:.1f} min")
+                logger.info(f"   {gen_time:.2f}s | {success_count}/{total_images} | ETA: {eta/60:.1f} min")
 
             except Exception as e:
-                logger.error(f"   ❌ {image_id}: {e}")
+                logger.error(f"   {image_id}: {e}")
                 failed.append({"id": image_id, "error": str(e)})
                 torch.cuda.empty_cache()
                 gc.collect()
 
     total_time = time.time() - total_start
-    logger.info(f"\n✅ {len(completed)}/{total_images} | ❌ {len(failed)} | ⏱️ {total_time/60:.1f} min")
+    logger.info(f"\n{len(completed)}/{total_images} | {len(failed)} | {total_time/60:.1f} min")
 
     fail_filename = "failed_qwen_chines.json" if chinese else "failed_qwen.json"
     if failed:

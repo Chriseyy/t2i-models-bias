@@ -153,7 +153,7 @@ def load_model(model_cfg, logger):
     pipe.vae.enable_tiling()
     
     torch.backends.cuda.matmul.allow_tf32 = True
-    logger.info(f"✅ Z-Image erfolgreich geladen! VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
+    logger.info(f"Z-Image erfolgreich geladen! VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
     return pipe
 
 # =============================================================
@@ -167,7 +167,7 @@ def generate_image(pipe, prompt_info, seed, model_cfg, logger):
     generator = torch.Generator(device="cuda").manual_seed(seed)
     start = time.time()
 
-    logger.info(f"   🖌️ Generiere Bild ({steps} Steps) für: {prompt_info['prompt']}")
+    logger.info(f"   Generiere Bild ({steps} Steps) für: {prompt_info['prompt']}")
     TECHNICAL_NEGATIVE_PROMPT = "bad quality, worst quality, deformed, extra limbs, floating objects, surreal, abstract, artifacts, messy background"
 
     image = pipe(
@@ -250,16 +250,16 @@ def main(dry_run=False, resume=True, chinese=False):
 
                 elapsed = time.time() - total_start
                 eta = (elapsed / success_count) * (total_images - success_count) if success_count > 0 else 0
-                logger.info(f"   ✅ {gen_time:.2f}s | {success_count}/{total_images} | ETA: {eta/60:.1f} min")
+                logger.info(f"   {gen_time:.2f}s | {success_count}/{total_images} | ETA: {eta/60:.1f} min")
 
             except Exception as e:
-                logger.error(f"   ❌ {image_id}: {e}")
+                logger.error(f"   {image_id}: {e}")
                 failed.append({"id": image_id, "error": str(e)})
                 torch.cuda.empty_cache()
                 gc.collect()
 
     total_time = time.time() - total_start
-    logger.info(f"\n✅ {len(completed)}/{total_images} | ❌ {len(failed)} | ⏱️ {total_time/60:.1f} min")
+    logger.info(f"\n{len(completed)}/{total_images} | {len(failed)} | {total_time/60:.1f} min")
 
     fail_filename = "failed_zimage_chines.json" if chinese else "failed_zimage.json"
     if failed:

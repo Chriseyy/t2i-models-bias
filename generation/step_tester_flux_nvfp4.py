@@ -27,7 +27,7 @@ STEPS_TO_TEST = [1, 3, 5, 10, 20, 30, 40, 45, 50, 55, 60]
 
 def main():
     print("=" * 60)
-    print("🔬 KI-ZEITLUPE: FLUX.2-dev-NVFP4")
+    print("KI-ZEITLUPE: FLUX.2-dev-NVFP4")
     print("=" * 60)
     
     # 3. Modell aus dem Hub in den Cache laden (oder Pfad abfragen, falls schon da)
@@ -56,7 +56,7 @@ def main():
     pipe.vae.enable_slicing()
     pipe.vae.enable_tiling()
     
-    print("\n🚀 Starte Generierungen...")
+    print("\nStarte Generierungen...")
     
     # 5. Loop durch die Steps
     for steps in STEPS_TO_TEST:
@@ -77,9 +77,9 @@ def main():
         filename = OUTPUT_DIR / f"doctor_seed{SEED}_{steps:02d}steps.png"
         image.save(filename)
         
-        print(f"✅ Bild mit {steps:02d} Steps gespeichert! (Dauer: {gen_time:.1f}s) -> {filename.name}")
+        print(f"Bild mit {steps:02d} Steps gespeichert! (Dauer: {gen_time:.1f}s) -> {filename.name}")
         
-    print("\n🎉 FLUX Testbilder generiert! Schau in den Ordner:", OUTPUT_DIR)
+    print("\nFLUX Testbilder generiert! Schau in den Ordner:", OUTPUT_DIR)
 
 if __name__ == "__main__":
     main()

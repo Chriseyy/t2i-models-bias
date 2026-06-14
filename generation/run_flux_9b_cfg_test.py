@@ -145,10 +145,10 @@ def load_model(model_cfg, logger):
     
     if use_offload:
         pipe.enable_model_cpu_offload()
-        logger.info("   ✅ CPU-Offload aktiviert")
+        logger.info("   CPU-Offload aktiviert")
     else:
         pipe.to("cuda")
-        logger.info("   ⚠️ CPU-Offload deaktiviert")
+        logger.info("   CPU-Offload deaktiviert")
 
     torch.backends.cuda.matmul.allow_tf32 = True
 
@@ -236,16 +236,16 @@ def main(dry_run=False, resume=True):
 
                     elapsed = time.time() - total_start
                     eta = (elapsed / success_count) * (total_images - success_count) if success_count > 0 else 0
-                    logger.info(f"   ✅ {gen_time:.2f}s | {success_count}/{total_images} | ETA: {eta/60:.1f} min")
+                    logger.info(f"   {gen_time:.2f}s | {success_count}/{total_images} | ETA: {eta/60:.1f} min")
 
                 except Exception as e:
-                    logger.error(f"   ❌ {image_id}: {e}")
+                    logger.error(f"   {image_id}: {e}")
                     failed.append({"id": image_id, "error": str(e)})
                     torch.cuda.empty_cache()
                     gc.collect()
 
     total_time = time.time() - total_start
-    logger.info(f"\n✅ {len(completed)}/{total_images} | ❌ {len(failed)} | ⏱️ {total_time/60:.1f} min")
+    logger.info(f"\n{len(completed)}/{total_images} | ❌ {len(failed)} | ⏱️ {total_time/60:.1f} min")
 
     if failed:
         with open(OUTPUT_DIR / "failed_flux_cfg_test.json", "w") as f:

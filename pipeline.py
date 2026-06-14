@@ -61,37 +61,37 @@ def main():
     chinese = args.chinese # Reicht den Parameter nach unten weiter
 
     if model in ("sd35", "all"):
-        logger.info("\n" + "🔵 " * 20)
+        logger.info("\n" + "" * 20)
         logger.info("STARTE: Stable Diffusion 3.5 Large")
-        logger.info("🔵 " * 20)
+        logger.info("" * 20)
         sd35_runner.main(dry_run=dry_run, resume=resume, chinese=chinese)
 
     if model in ("flux", "all"):
-        logger.info("\n" + "🟡 " * 20)
+        logger.info("\n" + "" * 20)
         logger.info("STARTE: FLUX.2-dev (32B)")
-        logger.info("🟡 " * 20)
+        logger.info("" * 20)
         flux_runner.main(dry_run=dry_run, resume=resume, chinese=chinese)
 
     if model in ("flux_klein", "all"):
-        logger.info("\n" + "export 🟠 " * 20)
+        logger.info("\n" + "" * 20)
         logger.info("STARTE: FLUX.2-klein-9B")
-        logger.info("🟠 " * 20)
+        logger.info("" * 20)
         flux_klein_runner.main(dry_run=dry_run, resume=resume, chinese=chinese)
 
     if model in ("qwen", "all"):
-        logger.info("\n" + "🟢 " * 20)
+        logger.info("\n" + "" * 20)
         logger.info("STARTE: Qwen-Image-2512")
-        logger.info("🟢 " * 20)
+        logger.info("" * 20)
         qwen_runner.main(dry_run=dry_run, resume=resume, chinese=chinese)
 
     if model in ("zimage", "all"):
-        logger.info("\n" + "🔮 " * 20)
+        logger.info("\n" + "" * 20)
         logger.info("STARTE: Z-Image (6B)")
-        logger.info("🔮 " * 20)
+        logger.info("" * 20)
         zimage_runner.main(dry_run=dry_run, resume=resume, chinese=chinese)
 
     logger.info("\n" + "=" * 60)
-    logger.info("✅ PIPELINE KOMPLETT ABGESCHLOSSEN")
+    logger.info("PIPELINE KOMPLETT ABGESCHLOSSEN")
     logger.info(f"Beendet: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     logger.info("Nächster Schritt: python analysis/detect_persons.py")
     logger.info("=" * 60)

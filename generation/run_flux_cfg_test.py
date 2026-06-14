@@ -160,11 +160,11 @@ def load_model(model_cfg, logger):
     
     # VRAM/RAM Optimierung aktivieren
     pipe.enable_model_cpu_offload()
-    logger.info("   ✅ CPU-Offload aktiviert (RAM <-> VRAM)")
+    logger.info("   CPU-Offload aktiviert (RAM <-> VRAM)")
 
     torch.backends.cuda.matmul.allow_tf32 = True
 
-    logger.info(f"✅ FLUX.2-dev erfolgreich geladen! VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
+    logger.info(f"FLUX.2-dev erfolgreich geladen! VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
     return pipe
 
 # =============================================================
@@ -249,16 +249,16 @@ def main(dry_run=False, resume=True):
 
                     elapsed = time.time() - total_start
                     eta = (elapsed / success_count) * (total_images - success_count) if success_count > 0 else 0
-                    logger.info(f"   ✅ {gen_time:.1f}s | Fortschritt: {success_count}/{total_images} | ETA: {eta/60:.1f} min")
+                    logger.info(f"   {gen_time:.1f}s | Fortschritt: {success_count}/{total_images} | ETA: {eta/60:.1f} min")
 
                 except Exception as e:
-                    logger.error(f"   ❌ Fehler bei {image_id}: {e}")
+                    logger.error(f"   Fehler bei {image_id}: {e}")
                     failed.append({"id": image_id, "error": str(e)})
                     torch.cuda.empty_cache()
                     gc.collect()
 
     total_time = time.time() - total_start
-    logger.info(f"\n🎉 FLUX.2-DEV CFG-TEST BEENDET! Erfolgreich: {len(completed)}/{total_images} | Fehler: {len(failed)}")
+    logger.info(f"\nFLUX.2-DEV CFG-TEST BEENDET! Erfolgreich: {len(completed)}/{total_images} | Fehler: {len(failed)}")
 
     if failed:
         with open(OUTPUT_DIR / "failed_flux_dev_cfg_test.json", "w") as f:

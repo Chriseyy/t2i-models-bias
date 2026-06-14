@@ -144,7 +144,7 @@ def get_remote_prompt_embeds(prompt: str, logger: logging.Logger):
     """Holt die Text-Vektoren vom Server. Wartet automatisch, falls der Server noch schläft."""
     token = os.environ.get("HUGGINGFACE_HUB_TOKEN") or get_token()
     if not token:
-        raise ValueError("❌ FEHLER: HuggingFace Token fehlt!")
+        raise ValueError("FEHLER: HuggingFace Token fehlt!")
 
     url = "https://remote-text-encoder-flux-2.huggingface.co/predict"
     max_retries = 10  # Versucht es bis zu 10 mal (ca. 2,5 Minuten)
@@ -164,7 +164,7 @@ def get_remote_prompt_embeds(prompt: str, logger: logging.Logger):
             
             # Check: Schickt der Server gerade eine HTML-Warteseite?
             if response.content.strip().startswith(b"<"):
-                logger.warning(f"   ⏳ Server fährt gerade hoch (Versuch {attempt+1}/{max_retries}). Warte 15 Sekunden...")
+                logger.warning(f"   Server fährt gerade hoch (Versuch {attempt+1}/{max_retries}). Warte 15 Sekunden...")
                 time.sleep(15)
                 continue # Springt zurück zum Anfang der Schleife und versucht es nochmal
                 
@@ -173,11 +173,11 @@ def get_remote_prompt_embeds(prompt: str, logger: logging.Logger):
             return prompt_embeds.to("cuda")
             
         except Exception as e:
-            logger.warning(f"   ⚠️ API-Fehler (Versuch {attempt+1}/{max_retries}): {e}. Warte 15 Sekunden...")
+            logger.warning(f"   API-Fehler (Versuch {attempt+1}/{max_retries}): {e}. Warte 15 Sekunden...")
             time.sleep(15)
             
     # Wenn er nach 10 Versuchen immer noch schläft
-    raise RuntimeError("❌ Server ist nach 10 Versuchen nicht aufgewacht. Bitte später nochmal probieren.")
+    raise RuntimeError("Server ist nach 10 Versuchen nicht aufgewacht. Bitte später nochmal probieren.")
 
 # =============================================================
 # MODELL LADEN
@@ -200,7 +200,7 @@ def load_model(model_cfg, logger):
     pipe.transformer.to(memory_format=torch.channels_last)
     pipe.vae.to(memory_format=torch.channels_last)
 
-    logger.info(f"✅ FLUX geladen | VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
+    logger.info(f"FLUX geladen | VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
     return pipe
 
 # =============================================================
@@ -214,12 +214,12 @@ def generate_image(pipe, prompt_info, seed, model_cfg, logger):
     start = time.time()
 
     # 1. API Call: Embeddings vom Server holen
-    logger.info("   📡 Hole Text-Vektoren vom Server...")
+    logger.info("   Hole Text-Vektoren vom Server...")
     prompt_embeds = get_remote_prompt_embeds(prompt_info["prompt"], logger)
     
 
     # 2. Bild lokal auf der RTX 5090 generieren
-    logger.info("   🖌️ Generiere Bild lokal...")
+    logger.info("   Generiere Bild lokal...")
     image = pipe(
         prompt_embeds=prompt_embeds,
         width=img_cfg["width"],
@@ -256,11 +256,11 @@ def main(dry_run=False, resume=True):
         logger.info(f"Checkpoint: {len(completed)} bereits fertig")
 
     if dry_run:
-        logger.info("\n🔍 DRY-RUN")
+        logger.info("\nDRY-RUN")
         for p in prompts[:3]:
             for s in seeds[:2]:
                 img_id = make_image_id(p["id"], s)
-                status = "✅" if img_id in completed else "⏳"
+                status = "ok" if img_id in completed else "pending"
                 logger.info(f"  {status} {img_id}")
         return
 
@@ -293,11 +293,11 @@ def main(dry_run=False, resume=True):
 
                 elapsed = time.time() - total_start
                 eta = (elapsed / success_count) * (total_images - success_count) if success_count > 0 else 0
-                logger.info(f"   ✅ {gen_time:.1f}s | {success_count}/{total_images} | ETA: {eta/60:.1f} min")
+                logger.info(f"   {gen_time:.1f}s | {success_count}/{total_images} | ETA: {eta/60:.1f} min")
 
             except Exception as e:
                 # Fängt Fehler beim API-Call UND bei CUDA ab
-                logger.error(f"   ❌ {image_id}: {e}")
+                logger.error(f"   {image_id}: {e}")
                 failed.append({"id": image_id, "error": str(e)})
                 
                 # Sicherheitsnetz: VRAM leeren bei Fehlern
@@ -306,7 +306,7 @@ def main(dry_run=False, resume=True):
 
     # Abschluss
     total_time = time.time() - total_start
-    logger.info(f"\n✅ {len(completed)}/{total_images} | ❌ {len(failed)} | ⏱️ {total_time/60:.1f} min")
+    logger.info(f"\n{len(completed)}/{total_images} | {len(failed)} | {total_time/60:.1f} min")
 
     if failed:
         with open(OUTPUT_DIR / "failed_flux.json", "w") as f:

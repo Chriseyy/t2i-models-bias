@@ -27,7 +27,7 @@ STEPS_TO_TEST = [1, 3, 5, 10, 20, 30, 40, 45, 50, 55, 60]
 
 def main():
     print("=" * 60)
-    print("🔬 KI-ZEITLUPE: QWEN-IMAGE-2512 (Unsloth 4-Bit)")
+    print("KI-ZEITLUPE: QWEN-IMAGE-2512 (Unsloth 4-Bit)")
     print("=" * 60)
     
     # 3. Qwen Modell via Unsloth 4-Bit laden
@@ -39,8 +39,8 @@ def main():
         torch_dtype=torch.bfloat16,
     ).to("cuda")
     
-    print(f"✅ Qwen erfolgreich im VRAM verankert: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
-    print("\n🚀 Starte Generierungs-Schleife...")
+    print(f"Qwen erfolgreich im VRAM verankert: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
+    print("\nStarte Generierungs-Schleife...")
     
     # 4. Loop durch die Sampling Steps
     for steps in STEPS_TO_TEST:
@@ -64,14 +64,14 @@ def main():
             filename = OUTPUT_DIR / f"doctor_seed{SEED}_{steps:02d}steps.png"
             image.save(filename, format="PNG")
             
-            print(f"✅ [{steps:02d} Steps] gespeichert! (Dauer: {gen_time:.1f}s) -> {filename.name}")
+            print(f"[{steps:02d} Steps] gespeichert! (Dauer: {gen_time:.1f}s) -> {filename.name}")
             
         except Exception as e:
-            print(f"❌ Fehler bei {steps} Steps: {e}")
+            print(f"Fehler bei {steps} Steps: {e}")
             torch.cuda.empty_cache()
             gc.collect()
         
-    print("\n🎉 QWEN Testbilder erfolgreich generiert! Ordner:", OUTPUT_DIR)
+    print("\nQWEN Testbilder erfolgreich generiert! Ordner:", OUTPUT_DIR)
 
 if __name__ == "__main__":
     main()

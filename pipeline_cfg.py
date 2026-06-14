@@ -52,20 +52,20 @@ def main():
     model = args.model
 
     if model in ("flux_klein", "all"):
-        logger.info("\n" + "🟠 " * 20)
+        logger.info("\n" + "" * 20)
         logger.info("STARTE CFG-TEST: FLUX.2-klein-9B")
-        logger.info("🟠 " * 20)
+        logger.info("" * 20)
         flux_klein_cfg_runner.main(dry_run=dry_run, resume=resume)
 
     # Platzhalter für zukünftige Tests (z.B. Z-Image CFG Test)
     # if model in ("zimage", "all"):
-    #     logger.info("\n" + "🔵 " * 20)
+    #     logger.info("\n" + "" * 20)
     #     logger.info("STARTE CFG-TEST: Z-Image")
-    #     logger.info("🔵 " * 20)
+    #     logger.info("" * 20)
     #     zimage_cfg_runner.main(dry_run=dry_run, resume=resume)
 
     logger.info("\n" + "=" * 60)
-    logger.info("✅ CFG-PIPELINE KOMPLETT ABGESCHLOSSEN")
+    logger.info("CFG-PIPELINE KOMPLETT ABGESCHLOSSEN")
     logger.info(f"Beendet: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     logger.info("Die Bilder liegen nun in 'outputs/images_cfg_test'")
     logger.info("=" * 60)

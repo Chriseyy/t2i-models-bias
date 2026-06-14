@@ -26,7 +26,7 @@ STEPS_TO_TEST = [28]
 
 def main():
     print("=" * 50)
-    print("🔬 KI-ZEITLUPE STARTEN (Ablation Study)")
+    print("KI-ZEITLUPE STARTEN (Ablation Study)")
     print("=" * 50)
     
     # 3. Modell laden (SD 3.5)
@@ -37,7 +37,7 @@ def main():
         token=os.environ.get("HUGGINGFACE_HUB_TOKEN")
     ).to("cuda")
     
-    print("\n🚀 Starte Generierungen...")
+    print("\nStarte Generierungen...")
     
     # 4. Wir loopen durch unsere Step-Zahlen
     for steps in STEPS_TO_TEST:
@@ -60,9 +60,9 @@ def main():
         filename = OUTPUT_DIR / f"software_engineer_seed{SEED}_{steps:02d}steps.png"
         image.save(filename)
         
-        print(f"✅ Bild mit {steps:02d} Steps gespeichert! (Dauer: {gen_time:.1f}s) -> {filename.name}")
+        print(f"Bild mit {steps:02d} Steps gespeichert! (Dauer: {gen_time:.1f}s) -> {filename.name}")
         
-    print("\n🎉 Alle Testbilder generiert! Schau in den Ordner:", OUTPUT_DIR)
+    print("\nAlle Testbilder generiert! Schau in den Ordner:", OUTPUT_DIR)
 
 if __name__ == "__main__":
     main()

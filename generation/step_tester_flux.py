@@ -29,7 +29,7 @@ STEPS_TO_TEST = [1, 2, 5, 10, 20, 25, 28, 30, 40, 50]
 
 def main():
     print("=" * 60)
-    print("🔬 KI-ZEITLUPE STARTEN: FLUX.2-dev (4-Bit Ablation Study)")
+    print("KI-ZEITLUPE STARTEN: FLUX.2-dev (4-Bit Ablation Study)")
     print("=" * 60)
     
     model_id = "diffusers/FLUX.2-dev-bnb-4bit"
@@ -62,7 +62,7 @@ def main():
     
     torch.backends.cuda.matmul.allow_tf32 = True
     
-    print("\n🚀 Starte Generierungen...")
+    print("\nStarte Generierungen...")
     
     # 4. Loop durch die Steps
     for steps in STEPS_TO_TEST:
@@ -87,9 +87,9 @@ def main():
         filename = OUTPUT_DIR / f"doctor_seed{SEED}_{steps:02d}steps.png"
         image.save(filename)
         
-        print(f"✅ Bild mit {steps:02d} Steps gespeichert! (Dauer: {gen_time:.1f}s) -> {filename.name}")
+        print(f"Bild mit {steps:02d} Steps gespeichert! (Dauer: {gen_time:.1f}s) -> {filename.name}")
         
-    print("\n🎉 FLUX.2-dev Testbilder generiert! Schau in den Ordner:", OUTPUT_DIR)
+    print("\nFLUX.2-dev Testbilder generiert! Schau in den Ordner:", OUTPUT_DIR)
 
 if __name__ == "__main__":
     main()

@@ -90,9 +90,9 @@ def load_configs(prompt_filename="prompts.yaml"):
 
     # Sicherheits-Checks
     if prompt_cfg is None:
-        raise ValueError(f"❌ FEHLER: Die Datei {prompt_path} ist leer!")
+        raise ValueError(f"FEHLER: Die Datei {prompt_path} ist leer!")
     if model_cfg is None:
-        raise ValueError(f"❌ FEHLER: Die Datei {model_path} ist leer! (Bitte speichern oder Pfad prüfen)")
+        raise ValueError(f"FEHLER: Die Datei {model_path} ist leer! (Bitte speichern oder Pfad prüfen)")
 
     return prompt_cfg, model_cfg
 
@@ -212,7 +212,7 @@ def load_model(model_cfg: dict, logger: logging.Logger):
     # Token aus der .env Datei holen
     hf_token = os.environ.get("HUGGINGFACE_HUB_TOKEN")
     if not hf_token:
-        logger.error("❌ Kein HF_TOKEN gefunden! Bitte .env Datei prüfen.")
+        logger.error("Kein HF_TOKEN gefunden! Bitte .env Datei prüfen.")
         raise ValueError("Missing Hugging Face Token")
 
 
@@ -224,12 +224,12 @@ def load_model(model_cfg: dict, logger: logging.Logger):
         )
         
         pipe = pipe.to("cuda")
-        logger.info("✅ Modell geladen und optimiert!")
+        logger.info("Modell geladen und optimiert!")
         logger.info(f"   VRAM: {torch.cuda.memory_allocated() / 1e9:.1f} GB")
         return pipe
 
     except Exception as e:
-        logger.error(f"❌ Modell konnte nicht geladen werden: {e}")
+        logger.error(f"Modell konnte nicht geladen werden: {e}")
         logger.error("   Prüfe: 1) huggingface-cli login  2) Lizenz auf HF akzeptiert?")
         raise
 
@@ -307,11 +307,11 @@ def main(dry_run: bool = False, resume: bool = True, chinese: bool = False):
 
     # Dry-Run: Nur zeigen was generiert werden würde
     if dry_run:
-        logger.info("\n🔍 DRY-RUN - Keine echten Bilder werden generiert!")
+        logger.info("\nDRY-RUN - Keine echten Bilder werden generiert!")
         for p in prompts[:3]:
             for s in seeds[:2]:
                 img_id = make_image_id(p["id"], s)
-                status = "✅ DONE" if img_id in completed else "⏳ TODO"
+                status = "DONE" if img_id in completed else "TODO"
                 logger.info(f"  {status} | {img_id} | {p['prompt'][:60]}...")
         logger.info("...")
         logger.info(f"\nGesamt: {total_images} Bilder | Fertig: {len(completed)} | Offen: {total_images - len(completed)}")
@@ -334,7 +334,7 @@ def main(dry_run: bool = False, resume: bool = True, chinese: bool = False):
 
             # Schon generiert? Überspringen!
             if image_id in completed:
-                logger.info(f"  ⏭️  Überspringe (bereits fertig): {image_id}")
+                logger.info(f"  ⏭Überspringe (bereits fertig): {image_id}")
                 continue
 
             logger.info(f"\n📸 Generiere: {image_id}")
@@ -365,22 +365,22 @@ def main(dry_run: bool = False, resume: bool = True, chinese: bool = False):
                 save_checkpoint(completed, is_chinese=chinese)
                 success_count += 1
 
-                logger.info(f"   ✅ Fertig in {gen_time:.1f}s → {image_path.name}")
+                logger.info(f"   Fertig in {gen_time:.1f}s → {image_path.name}")
 
                 # Fortschritt anzeigen
                 progress = success_count / total_images * 100
                 elapsed = time.time() - total_start
                 eta = (elapsed / success_count) * (total_images - success_count) if success_count > 0 else 0
-                logger.info(f"   📊 Fortschritt: {success_count}/{total_images} ({progress:.1f}%) | ETA: {eta/60:.1f} min")
+                logger.info(f"   Fortschritt: {success_count}/{total_images} ({progress:.1f}%) | ETA: {eta/60:.1f} min")
 
             except torch.cuda.OutOfMemoryError:
-                logger.error(f"   ❌ GPU OOM bei {image_id}! Versuche VRAM zu leeren...")
+                logger.error(f"   GPU OOM bei {image_id}! Versuche VRAM zu leeren...")
                 torch.cuda.empty_cache()
                 gc.collect()
                 failed.append({"id": image_id, "error": "CUDA_OOM"})
 
             except Exception as e:
-                logger.error(f"   ❌ Fehler bei {image_id}: {e}")
+                logger.error(f"   Fehler bei {image_id}: {e}")
                 failed.append({"id": image_id, "error": str(e)})
 
     # ==========================================================
@@ -391,11 +391,11 @@ def main(dry_run: bool = False, resume: bool = True, chinese: bool = False):
     logger.info("\n" + "=" * 60)
     logger.info("GENERATION ABGESCHLOSSEN")
     logger.info("=" * 60)
-    logger.info(f"✅ Erfolgreich: {len(completed)}/{total_images}")
-    logger.info(f"❌ Fehlgeschlagen: {len(failed)}")
-    logger.info(f"⏱️  Gesamtzeit: {total_time/60:.1f} Minuten")
-    logger.info(f"📁 Bilder in: {IMAGE_DIR}")
-    logger.info(f"📋 Metadata in: {META_DIR}")
+    logger.info(f"Erfolgreich: {len(completed)}/{total_images}")
+    logger.info(f"Fehlgeschlagen: {len(failed)}")
+    logger.info(f"Gesamtzeit: {total_time/60:.1f} Minuten")
+    logger.info(f"Bilder in: {IMAGE_DIR}")
+    logger.info(f"Metadata in: {META_DIR}")
 
     # Fehlgeschlagene Bilder speichern
     fail_filename = "failed_sd35_chines.json" if chinese else "failed_sd35.json"
@@ -403,13 +403,13 @@ def main(dry_run: bool = False, resume: bool = True, chinese: bool = False):
         failed_path = OUTPUT_DIR / fail_filename
         with open(failed_path, "w") as f:
             json.dump(failed, f, indent=2)
-        logger.info(f"⚠️  Fehler-Log: {failed_path}")
+        logger.info(f"Fehler-Log: {failed_path}")
 
     # VRAM freigeben
     del pipe
     torch.cuda.empty_cache()
     gc.collect()
-    logger.info("🧹 VRAM geleert")
+    logger.info("VRAM geleert")
 
 
 # =============================================================
