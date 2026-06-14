@@ -32,7 +32,7 @@ def main():
     print("=" * 60)
 
     if not INPUT_DIR.exists():
-        print(f"❌ Fehler: Ordner {INPUT_DIR} existiert nicht. Bitte zuerst YOLO laufen lassen!")
+        print(f"Fehler: Ordner {INPUT_DIR} existiert nicht. Bitte zuerst YOLO laufen lassen!")
         return
 
     # Bereite die CSV-Datei vor
@@ -59,7 +59,7 @@ def main():
                 continue
             
             model_name = model_folder.name
-            print(f"\n📂 Analysiere Modell: {model_name}")
+            print(f"\nAnalysiere Modell: {model_name}")
 
             # Alle Bilder im Modell-Ordner sammeln
             images = [f for f in model_folder.rglob("*") if f.suffix.lower() in ['.png', '.jpg', '.jpeg']]
@@ -115,18 +115,18 @@ def main():
                     ])
                     
                     # Schickes Terminal-Feedback mit Status
-                    status_symbol = "🟢" if df_is_real == True else ("🔴" if df_is_real == False else "🟡")
+                    status_symbol = "Ok" if df_is_real == True else ("False" if df_is_real == False else "Unknown/Error")
                     print(f"  {status_symbol} {img_path.name} -> {df_gender} | {df_race} | Real: {df_is_real}")
                     total_processed += 1
 
                 except Exception as e:
-                    print(f"  ❌ Kritischer Fehler bei {img_path.name}: Überspringe Bild.")
+                    print(f"  Kritischer Fehler bei {img_path.name}: Überspringe Bild.")
                     writer.writerow([img_path.name, model_name, prompt_sub, "Error", "Error", "Error", "Error"])
                     total_errors += 1
 
     print("\n" + "=" * 60)
-    print(f"🎉 FERTIG! {total_processed} Bilder im Master-Verfahren analysiert. ({total_errors} kritische Fehler)")
-    print(f"📊 Deine finale Excel/CSV-Tabelle liegt hier: {OUTPUT_CSV}")
+    print(f"FERTIG! {total_processed} Bilder im Master-Verfahren analysiert. ({total_errors} kritische Fehler)")
+    print(f"Deine finale Excel/CSV-Tabelle liegt hier: {OUTPUT_CSV}")
     print("=" * 60)
 
 if __name__ == "__main__":

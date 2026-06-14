@@ -33,11 +33,11 @@ M3 = 'qwen2.5vl:7b'
 
 def main():
     print("=" * 75)
-    print("🔬 UNIVERSELLE VLM-DIVERGENZ-ANALYSE GESTARTET")
+    print("UNIVERSELLE VLM-DIVERGENZ-ANALYSE GESTARTET")
     print("=" * 75)
 
     if not INPUT_CSV.exists():
-        print(f"❌ Fehler: Die Datei {INPUT_CSV} wurde nicht gefunden.")
+        print(f"Fehler: Die Datei {INPUT_CSV} wurde nicht gefunden.")
         return
 
     # 1. Daten einlesen und filtern
@@ -60,13 +60,13 @@ def main():
     req_cols = [f"VLM_Gender_{M1}", f"VLM_Gender_{M2}", f"VLM_Gender_{M3}"]
     missing_cols = [c for c in req_cols if c not in pivot_df.columns]
     if missing_cols:
-        print(f"⚠️ Warnung: Es fehlen noch Daten für Modelle: {missing_cols}.")
+        print(f"Warnung: Es fehlen noch Daten für Modelle: {missing_cols}.")
         return
     
     # Nur Bilder behalten, die von allen 3 KIs bewertet wurden
     pivot_df = pivot_df.dropna(subset=req_cols)
     total_images = len(pivot_df)
-    print(f"📊 Datensatz geladen: {total_images} Bilder wurden von allen 3 VLMs analysiert.\n")
+    print(f"Datensatz geladen: {total_images} Bilder wurden von allen 3 VLMs analysiert.\n")
 
     # =============================================================
     # DATENSAMMLUNG FÜR DIE PLOTS
@@ -126,10 +126,10 @@ def main():
 
         # Konsolen-Ausgabe
         print(f"--- Dimension: {dim_name.upper()} ---")
-        print(f"  ✅ Voller Konsens (3/3):     {consensus} Bilder ({consensus/total_images*100:.1f}%)")
-        print(f"  ⚖️ Mehrheit (2/3):           {majority} Bilder ({majority/total_images*100:.1f}%)")
-        print(f"  💥 Totale Divergenz (1/1/1): {total_div} Bilder ({total_div/total_images*100:.1f}%)\n")
-        print(f"  🐺 Lone-Wolf (Wer weicht von der Mehrheit ab?):")
+        print(f"  Voller Konsens (3/3):     {consensus} Bilder ({consensus/total_images*100:.1f}%)")
+        print(f"  Mehrheit (2/3):           {majority} Bilder ({majority/total_images*100:.1f}%)")
+        print(f"  Totale Divergenz (1/1/1): {total_div} Bilder ({total_div/total_images*100:.1f}%)\n")
+        print(f"  Lone-Wolf (Wer weicht von der Mehrheit ab?):")
         print(f"     -> Gemma4:   {lw_m1}x")
         print(f"     -> InternVL: {lw_m2}x")
         print(f"     -> Qwen2.5:  {lw_m3}x\n")
@@ -137,7 +137,7 @@ def main():
     # =============================================================
     # PLOTS GENERIEREN & SPEICHERN
     # =============================================================
-    print("🎨 Generiere Diagramme...")
+    print("Generiere Diagramme...")
 
     # PLOT 1: Agreement Distribution (Stacked Bar Chart)
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -187,11 +187,11 @@ def main():
     dispute_df.to_csv(OUTPUT_DISPUTE_CSV, index=False)
 
     print("=" * 75)
-    print(f"💾 EXPORT ABGESCHLOSSEN!")
-    print(f"  📁 Alle Dateien gespeichert in: {OUTPUT_DIR}")
-    print(f"  📄 CSV: vlm_full_comparison.csv & vlm_dispute_cases.csv")
-    print(f"  📈 Plot 1: vlm_agreement_distribution.png")
-    print(f"  📈 Plot 2: vlm_lonewolf_analysis.png")
+    print(f" EXPORT ABGESCHLOSSEN!")
+    print(f"  Alle Dateien gespeichert in: {OUTPUT_DIR}")
+    print(f"  CSV: vlm_full_comparison.csv & vlm_dispute_cases.csv")
+    print(f"  Plot 1: vlm_agreement_distribution.png")
+    print(f"  Plot 2: vlm_lonewolf_analysis.png")
     print("=" * 75)
 
 if __name__ == "__main__":

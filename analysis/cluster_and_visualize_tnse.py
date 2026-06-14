@@ -65,7 +65,7 @@ def clean_strings(df):
     return df
 
 def build_macro_metadata():
-    print("📋 Baue Makro-Metadaten-Verzeichnis aus CSV-Dateien auf...")
+    print("Baue Makro-Metadaten-Verzeichnis aus CSV-Dateien auf...")
     master_meta = None
 
     # 1. DeepFace laden
@@ -95,7 +95,7 @@ def build_macro_metadata():
         df_ol['VLM_Model_Clean'] = df_ol['VLM_Model'].apply(lambda x: re.sub(r'[^a-zA-Z0-9]', '', str(x)))
         df_ol = df_ol.drop_duplicates(subset=['Image_Name', 'T2I_Model', 'VLM_Model_Clean'], keep='last')
         
-        print(f"   ⚙️ Gefundene VLMs in Ollama-CSV: {df_ol['VLM_Model_Clean'].unique().tolist()}")
+        print(f" Gefundene VLMs in Ollama-CSV: {df_ol['VLM_Model_Clean'].unique().tolist()}")
         
         df_ol_pivot = df_ol.pivot(
             index=['Image_Name', 'T2I_Model'], 
@@ -132,7 +132,7 @@ def main():
         return
 
     models_available = {re.search(f"{FEATURE_TYPE}_embeddings_(.+)\.pkl", Path(f).name).group(1): Path(f) for f in pkl_files if re.search(f"{FEATURE_TYPE}_embeddings_(.+)\.pkl", Path(f).name)}
-    print(f"✅ Verfügbare Vektor-Pakete für das Clustering: {list(models_available.keys())}")
+    print(f"Verfügbare Vektor-Pakete für das Clustering: {list(models_available.keys())}")
 
     # 1. Basis-Attribute definieren, die immer da sind
     attributes_to_plot = [
@@ -292,7 +292,7 @@ def main():
     # =============================================================
     # TEIL 4: DER UNANGREIFBARE MATHEMATISCHE BEWEIS (DYNAMISCH ÜBER ALLE KLASSEN)
     # =============================================================
-    print("\n🧮 ========= TEIL 4: MAXIMUM QUANTITATIVE KOSINUS-ÄHNLICHKEIT =========")
+    print("\n========= TEIL 4: MAXIMUM QUANTITATIVE KOSINUS-ÄHNLICHKEIT =========")
     cosine_report_rows = []
     unique_prompts = sorted(df_global["Prompt_Subject"].dropna().unique())
 
@@ -339,7 +339,7 @@ def main():
         df_cosine_report.to_csv(report_output_path, index=False)
         print(f"💾 Mathematischer Tidy-Format Report gespeichert: {report_output_path.name}")
 
-    print("\n🎉 MULTI-VLM PIPELINE VOLLSTÄNDIG ABSCHLOSSEN! DEINE GRAFIKEN SIND JETZT VIRTUNOS.")
+    print("\nMULTI-VLM PIPELINE VOLLSTÄNDIG ABSCHLOSSEN! DEINE GRAFIKEN SIND JETZT VIRTUNOS.")
 
 if __name__ == "__main__":
     main()

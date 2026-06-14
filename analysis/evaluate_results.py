@@ -376,7 +376,7 @@ def export_model_statistics(model_df, model_name, output_folder):
 # =========================================================================
 def main():
     print("=" * 70)
-    print("📈 STARTE ZWEISTUFIGE AUSWERTUNG (MACRO & FAIR COMPARISON)")
+    print("STARTE ZWEISTUFIGE AUSWERTUNG (MACRO & FAIR COMPARISON)")
     print("=" * 70)
 
     MACRO_DIR.mkdir(parents=True, exist_ok=True)
@@ -480,7 +480,7 @@ def main():
     print("\n[TEIL 2] Generiere FAIR COMPARISON (Gefiltert auf menschliche Stichprobe)...")
     
     if not HUMAN_CSV.exists():
-        print("⚠️ HINWEIS: human_evaluation.csv fehlt! Fair Comparison wird übersprungen.")
+        print("HINWEIS: human_evaluation.csv fehlt! Fair Comparison wird übersprungen.")
         return
 
     df_human = pd.read_csv(HUMAN_CSV).drop_duplicates(subset=['Image_Name', 'T2I_Model'], keep='last')
@@ -576,7 +576,7 @@ def main():
     
 
     print("\n" + "=" * 70)
-    print("🎉 ALLES FERTIG! Makro-Plots, Dashboards, Fair-Comparison und Statistiken erfolgreich erstellt.")
+    print("ALLES FERTIG! Makro-Plots, Dashboards, Fair-Comparison und Statistiken erfolgreich erstellt.")
 
 if __name__ == "__main__":
     main()

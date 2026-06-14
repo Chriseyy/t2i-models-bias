@@ -36,7 +36,7 @@ def load_pkl_file(filepath):
 
 def run_correlation_for_feature_type(feature_type):
     print("\n" + "=" * 70)
-    print(f"📊 STARTE GLOBALE MODELL-KORRELATIONS-ANALYSE ({feature_type.upper()}-RAUM)")
+    print(f"STARTE GLOBALE MODELL-KORRELATIONS-ANALYSE ({feature_type.upper()}-RAUM)")
     print("=" * 70)
 
     # 1. Suche nach den spezifischen Vektor-Paketen (dinov3 oder clip)
@@ -44,7 +44,7 @@ def run_correlation_for_feature_type(feature_type):
     pkl_files = glob.glob(pkl_pattern)
     
     if not pkl_files:
-        print(f"⚠️ Keine Vektor-Pakete für '{feature_type}_embeddings_*.pkl' in {OUTPUT_DIR} gefunden. Überspringe.")
+        print(f"Keine Vektor-Pakete für '{feature_type}_embeddings_*.pkl' in {OUTPUT_DIR} gefunden. Überspringe.")
         return
 
     # Extrahiere die Modellnamen dynamisch aus den Dateinamen passend zum feature_type
@@ -55,7 +55,7 @@ def run_correlation_for_feature_type(feature_type):
             models_available[match.group(1).upper()] = Path(f)
 
     sorted_model_names = sorted(list(models_available.keys()))
-    print(f"✅ Gefundene Modelle für {feature_type.upper()}: {sorted_model_names}")
+    print(f"Gefundene Modelle für {feature_type.upper()}: {sorted_model_names}")
 
     # 2. Berechne den globalen Schwerpunkt (Centroid) für jedes Modell
     model_centroids = {}
@@ -113,8 +113,8 @@ def run_correlation_for_feature_type(feature_type):
     df_matrix.to_csv(csv_path)
     plt.close(fig)
 
-    print(f"💾 Grafik gesichert: {plot_path.name}")
-    print(f"💾 CSV-Tabelle gesichert: {csv_path.name}")
+    print(f"Grafik gesichert: {plot_path.name}")
+    print(f"CSV-Tabelle gesichert: {csv_path.name}")
 
 
 def main():
@@ -126,7 +126,7 @@ def main():
         run_correlation_for_feature_type(feature_space)
         
     print("\n" + "=" * 70)
-    print("🎉 MULTI-RUN BEENDET! Alle System-Heatmaps wurden erfolgreich berechnet.")
+    print(" MULTI-RUN BEENDET! Alle System-Heatmaps wurden erfolgreich berechnet.")
     print("=" * 70)
 
 if __name__ == "__main__":

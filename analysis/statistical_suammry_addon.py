@@ -199,7 +199,7 @@ def plot_key_numbers(metrics_df, output_folder):
     plt.tight_layout()
     plt.savefig(output_folder / "KEY_NUMBERS_BIAS_RATIOS.png", dpi=300)
     plt.close()
-    print("  ✅ KEY_NUMBERS_BIAS_RATIOS.png gespeichert")
+    print("  KEY_NUMBERS_BIAS_RATIOS.png gespeichert")
 
 
 # =============================================================
@@ -234,7 +234,7 @@ def plot_chi2_overview(metrics_df, output_folder):
     plt.tight_layout()
     plt.savefig(output_folder / "CHI2_GENDER_SIGNIFICANCE.png", dpi=300)
     plt.close()
-    print("  ✅ CHI2_GENDER_SIGNIFICANCE.png gespeichert")
+    print("  CHI2_GENDER_SIGNIFICANCE.png gespeichert")
 
 
 # =============================================================
@@ -251,16 +251,16 @@ def generate_statistical_summary(master_df, output_folder):
     metrics_df = compute_all_metrics(master_df)
 
     if metrics_df.empty:
-        print("  ⚠️ Keine Daten für Statistiken gefunden.")
+        print("  Keine Daten für Statistiken gefunden.")
         return
 
     # CSV mit allen Kennzahlen speichern
     out_csv = output_folder / "STATISTICAL_SUMMARY.csv"
     metrics_df.to_csv(out_csv, index=False)
-    print(f"  ✅ Kennzahlen-Tabelle: {out_csv}")
+    print(f"  Kennzahlen-Tabelle: {out_csv}")
 
     # Konsolen-Ausgabe (wichtige Zahlen für Fazit-Folie)
-    print("\n  📊 KERNKENNZAHLEN FÜR FAZIT-FOLIE:")
+    print("\n  KERNKENNZAHLEN FÜR FAZIT-FOLIE:")
     print("  " + "─" * 55)
     for _, row in metrics_df.iterrows():
         print(f"\n  Modell: {row['Modell']}")
@@ -281,7 +281,7 @@ def generate_statistical_summary(master_df, output_folder):
     plot_key_numbers(metrics_df, output_folder)
     plot_chi2_overview(metrics_df, output_folder)
 
-    print("\n  ✅ Statistische Auswertung abgeschlossen.")
+    print("\n  Statistische Auswertung abgeschlossen.")
     return metrics_df
 
 

@@ -65,7 +65,7 @@ def clean_strings(df):
     return df
 
 def build_macro_metadata():
-    print("📋 Baue Makro-Metadaten-Verzeichnis aus CSV-Dateien auf...")
+    print("Baue Makro-Metadaten-Verzeichnis aus CSV-Dateien auf...")
     master_meta = None
 
     if DEEPFACE_CSV.exists():
@@ -111,7 +111,7 @@ def build_macro_metadata():
 
 def main():
     print("=" * 70)
-    print(f"🔮 STARTE AUTOMATISCHE COMPACT-MAP-ANALYSE (UMAP) FÜR: [{FEATURE_TYPE.upper()}]")
+    print(f"STARTE AUTOMATISCHE COMPACT-MAP-ANALYSE (UMAP) FÜR: [{FEATURE_TYPE.upper()}]")
     print("=" * 70)
     PLOTS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -124,11 +124,11 @@ def main():
     pkl_files = glob.glob(pkl_pattern)
     
     if not pkl_files:
-        print(f"❌ Keine Model-Vektoren vom Typ '{FEATURE_TYPE}_embeddings_*.pkl' in {OUTPUT_DIR} gefunden.")
+        print(f"Keine Model-Vektoren vom Typ '{FEATURE_TYPE}_embeddings_*.pkl' in {OUTPUT_DIR} gefunden.")
         return
 
     models_available = {re.search(f"{FEATURE_TYPE}_embeddings_(.+)\.pkl", Path(f).name).group(1): Path(f) for f in pkl_files if re.search(f"{FEATURE_TYPE}_embeddings_(.+)\.pkl", Path(f).name)}
-    print(f"✅ Verfügbare Vektor-Pakete für das Clustering: {list(models_available.keys())}")
+    print(f"Verfügbare Vektor-Pakete für das Clustering: {list(models_available.keys())}")
 
     # Basis-Attribute definieren
     attributes_to_plot = [
@@ -298,7 +298,7 @@ def main():
     # =============================================================
     # TEIL 4: QUANTITATIVE KOSINUS-ÄHNLICHKEIT (Roh-Vektoren bleiben unverändert)
     # =============================================================
-    print("\n🧮 ========= TEIL 4: MAXIMUM QUANTITATIVE KOSINUS-ÄHNLICHKEIT =========")
+    print("\n========= TEIL 4: MAXIMUM QUANTITATIVE KOSINUS-ÄHNLICHKEIT =========")
     cosine_report_rows = []
     unique_prompts = sorted(df_global["Prompt_Subject"].dropna().unique())
 
@@ -343,9 +343,9 @@ def main():
         
         report_output_path = PLOTS_DIR / f"{FEATURE_TYPE.upper()}_RAW_EMBEDDING_COSINE_BIAS.csv"
         df_cosine_report.to_csv(report_output_path, index=False)
-        print(f"💾 Mathematischer Tidy-Format Report gespeichert: {report_output_path.name}")
+        print(f"Mathematischer Tidy-Format Report gespeichert: {report_output_path.name}")
 
-    print(f"\n🎉 UMAP PIPELINE VOLLSTÄNDIG ABSCHLOSSEN! Ordner: outputs/plots/cluster/{FEATURE_TYPE}_plots_umap/")
+    print(f"\nUMAP PIPELINE VOLLSTÄNDIG ABSCHLOSSEN! Ordner: outputs/plots/cluster/{FEATURE_TYPE}_plots_umap/")
 
 if __name__ == "__main__":
     main()

@@ -198,7 +198,7 @@ def generate_per_prompt_dashboards(
                     skin_col       = skin_col,
                     vlm_filename_tag = vlm_safe_name
                 )
-        print(f"  ✅ [{dataset_label}] Dashboards für alle VLMs gespeichert → {output_folder}")
+        print(f"  [{dataset_label}] Dashboards für alle VLMs gespeichert → {output_folder}")
 
     else:
         # MACRO-MODUS: raw_dataframes
@@ -253,4 +253,4 @@ def generate_per_prompt_dashboards(
                     skin_col       = skin_col,
                     vlm_filename_tag = vlm_safe_name
                 )
-        print(f"  ✅ [{dataset_label}] Dashboards für alle VLMs gespeichert → {output_folder}")
+        print(f"  [{dataset_label}] Dashboards für alle VLMs gespeichert → {output_folder}")

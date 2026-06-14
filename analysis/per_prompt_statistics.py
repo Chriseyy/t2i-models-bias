@@ -380,7 +380,7 @@ def generate_per_prompt_statistics(
     print(f"\n[TEIL 4] Per-Prompt Statistiken [{dataset_label}] werden für alle VLMs berechnet...")
 
     if master_df.empty:
-        print("  ⚠️ Leerer DataFrame — übersprungen.")
+        print("  Leerer DataFrame — übersprungen.")
         return
 
     output_folder.mkdir(parents=True, exist_ok=True)
@@ -395,13 +395,13 @@ def generate_per_prompt_statistics(
         df_stats = compute_per_prompt_metrics(master_df, vlm)
 
         if df_stats.empty:
-            print(f"    ⚠️ Keine Daten für {vlm_safe_name} gefunden.")
+            print(f"    Keine Daten für {vlm_safe_name} gefunden.")
             continue
 
         # CSV speichern
         csv_path = output_folder / f"PER_PROMPT_STATS_DETAIL_{file_tag}.csv"
         df_stats.to_csv(csv_path, index=False)
-        print(f"    ✅ Detailtabelle: {csv_path.name}")
+        print(f"    Detailtabelle: {csv_path.name}")
 
         # Plots generieren (Jetzt 4 Stück pro Modell!)
         plot_chi2_heatmaps(df_stats, output_folder, label_title, file_tag)
@@ -409,4 +409,4 @@ def generate_per_prompt_statistics(
         plot_per_model_gender_only(df_stats, output_folder, label_title, file_tag)
         plot_per_model_ethnicity_only(df_stats, output_folder, label_title, file_tag)
 
-    print(f"\n  ✅ Alle Per-Prompt Statistiken für [{dataset_label}] fertig -> {output_folder}")
+    print(f"\n  Alle Per-Prompt Statistiken für [{dataset_label}] fertig -> {output_folder}")

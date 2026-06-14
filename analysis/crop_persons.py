@@ -27,7 +27,7 @@ def main():
     print("=" * 60)
 
     if not INPUT_DIR.exists():
-        print(f"❌ Fehler: Eingabeordner {INPUT_DIR} existiert nicht.")
+        print(f"Fehler: Eingabeordner {INPUT_DIR} existiert nicht.")
         return
 
     # YOLO Modell laden
@@ -45,7 +45,7 @@ def main():
         if not model_folder.is_dir():
             continue
             
-        print(f"\n📂 Verarbeite Modell-Ordner: {model_folder.name}")
+        print(f"\nVerarbeite Modell-Ordner: {model_folder.name}")
         
         # Erstelle den passenden Unterordner im Ausgabe-Verzeichnis
         save_folder = OUTPUT_DIR / model_folder.name
@@ -65,7 +65,7 @@ def main():
             if save_path.exists():
                 # Wenn ja, überspringen und nichts tun!
                 # (Du kannst das print auskommentieren, wenn es dir im Terminal zu viel wird)
-                # print(f"  ⏭️ Überspringe bereits zugeschnittenes Bild: {img_path.name}")
+                # print(f"  Überspringe bereits zugeschnittenes Bild: {img_path.name}")
                 total_skipped += 1
                 continue
             
@@ -78,7 +78,7 @@ def main():
             try:
                 img = Image.open(img_path)
             except Exception as e:
-                print(f"  ❌ Fehler beim Laden von {img_path.name}: {e}")
+                print(f"  Fehler beim Laden von {img_path.name}: {e}")
                 continue
 
             person_cropped = False
@@ -105,21 +105,21 @@ def main():
                         total_cropped += 1
                         person_cropped = True
                         
-                        print(f"  ✅ Neu zugeschnitten: {img_path.name}")
+                        print(f"  Neu zugeschnitten: {img_path.name}")
                         break
                 
                 if person_cropped:
                     break
             
             if not person_cropped:
-                print(f"  ⚠️ Keine Person gefunden in: {img_path.name}")
+                print(f"  Keine Person gefunden in: {img_path.name}")
 
     print("\n" + "=" * 60)
-    print(f"🎉 FERTIG!")
+    print(f"FERTIG!")
     print(f"   - Neu geprüft: {total_processed}")
     print(f"   - Neu zugeschnitten: {total_cropped}")
     print(f"   - Übersprungen (bereits fertig): {total_skipped}")
-    print(f"📁 Die Dateien liegen in: {OUTPUT_DIR}")
+    print(f"Die Dateien liegen in: {OUTPUT_DIR}")
     print("=" * 60)
 
 if __name__ == "__main__":

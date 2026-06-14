@@ -67,11 +67,11 @@ Output ONLY a valid JSON object in this exact format, with no other text:
 
 def main():
     print("=" * 60)
-    print("👁️ OLLAMA VLM-ANALYSE GESTARTET (inkl. MST Skala)")
+    print("OLLAMA VLM-ANALYSE GESTARTET (inkl. MST Skala)")
     print("=" * 60)
 
     if not INPUT_DIR.exists():
-        print(f"❌ Fehler: Ordner {INPUT_DIR} existiert nicht.")
+        print(f"Fehler: Ordner {INPUT_DIR} existiert nicht.")
         return
 
     # 1. BEREITS ANALYSIERTE BILDER EINLESEN (Checkpointing)
@@ -85,7 +85,7 @@ def main():
                 # Eindeutiger Schlüssel: Bildname + T2I_Modell + VLM_Modell
                 key = f"{row['Image_Name']}_{row['T2I_Model']}_{row['VLM_Model']}"
                 processed_keys.add(key)
-        print(f"🔄 CSV gefunden! {len(processed_keys)} Auswertungen werden übersprungen.")
+        print(f"CSV gefunden! {len(processed_keys)} Auswertungen werden übersprungen.")
 
     # 2. CSV IM 'APPEND' MODUS ÖFFNEN ('a' statt 'w')
     with open(OUTPUT_CSV, mode='a', newline='', encoding='utf-8') as csv_file:
@@ -106,7 +106,7 @@ def main():
         # 3. DIE GROSSE SCHLEIFE (VLMs -> T2I-Modelle -> Bilder)
         for current_vlm in OLLAMA_MODELS:
             print(f"\n" + "=" * 40)
-            print(f"🚀 WECHSLE ZU VLM: {current_vlm}")
+            print(f"WECHSLE ZU VLM: {current_vlm}")
             print("=" * 40)
 
             for model_folder in INPUT_DIR.iterdir():
@@ -119,7 +119,7 @@ def main():
                 if not images:
                     continue
                     
-                print(f"\n📂 Analysiere T2I-Modell: {t2i_model_name} (mit {current_vlm})")
+                print(f"\n Analysiere T2I-Modell: {t2i_model_name} (mit {current_vlm})")
 
                 for img_path in images:
                     # Prüfen, ob dieses Bild von diesem VLM schon ausgewertet wurde
@@ -210,8 +210,8 @@ def main():
                         csv_file.flush()
 
     print("\n" + "=" * 60)
-    print(f"🎉 FERTIG! Alle Bilder wurden von allen konfigurierten VLMs ausgewertet.")
-    print(f"📊 Ergebnisse liegen sicher in: {OUTPUT_CSV}")
+    print(f"FERTIG! Alle Bilder wurden von allen konfigurierten VLMs ausgewertet.")
+    print(f"Ergebnisse liegen sicher in: {OUTPUT_CSV}")
 
 if __name__ == "__main__":
     main()

@@ -35,12 +35,12 @@ HF_TOKEN = os.getenv("HUGGINGFACE_HUB_TOKEN")
 if HF_TOKEN:
     try:
         login(token=HF_TOKEN)
-        print("✅ Erfolgreich beim Hugging Face Hub angemeldet.")
+        print("Erfolgreich beim Hugging Face Hub angemeldet.")
     except Exception as e:
-        print(f"⚠️ Login-Fehler bei Hugging Face: {e}")
+        print(f"Login-Fehler bei Hugging Face: {e}")
         pass
 else:
-    print("⚠️ WARNUNG: Kein 'HUGGINGFACE_HUB_TOKEN' in der .env-Datei gefunden!")
+    print("WARNUNG: Kein 'HUGGINGFACE_HUB_TOKEN' in der .env-Datei gefunden!")
     print("Da DINOv3 zugriffsgeschützt sein kann, könnte der Download fehlschlagen.")
 
 
@@ -127,10 +127,10 @@ def main():
 
     model_dirs = [d for d in STEP_TEST_DIR.iterdir() if d.is_dir()]
     if not model_dirs:
-        print(f"❌ Keine Modell-Unterordner in {STEP_TEST_DIR} gefunden.")
+        print(f"Keine Modell-Unterordner in {STEP_TEST_DIR} gefunden.")
         return
 
-    print(f"✅ Gefundene Modell-Ordner: {[d.name for d in model_dirs]}")
+    print(f"Gefundene Modell-Ordner: {[d.name for d in model_dirs]}")
     PLOTS_OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -142,7 +142,7 @@ def main():
 
         img_files = list(model_dir.glob("*.png"))
         if not img_files:
-            print(f"  ⚠️ Keine PNG-Bilder in {model_dir.name} gefunden. Überspringe...")
+            print(f"  Keine PNG-Bilder in {model_dir.name} gefunden. Überspringe...")
             continue
 
         steps_data = []
@@ -154,13 +154,13 @@ def main():
         steps_data = sorted(steps_data, key=lambda x: x[0])
         
         if len(steps_data) < 2:
-            print("  ⚠️ Zu wenige Zwischenschritte für eine Konvergenz-Linie vorhanden.")
+            print("  Zu wenige Zwischenschritte für eine Konvergenz-Linie vorhanden.")
             continue
 
         print(f"  -> Gefundene Steps für die Kurve: {[x[0] for x in steps_data]}")
 
         final_step, final_img_path = steps_data[-1]
-        print(f"  🎯 Definiere {final_step} Steps als finalen Konvergenz-Anker ({final_img_path.name})")
+        print(f"  Definiere {final_step} Steps als finalen Konvergenz-Anker ({final_img_path.name})")
         final_vector = extractor.get_embedding(final_img_path).reshape(1, -1)
 
         plot_rows = []
@@ -194,13 +194,13 @@ def main():
         fig.savefig(plot_filename, dpi=300)
         plt.close(fig)
         
-        print(f"  💾 Konvergenz-Kurve erfolgreich gesichert: {plot_filename.parent.name}/{plot_filename.name}")
+        print(f"  Konvergenz-Kurve erfolgreich gesichert: {plot_filename.parent.name}/{plot_filename.name}")
         
         torch.cuda.empty_cache()
         gc.collect()
 
     print("\n" + "=" * 70)
-    print(f"🎉 ALLE TRAJEKTORIEN-PLOTS ERSTELLT! Ordner: outputs/plots/step_test/")
+    print(f"ALLE TRAJEKTORIEN-PLOTS ERSTELLT! Ordner: outputs/plots/step_test/")
     print("=" * 70)
 
 if __name__ == "__main__":

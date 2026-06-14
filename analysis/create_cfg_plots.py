@@ -35,7 +35,7 @@ def discover_images():
     data_groups = {}
     
     if not INPUT_DIR.exists():
-        print(f"❌ Fehler: Verzeichnis {INPUT_DIR} existiert nicht!")
+        print(f"Fehler: Verzeichnis {INPUT_DIR} existiert nicht!")
         return data_groups
 
     for model_folder in INPUT_DIR.iterdir():
@@ -64,11 +64,11 @@ def build_matrix_plots():
     groups = discover_images()
     
     if not groups:
-        print("⚠️ Keine passenden Bilder für die CFG-Testreihe gefunden.")
+        print("Keine passenden Bilder für die CFG-Testreihe gefunden.")
         return
 
     for (prompt_id, seed), models_dict in groups.items():
-        print(f"\n📊 Verarbeite Gruppe: {prompt_id} (Seed: {seed})")
+        print(f"\nVerarbeite Gruppe: {prompt_id} (Seed: {seed})")
         
         # Alle vorkommenden CFG-Werte für diese Gruppe sammeln und sortieren
         all_cfgs = sorted(list({cfg for m in models_dict.values() for cfg in m.keys()}))
@@ -116,9 +116,9 @@ def build_matrix_plots():
         output_path = OUTPUT_DIR / f"{prompt_id}_seed{seed}_matrix.png"
         plt.savefig(output_path, dpi=150, bbox_inches='tight')
         plt.close()
-        print(f"✅ Matrix erfolgreich gespeichert unter: {output_path}")
+        print(f"Matrix erfolgreich gespeichert unter: {output_path}")
 
 if __name__ == "__main__":
-    print("🚀 Starte CFG Matrix Generator...")
+    print("Starte CFG Matrix Generator...")
     build_matrix_plots()
-    print("\n🎉 Alle Plots erfolgreich generiert!")
+    print("\nAlle Plots erfolgreich generiert!")

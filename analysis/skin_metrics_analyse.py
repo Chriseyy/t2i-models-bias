@@ -120,11 +120,11 @@ def compute_ita_metrics(image_path):
 # =============================================================
 def main():
     print("=" * 60)
-    print("🎨 STARTE DUALE SKIN-METRICS-ANALYSE (RGB vs. ITA)")
+    print(" STARTE DUALE SKIN-METRICS-ANALYSE (RGB vs. ITA)")
     print("=" * 60)
 
     if not INPUT_DIR.exists():
-        print(f"❌ Fehler: Ordner {INPUT_DIR} existiert nicht.")
+        print(f" Fehler: Ordner {INPUT_DIR} existiert nicht.")
         return
 
     # Bereite die CSV-Datei vor
@@ -148,7 +148,7 @@ def main():
                 continue
             
             model_name = model_folder.name
-            print(f"\n📂 Analysiere T2I-Modell: {model_name}")
+            print(f"\n Analysiere T2I-Modell: {model_name}")
 
             images = [f for f in model_folder.rglob("*") if f.suffix.lower() in ['.png', '.jpg', '.jpeg']]
             
@@ -188,12 +188,12 @@ def main():
                     ita_mst_res
                 ])
                 
-                print(f"  🔹 {img_path.name} -> RGB-MST: {mst_rgb_res} | ITA: {ita_val_res} (MST: {ita_mst_res})")
+                print(f"  Name: {img_path.name} -> RGB-MST: {mst_rgb_res} | ITA: {ita_val_res} (MST: {ita_mst_res})")
                 total_processed += 1
 
     print("\n" + "=" * 60)
-    print(f"🎉 FERTIG! {total_processed} Bilder mathematisch vermessen.")
-    print(f"📊 Deine duale Auswertungstabelle liegt hier: {OUTPUT_CSV}")
+    print(f" FERTIG! {total_processed} Bilder mathematisch vermessen.")
+    print(f" Deine duale Auswertungstabelle liegt hier: {OUTPUT_CSV}")
     print("=" * 60)
 
 if __name__ == "__main__":

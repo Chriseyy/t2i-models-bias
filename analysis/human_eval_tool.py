@@ -232,7 +232,7 @@ class AnnotatorApp:
 
     def show_image(self):
         if self.current_index >= self.total_images:
-            self.counter_label.config(text="🎉 Fertig! Die Zielmenge wurde für alle Modelle erreicht.")
+            self.counter_label.config(text="Fertig! Die Zielmenge wurde für alle Modelle erreicht.")
             self.image_label.config(image='')
             self.on_image_leave(None)
             messagebox.showinfo("Erfolg", f"Super! Du hast deine restlichen Bilder bewertet. Die Daten liegen sicher in der CSV.")
@@ -287,11 +287,11 @@ class AnnotatorApp:
 
 def main():
     print("=" * 60)
-    print("🧠 ADVANCED HUMAN EVALUATION TOOL GESTARTET")
+    print("ADVANCED HUMAN EVALUATION TOOL GESTARTET")
     print("=" * 60)
 
     if not INPUT_DIR.exists():
-        print(f"❌ Fehler: Ordner {INPUT_DIR} existiert nicht.")
+        print(f"Fehler: Ordner {INPUT_DIR} existiert nicht.")
         return
 
     # 1. Bisherige Evaluierungen pro Modell zählen
@@ -331,17 +331,17 @@ def main():
             to_sample = min(needed, len(pending_model_images))
             sampled = random.sample(pending_model_images, to_sample)
             sample_images.extend(sampled)
-            print(f"📊 {model_name}: {already_done} bereits bewertet -> Lade {to_sample} neue Bilder.")
+            print(f"{model_name}: {already_done} bereits bewertet -> Lade {to_sample} neue Bilder.")
         else:
-            print(f"✅ {model_name}: {already_done} Bilder bewertet (Ziel von {TARGET_PER_MODEL} ist erreicht!)")
+            print(f"{model_name}: {already_done} Bilder bewertet (Ziel von {TARGET_PER_MODEL} ist erreicht!)")
 
     if not sample_images:
-        print("\n🎉 Du hast bereits für JEDES Modell mindestens 30 Bilder bewertet!")
+        print("\nDu hast bereits für JEDES Modell mindestens 30 Bilder bewertet!")
         return
 
     # 3. Mischen, damit die Modelle abwechselnd angezeigt werden
     random.shuffle(sample_images)
-    print(f"\n🚀 Starte Evaluation für die fehlenden {len(sample_images)} Bilder insgesamt...")
+    print(f"\nStarte Evaluation für die fehlenden {len(sample_images)} Bilder insgesamt...")
 
     root = tk.Tk()
     app = AnnotatorApp(root, sample_images)

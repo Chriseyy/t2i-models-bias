@@ -59,7 +59,7 @@ def load_all_pkls(feature_type: str) -> dict[str, list]:
         if match:
             model_name = match.group(1)
             result[model_name] = load_pkl(f)
-            print(f"  ✅ Geladen: {Path(f).name}  ({len(result[model_name])} Bilder)")
+            print(f"  Geladen: {Path(f).name}  ({len(result[model_name])} Bilder)")
     return result
 
 def pkls_to_dataframe(models_data: dict) -> tuple[np.ndarray, pd.DataFrame]:
@@ -98,10 +98,10 @@ def compute_silhouette_per_model(X: np.ndarray, df: pd.DataFrame) -> pd.DataFram
 
         unique_labels = np.unique(labels)
         if len(unique_labels) < 2:
-            print(f"  ⚠️ {model}: Nur {len(unique_labels)} Prompt-Klasse(n) — Silhouette nicht berechenbar.")
+            print(f"  {model}: Nur {len(unique_labels)} Prompt-Klasse(n) — Silhouette nicht berechenbar.")
             continue
         if len(X_model) < len(unique_labels) + 1:
-            print(f"  ⚠️ {model}: Zu wenige Bilder ({len(X_model)}) für {len(unique_labels)} Klassen.")
+            print(f"  {model}: Zu wenige Bilder ({len(X_model)}) für {len(unique_labels)} Klassen.")
             continue
 
         le            = LabelEncoder()
@@ -119,7 +119,7 @@ def compute_silhouette_per_model(X: np.ndarray, df: pd.DataFrame) -> pd.DataFram
                 "schwach getrennt"
             )
         })
-        print(f"  📐 {model:20s}  Silhouette = {score:.4f}  ({results[-1]['Interpretation']})")
+        print(f"  {model:20s}  Silhouette = {score:.4f}  ({results[-1]['Interpretation']})")
 
     return pd.DataFrame(results)
 
@@ -199,7 +199,7 @@ def plot_silhouette(df_sil: pd.DataFrame, feature_type: str, out_dir: Path):
     path = out_dir / f"SILHOUETTE_SCORE_{feature_type.upper()}.png"
     plt.savefig(path, dpi=300)
     plt.close()
-    print(f"  💾 {path.name}")
+    print(f"  {path.name}")
 
 
 def plot_inter_model_heatmap(df_dist: pd.DataFrame, feature_type: str, out_dir: Path):
@@ -233,7 +233,7 @@ def plot_inter_model_heatmap(df_dist: pd.DataFrame, feature_type: str, out_dir: 
     path = out_dir / f"INTER_MODEL_COSINE_DISTANCE_{feature_type.upper()}.png"
     plt.savefig(path, dpi=300)
     plt.close()
-    print(f"  💾 {path.name}")
+    print(f"  {path.name}")
 
 
 def plot_distance_by_prompt(df_dist: pd.DataFrame, feature_type: str, out_dir: Path):
@@ -265,7 +265,7 @@ def plot_distance_by_prompt(df_dist: pd.DataFrame, feature_type: str, out_dir: P
     path = out_dir / f"COSINE_DISTANCE_BY_PROMPT_{feature_type.upper()}.png"
     plt.savefig(path, dpi=300)
     plt.close()
-    print(f"  💾 {path.name}")
+    print(f"  {path.name}")
 
 
 # =============================================================
@@ -273,13 +273,13 @@ def plot_distance_by_prompt(df_dist: pd.DataFrame, feature_type: str, out_dir: P
 # =============================================================
 def print_key_numbers(df_sil: pd.DataFrame, df_dist: pd.DataFrame):
     print("\n" + "═" * 60)
-    print("  📊 KEY NUMBERS — direkt für Fazit-Folie verwendbar")
+    print("  KEY NUMBERS — direkt für Fazit-Folie verwendbar")
     print("═" * 60)
 
     if not df_sil.empty:
         print("\n  SILHOUETTE SCORES (Prompt-Trennung im Vektorraum):")
         for _, r in df_sil.sort_values("Silhouette_Score", ascending=False).iterrows():
-            bar = "█" * int(r["Silhouette_Score"] * 20)
+            bar = "|" * int(r["Silhouette_Score"] * 20)
             print(f"    {r['Modell']:20s}  {r['Silhouette_Score']:.4f}  {bar}  → {r['Interpretation']}")
 
     if not df_dist.empty:
@@ -310,7 +310,7 @@ def main():
     feature_type = args.type
 
     print("=" * 60)
-    print(f"📐 EMBEDDING METRICS  [{feature_type.upper()}]")
+    print(f" EMBEDDING METRICS  [{feature_type.upper()}]")
     print("=" * 60)
 
     PLOTS_OUT.mkdir(parents=True, exist_ok=True)
@@ -320,7 +320,7 @@ def main():
     try:
         models_data = load_all_pkls(feature_type)
     except FileNotFoundError as e:
-        print(f"❌ {e}")
+        print(f" {e}")
         return
 
     print(f"\n       {len(models_data)} Modelle geladen: {list(models_data.keys())}")
@@ -342,12 +342,12 @@ def main():
     if not df_sil.empty:
         p = PLOTS_OUT / f"SILHOUETTE_{feature_type.upper()}.csv"
         df_sil.to_csv(p, index=False)
-        print(f"\n  💾 {p.name}")
+        print(f"\n  {p.name}")
 
     if not df_dist.empty:
         p = PLOTS_OUT / f"INTER_MODEL_DISTANCES_{feature_type.upper()}.csv"
         df_dist.to_csv(p, index=False)
-        print(f"  💾 {p.name}")
+        print(f"  {p.name}")
 
     # --- Plots ---
     print("\n  Plots werden generiert...")
@@ -358,7 +358,7 @@ def main():
     # --- Key Numbers ---
     print_key_numbers(df_sil, df_dist)
 
-    print(f"\n✅ Fertig! Alle Ergebnisse in: {PLOTS_OUT}")
+    print(f"\nFertig! Alle Ergebnisse in: {PLOTS_OUT}")
 
 
 if __name__ == "__main__":
