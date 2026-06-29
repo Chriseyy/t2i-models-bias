@@ -573,6 +573,7 @@ def main():
     # Statistik für den riesigen MACRO-Datensatz!
     if not macro_master_df.empty:
         generate_per_prompt_statistics(macro_master_df, MACRO_DIR, dataset_label="MACRO")
+        generate_statistical_summary(macro_master_df, MACRO_DIR) # <--- DIESE ZEILE HINZUFÜGEN!
     
 
     print("\n" + "=" * 70)

@@ -1,0 +1,6 @@
+Modell,Rf_Gender,Rf_Gender_Abweichung,CEO_Male_%,Top_Ethnicity,Top_Ethnicity_%,Chi2_Gender,Chi2_Signifikanz,Cohens_h_CEO_vs_Nurse,Effektgroesse
+flux,0.333,0.167,100.0,White,50.8,14.0,p<0.05,3.142,groß
+flux_klein,0.443,0.057,100.0,White,48.4,1.47,n.s.,3.142,groß
+qwen,0.452,0.048,100.0,White,55.6,1.14,n.s.,3.142,groß
+sd35,0.527,0.027,90.5,White,48.8,0.33,n.s.,2.514,groß
+zimage,0.551,0.051,95.2,Asian,54.3,1.13,n.s.,2.702,groß
